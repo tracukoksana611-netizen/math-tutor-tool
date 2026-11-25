@@ -1,0 +1,49 @@
+<!doctype html><html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Відсотки. Відношення та пропорції</title>
+<script>window.MathJax={tex:{inlineMath:[["\\(","\\)"]],displayMath:[["\\[","\\]"]]}};</script><script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font:17px/1.55 system-ui,Segoe UI,Arial;color:#172033;background:#f4f7fc}header{padding:50px 20px;background:linear-gradient(120deg,#172554,#2563eb,#06b6d4);color:white}.w{max-width:1100px;margin:auto}h1{font-size:clamp(38px,6vw,68px);line-height:1;margin:8px 0}nav{position:sticky;top:0;z-index:5;background:#fffffff2;padding:10px;text-align:center;border-bottom:1px solid #dbe2ee}nav a{color:#172033;text-decoration:none;font-weight:700;margin:0 8px}.s{background:white;margin:22px auto;padding:30px;border-radius:24px;box-shadow:0 12px 35px #17255412}.g{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.c{border:1px solid #dbe2ee;border-radius:18px;padding:18px;background:#fbfdff}.f{background:#111827;color:white;padding:13px;border-radius:13px;font-size:20px;overflow:auto}.note{background:#eff6ff;border-left:5px solid #2563eb;padding:14px}.bar{height:34px;border-radius:20px;background:#e5e7eb;overflow:hidden}.bar i{display:block;height:100%;width:25%;background:linear-gradient(90deg,#2563eb,#06b6d4)}button{border:0;border-radius:11px;padding:10px 15px;background:#172554;color:white;font-weight:800;cursor:pointer}input{font:inherit;padding:9px;border:1px solid #aab5c6;border-radius:9px;width:130px}.r{font-weight:800;margin-top:8px;min-height:25px}.ok{color:#15803d}.bad{color:#b91c1c}.q{border:1px solid #dbe2ee;border-radius:15px;padding:15px;margin:12px 0}.q label{display:block;padding:5px}table{border-collapse:collapse;width:100%}td,th{padding:10px;border-bottom:1px solid #dbe2ee;text-align:center}th{background:#eef4ff}.viz{padding:20px;border-radius:18px;background:#f8fbff}.coin{width:180px;height:180px;border-radius:50%;margin:auto;background:conic-gradient(#2563eb 0 25%,#e5e7eb 25%);display:grid;place-items:center}.coin b{background:white;border-radius:50%;padding:25px}footer{text-align:center;padding:30px;color:#667085}@media(max-width:760px){.g,.g3{grid-template-columns:1fr}.s{padding:20px}}
+</style></head><body>
+<header><div class="w"><b>ІНТЕРАКТИВНИЙ МОДУЛЬ</b><h1>Відсотки.<br>Відношення та пропорції</h1><p>Теорія → наочність → приклади → тренажер → тест.</p></div></header>
+<nav><a href="#theory">Теорія</a><a href="#types">3 типи задач</a><a href="#prop">Пропорції</a><a href="#bank">Складні %</a><a href="#train">Тренажер</a><a href="#test">Тест</a></nav>
+<main class="w">
+<section class="s" id="theory"><h2>1. Що таке відсоток?</h2><div class="g"><div><p><b>Відсоток — одна сота частина цілого.</b></p><div class="f">\[1\%=\frac1{100}=0{,}01\]</div>
+<table><tr><th>%</th><th>Дріб</th><th>Десятковий</th></tr><tr><td>100%</td><td>1</td><td>1</td></tr><tr><td>50%</td><td>1/2</td><td>0,5</td></tr><tr><td>25%</td><td>1/4</td><td>0,25</td></tr></table>
+<p class="note"><b>100%</b> числа \(a\) = \(a\); <b>50%</b> = \(\frac12a\); <b>25%</b> = \(\frac14a\).</p></div>
+<div class="viz"><h3>Побач відсоток</h3><div class="coin"><b id="pt">25%</b></div><input id="slider" type="range" min="0" max="100" value="25" style="width:100%"><div class="bar"><i id="fill"></i></div></div></div>
+<h3>Перетворення</h3><div class="g"><div class="c"><b>Дріб → %</b><p>Помножити на 100%.</p><div class="f">\[0{,}75\cdot100\%=75\%\]</div><p>\(\frac58\cdot100\%=62{,}5\%\)</p></div><div class="c"><b>% → дріб</b><p>Поділити число відсотків на 100.</p><div class="f">\[78\%=\frac{78}{100}=0{,}78\]</div></div></div></section>
+
+<section class="s" id="types"><h2>2. Три головні типи задач</h2><div class="g3">
+<div class="c"><h3>① Відсоток від числа</h3><p>40% від 3400 грн.</p><div class="f">\[x=\frac{3400\cdot40}{100}=1360\]</div><b>Відповідь: 1360 грн.</b></div>
+<div class="c"><h3>② Число за його %</h3><p>1400 грн — це 35%.</p><div class="f">\[x=\frac{1400\cdot100}{35}=4000\]</div><b>Відповідь: 4000 грн.</b></div>
+<div class="c"><h3>③ Відсоткове відношення</h3><p>720 грн із 1800 грн.</p><div class="f">\[x=\frac{720}{1800}\cdot100\%=40\%\]</div><b>Відповідь: 40%.</b></div></div>
+<p class="note"><b>Алгоритм:</b> знайди ціле → познач його 100% → визнач частину й відсоток → склади пропорцію або застосуй формулу.</p></section>
+
+<section class="s" id="prop"><h2>3. Відношення та пропорції</h2><div class="g"><div><p><b>Відношення:</b> \(a:b=\frac ab\).</p><p><b>Пропорція:</b></p><div class="f">\[\frac ab=\frac cd\]</div><p>Основна властивість:</p><div class="f">\[a\cdot d=b\cdot c\]</div></div><div class="viz"><h3>Приклад</h3><p>\(\frac{x}{12}=\frac56\)</p><p>Перемножуємо навхрест:</p><p>\(6x=12\cdot5\)</p><p>\(x=10\)</p></div></div></section>
+
+<section class="s" id="bank"><h2>4. Складні відсотки</h2><div class="f">\[A_n=A_0\left(1+\frac p{100}\right)^n\]</div><p>\(A_0\) — початкова сума; \(p\) — річний відсоток; \(n\) — роки; \(A_n\) — сума через \(n\) років.</p>
+<div class="g"><div class="c"><h3>Приклад</h3><p>5000 грн під 8% на 2 роки.</p><div class="f">\[5000\cdot1{,}08^2=5832\]</div><p>Прибуток: <b>5832 − 5000 = 832 грн.</b></p></div><div class="c"><h3>Калькулятор</h3><p>Сума <input id="p0" value="5000" type="number"></p><p>Ставка % <input id="pr" value="8" type="number"></p><p>Роки <input id="ny" value="2" type="number"></p><button onclick="bank()">Розрахувати</button><div id="br" class="r"></div></div></div></section>
+
+<section class="s" id="train"><h2>5. Тренажер</h2><div class="g">
+<div class="c"><p><b>35% від 240 = ?</b></p><input id="a1" type="number"> <button onclick="ck('a1',84,'r1')">Перевірити</button><div id="r1" class="r"></div></div>
+<div class="c"><p><b>18 — це 30% якого числа?</b></p><input id="a2" type="number"> <button onclick="ck('a2',60,'r2')">Перевірити</button><div id="r2" class="r"></div></div>
+<div class="c"><p><b>45 становить скільки % від 180?</b></p><input id="a3" type="number"> <button onclick="ck('a3',25,'r3')">Перевірити</button><div id="r3" class="r"></div></div>
+<div class="c"><p><b>\(x/12=5/6\). Знайди x.</b></p><input id="a4" type="number"> <button onclick="ck('a4',10,'r4')">Перевірити</button><div id="r4" class="r"></div></div></div>
+<h3>Нескінченний генератор</h3><div class="c"><p id="task"></p><input id="ra" type="number"> <button onclick="cr()">Перевірити</button> <button onclick="newT()">Нова задача</button><div id="rr" class="r"></div></div></section>
+
+<section class="s" id="test"><h2>6. Підсумковий тест</h2><form id="quiz">
+<div class="q"><b>1. 1% =</b><label><input type="radio" name="q1" value="a"> 1/10</label><label><input type="radio" name="q1" value="b"> 1/100</label></div>
+<div class="q"><b>2. 0,42 =</b><label><input type="radio" name="q2" value="a"> 4,2%</label><label><input type="radio" name="q2" value="b"> 42%</label></div>
+<div class="q"><b>3. 25% від 320 =</b><label><input type="radio" name="q3" value="a"> 80</label><label><input type="radio" name="q3" value="b"> 128</label></div>
+<div class="q"><b>4. 40 — це 20% від:</b><label><input type="radio" name="q4" value="a"> 80</label><label><input type="radio" name="q4" value="b"> 200</label></div>
+<div class="q"><b>5. 30 від 120 — це:</b><label><input type="radio" name="q5" value="a"> 25%</label><label><input type="radio" name="q5" value="b"> 30%</label></div>
+<button type="button" onclick="grade()">Перевірити весь тест</button></form><div id="score" class="r"></div></section>
+</main><footer>Відсотки • Відношення • Пропорції • Складні відсотки</footer>
+<script>
+let $=x=>document.getElementById(x);
+slider.oninput=e=>{let v=e.target.value;pt.textContent=v+'%';fill.style.width=v+'%';document.querySelector('.coin').style.background=`conic-gradient(#2563eb 0 ${v}%,#e5e7eb ${v}%)`}
+function bank(){let a=+p0.value,r=+pr.value,n=+ny.value,t=a*Math.pow(1+r/100,n);br.innerHTML=`Через ${n} р.: <b>${t.toFixed(2)} грн</b><br>Прибуток: <b>${(t-a).toFixed(2)} грн</b>`}
+function ck(i,a,r){let e=$(r);if(Math.abs(+$(i).value-a)<.001){e.textContent='✓ Правильно!';e.className='r ok'}else{e.textContent='Спробуй ще раз.';e.className='r bad'}}
+let ans=0;function newT(){let w=(Math.floor(Math.random()*8)+2)*50,p=[10,20,25,40,50,60,75][Math.floor(Math.random()*7)];ans=w*p/100;task.textContent=`Знайди ${p}% від ${w}.`;ra.value='';rr.textContent=''}function cr(){ck('ra',ans,'rr')}
+function grade(){let k={q1:'b',q2:'b',q3:'a',q4:'b',q5:'a'},s=0;for(let q in k){let e=document.querySelector(`input[name=${q}]:checked`);if(e&&e.value==k[q])s++}score.textContent=`Результат: ${s}/5. `+(s==5?'Відмінно!':s>=4?'Дуже добре!':'Повтори теорію та спробуй ще раз.')}
+newT();bank();
+</script></body></html>

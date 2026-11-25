@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Коло — НМТ Геометрія</title>
+  <style>
+    :root{
+      --navy:#0f1b3d;--indigo:#2a3f8f;--violet:#5b4fcf;--gold:#f5c518;--coral:#e8534a;
+      --teal:#2cb5b5;--cream:#f4f6ff;--ink:#0f1b3d;--light:#e8ecff;
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}
+    body{margin:0;color:var(--ink);font-family:"Segoe UI",Arial,sans-serif;background:var(--cream)}
+    button,input{font:inherit}button{cursor:pointer}
+
+    .hero{min-height:360px;position:relative;overflow:hidden;display:flex;align-items:flex-end;
+      background:linear-gradient(135deg,#061428 0%,#0d2e5a 40%,#1a4a8f 70%,#1a6b8f 100%)}
+    .stars{position:absolute;inset:0;overflow:hidden}
+    .star{position:absolute;background:#fff;border-radius:50%;animation:twinkle 3s infinite alternate}
+    @keyframes twinkle{to{opacity:.15}}
+    .geo-bg{position:absolute;inset:0;opacity:.12}
+    .hero-text{position:relative;z-index:2;width:min(1100px,92%);margin:auto;padding:40px 0 210px;color:#fff}
+    .hero-text small{font-weight:900;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+    .hero-text h1{font-size:clamp(2.6rem,7vw,5.2rem);line-height:.95;margin:10px 0;text-shadow:0 4px 20px #000a}
+    .hero-text p{font-size:1.15rem;max-width:640px;line-height:1.5;color:#c5d0ff}
+
+    .tabs{position:sticky;top:6px;z-index:10;width:min(980px,94%);margin:-32px auto 24px;
+      padding:9px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
+      background:#ffffffee;border-radius:22px;box-shadow:0 14px 40px #0f1b3d28}
+    .tabs button{border:0;border-radius:15px;padding:13px 8px;background:transparent;
+      color:var(--navy);font-weight:800;transition:.2s}
+    .tabs button:hover{background:var(--light)}
+    .tabs button span{display:block;font-size:22px;margin-bottom:3px}
+    .tabs button.active{color:#fff;background:linear-gradient(135deg,var(--indigo),var(--violet));
+      box-shadow:0 6px 18px #2a3f8f44}
+
+    .toolbar{width:min(980px,94%);margin:0 auto 18px;display:flex;justify-content:space-between;
+      align-items:center;color:#556;gap:12px}
+    .primary{border:0;border-radius:13px;padding:12px 20px;color:#fff;
+      background:linear-gradient(135deg,var(--indigo),var(--violet));font-weight:800;
+      box-shadow:0 5px 0 #1a2570}
+
+    .wrap{width:min(1060px,96%);margin:0 auto 50px}
+    .panel{display:none}.panel.active{display:block}
+
+    .paper{background:#fff;border-radius:20px;padding:36px 40px;
+      box-shadow:0 20px 60px #0f1b3d18;position:relative;overflow:hidden;margin-bottom:24px}
+    .paper::before{content:"";position:absolute;left:0;right:0;top:0;height:7px;
+      background:linear-gradient(90deg,var(--navy),var(--teal),var(--gold),var(--coral),var(--violet))}
+
+    .lesson{border:2px solid #d5daf5;border-radius:18px;margin:14px 0;overflow:hidden}
+    .lesson-hd{display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;
+      background:linear-gradient(135deg,#f0f2ff,#e8ecff);transition:.2s;user-select:none}
+    .lesson-hd:hover{background:#dde3ff}
+    .lesson-hd .num{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;
+      font-weight:900;font-size:14px;color:#fff;flex-shrink:0;
+      background:linear-gradient(135deg,var(--indigo),var(--teal))}
+    .lesson-hd h3{margin:0;font-size:1.05rem;flex:1}
+    .lesson-hd .arr{transition:.25s;font-size:18px;color:var(--indigo)}
+    .lesson-hd.open .arr{transform:rotate(180deg)}
+    .lesson-body{display:none;padding:20px 24px;border-top:2px solid #e0e5ff}
+    .lesson-body.open{display:block}
+
+    .def{background:#f0f3ff;border-left:5px solid var(--teal);border-radius:0 14px 14px 0;
+      padding:14px 18px;margin:12px 0}
+    .def b{color:#1a7a9f}
+    .formula{display:inline-flex;align-items:center;gap:8px;background:#fff8e0;border:2px solid var(--gold);
+      border-radius:12px;padding:10px 16px;margin:8px 4px;font-weight:800;font-size:1.05rem;color:#5a3e00}
+    .box-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0}
+    .box-card{border:2px solid;border-radius:16px;padding:14px 16px}
+    .box-card.blue{border-color:#68a5cd;background:#eaf4fb}
+    .box-card.green{border-color:#62b06e;background:#eaf8ec}
+    .box-card.orange{border-color:#e8a32f;background:#fff4da}
+    .box-card.red{border-color:#e8534a;background:#fff0ef}
+    .box-card.violet{border-color:var(--violet);background:#f3f0ff}
+    .box-card.teal{border-color:#2cb5b5;background:#e6f9f9}
+    .box-card h4{margin:0 0 8px;font-size:.97rem}
+    .box-card p{margin:4px 0;font-size:.93rem}
+    .remember{background:linear-gradient(135deg,#1a4a8f,#0d7a7a);color:#fff;
+      border-radius:15px;padding:14px 18px;margin:14px 0;font-size:.95rem}
+    .remember b{font-size:1rem}
+
+    .diagram{display:flex;flex-wrap:wrap;gap:18px;margin:14px 0;justify-content:center}
+    .diag-wrap{text-align:center}
+    .diag-wrap figcaption{font-size:.85rem;color:#556;margin-top:6px;font-weight:600}
+    svg.geo{border:2px solid #dde2f5;border-radius:14px;background:#f8f9ff}
+
+    .steps{background:#fff9e6;border:2px dashed var(--gold);border-radius:15px;
+      padding:16px 20px;margin:12px 0}
+    .step{display:flex;gap:10px;align-items:flex-start;margin:8px 0;font-size:.95rem}
+    .step b{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+      background:var(--gold);color:#fff;font-size:.85rem;flex-shrink:0}
+
+    .task-section{border:2px solid;border-radius:18px;margin:18px 0;overflow:hidden}
+    .task-section h4{padding:10px 16px;color:#fff;margin:0;font-size:1rem}
+    .task-grid{display:grid;grid-template-columns:1fr 1fr;padding:10px 14px 14px;gap:4px}
+    .task-item{padding:9px 10px;border-bottom:1px dotted #ccd;font-size:.92rem}
+    .task-item b{color:var(--indigo)}
+    .ts-blue{border-color:#3977a9}.ts-blue h4{background:#3977a9}
+    .ts-green{border-color:#3a9a52}.ts-green h4{background:#3a9a52}
+    .ts-orange{border-color:#d4881f}.ts-orange h4{background:#d4881f}
+    .ts-red{border-color:#c5332b}.ts-red h4{background:#c5332b}
+    .ts-teal{border-color:#1a8a8a}.ts-teal h4{background:#1a8a8a}
+
+    .word-task{border:2px solid var(--indigo);background:#f0f3ff;border-radius:16px;
+      padding:16px 20px;margin:14px 0}
+    .word-task h4{color:var(--indigo);margin:0 0 10px}
+    .word-task p{font-size:.93rem;margin:6px 0;line-height:1.4}
+    .score-line{text-align:center;background:var(--light);padding:12px;border-radius:12px;
+      font-weight:800;font-size:.95rem;margin-top:14px}
+
+    .trainer{max-width:720px;margin:auto;background:#fff;border-radius:28px;padding:36px;
+      box-shadow:0 24px 60px #0f1b3d22}
+    .prog-bar{height:12px;background:#dde3ff;border-radius:20px;overflow:hidden}
+    .prog-bar span{display:block;height:100%;
+      background:linear-gradient(90deg,var(--teal),var(--indigo));transition:.4s}
+    .meta{display:flex;justify-content:space-between;margin:10px 0 22px;color:#667;font-weight:700}
+    .scene{display:flex;align-items:center;gap:20px;padding:22px;border-radius:20px;
+      background:linear-gradient(135deg,#e6f9f9,#fff6e0);margin-bottom:18px}
+    .scene .icon{font-size:64px;filter:drop-shadow(0 6px 6px #2a3f8f33)}
+    .scene p{font-size:1.08rem;font-weight:700;margin:0;flex:1}
+    .trainer h2{text-align:center;font-size:clamp(1.5rem,4vw,2.4rem);color:var(--navy);margin:20px 0}
+    .ans-row{display:flex;justify-content:center;align-items:center;gap:10px}
+    .ans-row input{width:min(320px,70%);border:3px solid #b0baf5;border-radius:14px;
+      padding:14px 16px;font-size:1.15rem;outline:none}
+    .ans-row input:focus{border-color:var(--teal);box-shadow:0 0 0 4px #2cb5b520}
+    .ans-row span{font-weight:800;font-size:1.1rem;color:var(--navy)}
+    .actions{display:flex;justify-content:center;gap:12px;margin:20px 0}
+    .hint-btn{background:#eef0ff;color:var(--indigo);border:0;border-radius:12px;
+      padding:12px 18px;font-weight:800;box-shadow:0 4px 0 #c5caf0}
+    .fb{display:none;margin-top:15px;padding:15px 18px;border-radius:14px;line-height:1.5}
+    .fb.show{display:block}
+    .fb.hint{background:#fff9e6;border:2px solid var(--gold)}
+    .fb.good{background:#e6fff0;border:2px solid #3a9a52}
+    .fb.bad{background:#fff0ef;border:2px solid var(--coral)}
+    .finish{text-align:center;padding:20px}
+    .finish .big{font-size:80px}
+    .finish .result{font-size:4rem;font-weight:900;color:var(--teal);margin:8px 0}
+
+    @media(max-width:760px){
+      .tabs{grid-template-columns:1fr 1fr}.paper{padding:20px 18px}
+      .task-grid,.box-row{grid-template-columns:1fr}.lesson-body{padding:14px 16px}
+      .trainer{padding:20px}.scene{flex-direction:column;text-align:center}
+    }
+    @page{size:A4;margin:0}
+    @media print{
+      .hero,.tabs,.toolbar,footer{display:none!important}
+      .wrap{width:auto;margin:0}.panel{display:none!important}.panel.active{display:block!important}
+      .paper{border-radius:0;box-shadow:none;padding:14mm}.trainer{display:none}
+      .lesson-body{display:block!important}
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="stars" id="stars"></div>
+  <svg class="geo-bg" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice">
+    <circle cx="200" cy="200" r="160" stroke="#fff" stroke-width="2" fill="none" opacity=".1"/>
+    <circle cx="200" cy="200" r="100" stroke="#fff" stroke-width="1.5" fill="none" opacity=".07"/>
+    <circle cx="900" cy="180" r="130" stroke="#fff" stroke-width="2" fill="none" opacity=".1"/>
+    <circle cx="600" cy="350" r="200" stroke="#fff" stroke-width="1" fill="none" opacity=".06"/>
+    <line x1="200" y1="200" x2="340" y2="200" stroke="#fff" stroke-width="1.5" opacity=".2"/>
+    <line x1="900" y1="180" x2="1030" y2="180" stroke="#fff" stroke-width="1.5" opacity=".2"/>
+  </svg>
+  <div class="hero-text">
+    <small>НМТ · Геометрія · Тема 3</small>
+    <h1>Коло та вписані кути</h1>
+    <p>Радіус, діаметр, хорди, дотичні, вписаний кут Фалеса, вписане й описане коло — повний теоретичний модуль для НМТ.</p>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="active" data-tab="theory"><span>⭕</span>Теорія</button>
+  <button data-tab="work"><span>✏️</span>Вправи</button>
+  <button data-tab="home"><span>📚</span>Домашня робота</button>
+  <button data-tab="game"><span>🎯</span>Тренажер НМТ</button>
+</nav>
+<div class="toolbar">
+  <span id="info">Матеріал підготовлено для друку А4.</span>
+  <button class="primary" id="printBtn">🖨️ Друкувати / Зберегти PDF</button>
+</div>
+
+<main class="wrap">
+
+<!-- ══════════════════ ТЕОРІЯ ══════════════════ -->
+<section id="theory" class="panel active">
+<div class="paper">
+  <div style="font-weight:900;font-size:.8rem;letter-spacing:.14em;color:var(--teal);margin-bottom:6px">ТЕОРІЯ · ГЕОМЕТРІЯ 3</div>
+  <h2 style="margin:0 0 4px;font-size:1.8rem">Коло. Круг. Вписане та описане коло</h2>
+  <p style="color:#667;margin:0 0 18px">5 уроків · від елементів кола до вписаного й описаного</p>
+
+  <!-- УРОК 1 -->
+  <div class="lesson">
+    <div class="lesson-hd open" onclick="toggle(this)">
+      <div class="num">1</div>
+      <h3>Елементи кола. Хорда. Дотична</h3>
+      <span class="arr">▾</span>
+    </div>
+    <div class="lesson-body open">
+      <div class="def">
+        <b>Коло</b> — замкнена крива, усі точки якої рівновіддалені від центра O. Відстань від центра до точки кола — <b>радіус r</b>. Відрізок, що з'єднує дві точки кола, — <b>хорда</b>. Найбільша хорда — <b>діаметр d = 2r</b>.
+      </div>
+
+      <div class="diagram">
+        <div class="diag-wrap">
+          <svg class="geo" width="200" height="180" viewBox="0 0 200 180">
+            <circle cx="100" cy="90" r="70" fill="#e6f9f9" stroke="#2cb5b5" stroke-width="2.5"/>
+            <!-- radius -->
+            <line x1="100" y1="90" x2="163" y2="58" stroke="#1a4a8f" stroke-width="2"/>
+            <text x="130" y="68" font-size="11" fill="#1a4a8f" font-weight="bold">r</text>
+            <!-- diameter -->
+            <line x1="30" y1="90" x2="170" y2="90" stroke="#e8534a" stroke-width="2" stroke-dasharray="5,2"/>
+            <text x="96" y="85" font-size="11" fill="#e8534a" font-weight="bold">d</text>
+            <!-- chord -->
+            <line x1="45" y1="130" x2="155" y2="55" stroke="#d4881f" stroke-width="2"/>
+            <text x="80" y="104" font-size="10" fill="#d4881f">хорда</text>
+            <!-- center -->
+            <circle cx="100" cy="90" r="4" fill="#1a4a8f"/>
+            <text x="104" y="88" font-size="11" fill="#1a4a8f" font-weight="bold">O</text>
+          </svg>
+          <figcaption>Елементи кола</figcaption>
+        </div>
+        <div class="diag-wrap">
+          <svg class="geo" width="200" height="180" viewBox="0 0 200 180">
+            <circle cx="100" cy="90" r="65" fill="#f0f8ff" stroke="#2cb5b5" stroke-width="2.5"/>
+            <!-- tangent line -->
+            <line x1="165" y1="30" x2="165" y2="160" stroke="#5b4fcf" stroke-width="2.5"/>
+            <!-- radius to tangent point -->
+            <line x1="100" y1="90" x2="165" y2="90" stroke="#1a4a8f" stroke-width="2"/>
+            <!-- right angle mark -->
+            <rect x="155" y="80" width="10" height="10" fill="none" stroke="#1a4a8f" stroke-width="2"/>
+            <text x="104" y="88" font-size="11" fill="#1a4a8f">O</text>
+            <circle cx="100" cy="90" r="3.5" fill="#1a4a8f"/>
+            <circle cx="165" cy="90" r="4" fill="#5b4fcf"/>
+            <text x="168" y="94" font-size="10" fill="#5b4fcf">A</text>
+            <text x="168" y="40" font-size="10" fill="#5b4fcf">дотична</text>
+          </svg>
+          <figcaption>Дотична ⊥ радіусу в точці дотику</figcaption>
+        </div>
+      </div>
+
+      <div class="box-row">
+        <div class="box-card teal">
+          <h4>📏 Властивості хорди</h4>
+          <p>✔ Перпендикуляр з центра до хорди ділить її навпіл</p>
+          <p>✔ Рівні хорди рівновіддалені від центра</p>
+          <p>✔ Найбільша хорда — діаметр</p>
+        </div>
+        <div class="box-card violet">
+          <h4>〇 Властивості дотичної</h4>
+          <p>✔ Дотична ⊥ радіусу в точці дотику</p>
+          <p>✔ Відрізки дотичних з зовнішньої точки рівні</p>
+          <p>✔ MA = MB (з точки M до точок дотику A, B)</p>
+        </div>
+      </div>
+      <div class="remember"><b>Запам'ятай:</b> якщо AB — дотична і OA — радіус до точки дотику A, то OA ⊥ AB завжди!</div>
+    </div>
+  </div>
+
+  <!-- УРОК 2 -->
+  <div class="lesson">
+    <div class="lesson-hd" onclick="toggle(this)">
+      <div class="num">2</div>
+      <h3>Центральний і вписаний кути. Теорема Фалеса</h3>
+      <span class="arr">▾</span>
+    </div>
+    <div class="lesson-body">
+      <div class="def">
+        <b>Центральний кут</b> — кут з вершиною в центрі кола.<br>
+        <b>Вписаний кут</b> — кут, вершина якого на колі, сторони — хорди. Вписаний кут = <b>½ центрального кута</b>, що спирається на ту саму дугу.
+      </div>
+      <div class="formula">Вписаний кут = ½ · дуга</div>
+
+      <div class="diagram">
+        <div class="diag-wrap">
+          <svg class="geo" width="190" height="170" viewBox="0 0 190 170">
+            <circle cx="95" cy="95" r="68" fill="#f8f9ff" stroke="#2cb5b5" stroke-width="2"/>
+            <!-- arc points -->
+            <circle cx="40" cy="140" r="4" fill="#e8534a"/>
+            <circle cx="150" cy="140" r="4" fill="#e8534a"/>
+            <!-- central angle -->
+            <line x1="95" y1="95" x2="40" y2="140" stroke="#1a4a8f" stroke-width="2"/>
+            <line x1="95" y1="95" x2="150" y2="140" stroke="#1a4a8f" stroke-width="2"/>
+            <path d="M 75,105 A 22,22 0 0 1 115,105" fill="none" stroke="#1a4a8f" stroke-width="2"/>
+            <text x="84" y="116" font-size="10" fill="#1a4a8f" font-weight="bold">2α</text>
+            <!-- inscribed angle -->
+            <circle cx="95" cy="27" r="4" fill="#5b4fcf"/>
+            <line x1="95" y1="27" x2="40" y2="140" stroke="#5b4fcf" stroke-width="1.5"/>
+            <line x1="95" y1="27" x2="150" y2="140" stroke="#5b4fcf" stroke-width="1.5"/>
+            <text x="84" y="50" font-size="10" fill="#5b4fcf" font-weight="bold">α</text>
+            <text x="82" y="158" font-size="9" fill="#556">дуга AB</text>
+            <text x="34" y="155" font-size="10" fill="#e8534a">A</text>
+            <text x="152" y="155" font-size="10" fill="#e8534a">B</text>
+            <circle cx="95" cy="95" r="3.5" fill="#1a4a8f"/>
+            <text x="99" y="94" font-size="10" fill="#1a4a8f">O</text>
+          </svg>
+          <figcaption>Вписаний = ½ центрального</figcaption>
+        </div>
+        <div class="diag-wrap">
+          <svg class="geo" width="190" height="170" viewBox="0 0 190 170">
+            <circle cx="95" cy="85" r="68" fill="#fff6e6" stroke="#d4881f" stroke-width="2"/>
+            <!-- diameter -->
+            <line x1="27" y1="85" x2="163" y2="85" stroke="#d4881f" stroke-width="2"/>
+            <!-- inscribed right angle -->
+            <circle cx="95" cy="17" r="4" fill="#5b4fcf"/>
+            <line x1="95" y1="17" x2="27" y2="85" stroke="#5b4fcf" stroke-width="1.5"/>
+            <line x1="95" y1="17" x2="163" y2="85" stroke="#5b4fcf" stroke-width="1.5"/>
+            <!-- right angle mark -->
+            <path d="M 88,25 L 95,32 L 102,25" fill="none" stroke="#5b4fcf" stroke-width="2"/>
+            <text x="86" y="46" font-size="10" fill="#5b4fcf" font-weight="bold">90°</text>
+            <text x="18" y="90" font-size="10" fill="#d4881f">A</text>
+            <text x="165" y="90" font-size="10" fill="#d4881f">B</text>
+            <text x="97" y="14" font-size="10" fill="#5b4fcf">C</text>
+            <circle cx="95" cy="85" r="3.5" fill="#d4881f"/>
+            <text x="98" y="83" font-size="10" fill="#d4881f">O</text>
+          </svg>
+          <figcaption>Теорема Фалеса: ∠ACB = 90°</figcaption>
+        </div>
+      </div>
+
+      <div class="box-row">
+        <div class="box-card teal">
+          <h4>🔵 Теорема Фалеса</h4>
+          <p>Вписаний кут, що спирається на <b>діаметр</b>, є прямим (90°).</p>
+          <p>Якщо AB — діаметр і C — будь-яка точка кола, то ∠ACB = 90°.</p>
+        </div>
+        <div class="box-card orange">
+          <h4>📐 Кут між дотичною і хордою</h4>
+          <p>Дорівнює <b>половині дуги</b>, що відтинає ця хорда.</p>
+          <p>∠(дотична, хорда) = ½ · дуга</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- УРОК 3 -->
+  <div class="lesson">
+    <div class="lesson-hd" onclick="toggle(this)">
+      <div class="num">3</div>
+      <h3>Взаємне розташування кіл. Відстань між центрами</h3>
+      <span class="arr">▾</span>
+    </div>
+    <div class="lesson-body">
+      <div class="box-row">
+        <div class="box-card blue">
+          <h4>Не перетинаються (зовні)</h4>
+          <p>Відстань між центрами: <b>d &gt; R + r</b></p>
+          <p>Спільних точок: 0</p>
+        </div>
+        <div class="box-card green">
+          <h4>Зовнішній дотик</h4>
+          <p>Відстань між центрами: <b>d = R + r</b></p>
+          <p>Спільних точок: 1</p>
+        </div>
+        <div class="box-card orange">
+          <h4>Перетинаються</h4>
+          <p>Відстань між центрами: <b>|R − r| &lt; d &lt; R + r</b></p>
+          <p>Спільних точок: 2</p>
+        </div>
+        <div class="box-card red">
+          <h4>Внутрішній дотик</h4>
+          <p>Відстань між центрами: <b>d = |R − r|</b></p>
+          <p>Спільних точок: 1</p>
+        </div>
+        <div class="box-card violet">
+          <h4>Всередині (не дотикаються)</h4>
+          <p>Відстань між центрами: <b>d &lt; |R − r|</b></p>
+          <p>Спільних точок: 0</p>
+        </div>
+      </div>
+      <div class="remember"><b>Правило:</b> при зовнішньому дотику d = R + r, при внутрішньому d = R − r (R &gt; r).</div>
+    </div>
+  </div>
+
+  <!-- УРОК 4 -->
+  <div class="lesson">
+    <div class="lesson-hd" onclick="toggle(this)">
+      <div class="num">4</div>
+      <h3>Вписане коло. Описане коло</h3>
+      <span class="arr">▾</span>
+    </div>
+    <div class="lesson-body">
+      <div class="box-row">
+        <div class="box-card teal">
+          <h4>⭕ Вписане коло</h4>
+          <p>Коло <b>вписане в трикутник</b> — дотикається до всіх трьох сторін.</p>
+          <p>Центр — точка перетину <b>бісектрис</b>.</p>
+          <p>Радіус: <b>r = S / p</b>, де S — площа △, p — напівпериметр.</p>
+        </div>
+        <div class="box-card orange">
+          <h4>🔵 Описане коло</h4>
+          <p>Коло <b>описане навколо трикутника</b> — проходить через всі три вершини.</p>
+          <p>Центр — точка перетину <b>серединних перпендикулярів</b>.</p>
+          <p>Радіус: <b>R = abc / (4S)</b></p>
+        </div>
+      </div>
+
+      <div class="diagram">
+        <div class="diag-wrap">
+          <svg class="geo" width="190" height="170" viewBox="0 0 190 170">
+            <polygon points="95,12 172,148 18,148" fill="#e6f9f9" stroke="#2cb5b5" stroke-width="2"/>
+            <!-- inscribed circle -->
+            <circle cx="95" cy="105" r="44" fill="none" stroke="#5b4fcf" stroke-width="2" stroke-dasharray="5,2"/>
+            <circle cx="95" cy="105" r="3.5" fill="#5b4fcf"/>
+            <!-- radius mark -->
+            <line x1="95" y1="105" x2="95" y2="149" stroke="#5b4fcf" stroke-width="1.5"/>
+            <text x="97" y="130" font-size="10" fill="#5b4fcf" font-weight="bold">r</text>
+            <text x="90" y="103" font-size="10" fill="#5b4fcf">I</text>
+          </svg>
+          <figcaption>Вписане коло (центр I)</figcaption>
+        </div>
+        <div class="diag-wrap">
+          <svg class="geo" width="190" height="170" viewBox="0 0 190 170">
+            <polygon points="95,12 172,148 18,148" fill="#fff6e6" stroke="#d4881f" stroke-width="2"/>
+            <!-- circumscribed circle -->
+            <circle cx="95" cy="90" r="78" fill="none" stroke="#d4881f" stroke-width="2" stroke-dasharray="5,2"/>
+            <circle cx="95" cy="90" r="3.5" fill="#d4881f"/>
+            <line x1="95" y1="90" x2="18" y2="148" stroke="#d4881f" stroke-width="1.5"/>
+            <text x="50" y="128" font-size="10" fill="#d4881f" font-weight="bold">R</text>
+            <text x="90" y="88" font-size="10" fill="#d4881f">O</text>
+          </svg>
+          <figcaption>Описане коло (центр O)</figcaption>
+        </div>
+      </div>
+
+      <div class="box-card green" style="margin-top:10px">
+        <h4>🔑 Особливі випадки</h4>
+        <p>✔ Центр описаного кола прямокутного △ — середина гіпотенузи (R = ½ гіпотенузи)</p>
+        <p>✔ Центр описаного кола рівностороннього △ збігається з центром вписаного</p>
+        <p>✔ У рівностороннього △ зі стороною a: R = a√3/3, r = a√3/6</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- УРОК 5 -->
+  <div class="lesson">
+    <div class="lesson-hd" onclick="toggle(this)">
+      <div class="num">5</div>
+      <h3>Кути, пов'язані з колом: центральний, вписаний, між хордами і дотичними</h3>
+      <span class="arr">▾</span>
+    </div>
+    <div class="lesson-body">
+      <div class="box-row">
+        <div class="box-card teal">
+          <h4>Кут між двома хордами</h4>
+          <p>Якщо хорди перетинаються всередині кола:</p>
+          <p><b>α = ½(дуга₁ + дуга₂)</b></p>
+        </div>
+        <div class="box-card blue">
+          <h4>Кут між двома дотичними</h4>
+          <p>Якщо дотичні проведені з зовнішньої точки:</p>
+          <p><b>α = ½|дуга₁ − дуга₂|</b></p>
+        </div>
+        <div class="box-card orange">
+          <h4>Кут між січною і дотичною</h4>
+          <p>З зовнішньої точки:</p>
+          <p><b>α = ½|дуга₁ − дуга₂|</b></p>
+        </div>
+        <div class="box-card violet">
+          <h4>Вписані кути на одній дузі</h4>
+          <p>Всі вписані кути, що спираються на одну дугу — <b>рівні</b>.</p>
+        </div>
+      </div>
+      <div class="remember"><b>Золоте правило:</b> Вписаний кут = ½ · (відповідна дуга). Це основа для всіх інших формул кутів у колі.</div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ══════════════════ ВПРАВИ ══════════════════ -->
+<section id="work" class="panel">
+<div class="paper">
+  <div style="font-weight:900;font-size:.8rem;letter-spacing:.14em;color:var(--teal);margin-bottom:6px">ВПРАВИ · ГЕОМЕТРІЯ 3</div>
+  <h2 style="margin:0 0 18px;font-size:1.7rem">Коло — задачі</h2>
+
+  <div class="task-section ts-teal">
+    <h4>1. Елементи кола. Хорди й дотичні</h4>
+    <div class="task-grid">
+      <div class="task-item"><b>а)</b> Радіус кола 10 см. Знайдіть найбільшу можливу хорду.</div>
+      <div class="task-item"><b>б)</b> Хорда AB = 16 см, відстань від центра до хорди = 6 см. Знайдіть радіус.</div>
+      <div class="task-item"><b>в)</b> З точки M поза колом проведено дотичну MA = 8 см і секущу, що проходить через центр. Знайдіть відстань від M до центра, якщо r = 6.</div>
+      <div class="task-item"><b>г)</b> Радіус кола 13 см. Хорда на відстані 5 см від центра. Знайдіть довжину хорди.</div>
+    </div>
+  </div>
+
+  <div class="task-section ts-blue">
+    <h4>2. Вписаний і центральний кут</h4>
+    <div class="task-grid">
+      <div class="task-item"><b>а)</b> Центральний кут = 84°. Знайдіть вписаний кут, що спирається на ту саму дугу.</div>
+      <div class="task-item"><b>б)</b> Вписаний кут = 37°. Знайдіть центральний кут.</div>
+      <div class="task-item"><b>в)</b> Вписаний кут ABC = 56°. Знайдіть центральний кут AOC (O — центр).</div>
+      <div class="task-item"><b>г)</b> Вписаний кут спирається на діаметр. Знайдіть цей кут.</div>
+    </div>
+  </div>
+
+  <div class="task-section ts-green">
+    <h4>3. Взаємне розташування двох кіл</h4>
+    <div class="task-grid">
+      <div class="task-item"><b>а)</b> R = 12, r = 8, d = 4 (між центрами). Яке розташування?</div>
+      <div class="task-item"><b>б)</b> R = 7, r = 5, d = 12. Яке розташування?</div>
+      <div class="task-item"><b>в)</b> Два кола дотикаються зовні, R = 9, r = 6. Знайдіть відстань між центрами.</div>
+      <div class="task-item"><b>г)</b> Два кола дотикаються внутрішньо, R = 15, r = 8. Знайдіть відстань між центрами.</div>
+    </div>
+  </div>
+
+  <div class="task-section ts-orange">
+    <h4>4. Вписане й описане коло</h4>
+    <div class="task-grid">
+      <div class="task-item"><b>а)</b> △ABC: прямокутний, катети 6 і 8. Знайдіть радіус описаного кола.</div>
+      <div class="task-item"><b>б)</b> △ABC: прямокутний, катети 6 і 8. Знайдіть радіус вписаного кола.</div>
+      <div class="task-item"><b>в)</b> Рівносторонній △ зі стороною 6. Знайдіть радіус описаного кола.</div>
+      <div class="task-item"><b>г)</b> Рівносторонній △ зі стороною 6. Знайдіть радіус вписаного кола.</div>
+    </div>
+  </div>
+
+  <div class="word-task">
+    <h4>🔵 Задача підвищеного рівня</h4>
+    <p>Пряма AB дотикається до кола із центром O в точці B. Пряма AC проходить через центр O. ∠OAB = 35°. Знайдіть кут ∠COB.</p>
+    <p>Обчислення: _______________________________________________________</p>
+    <p>Відповідь: _______________________________________________________</p>
+  </div>
+
+  <div class="score-line">Результат: ____ / 20 &nbsp;&nbsp; ⭕ Навчаюсь &nbsp; 📏 Добре &nbsp; 🔵 Відмінно!</div>
+</div>
+</section>
+
+<!-- ══════════════════ ДОМАШНЯ РОБОТА ══════════════════ -->
+<section id="home" class="panel">
+<div class="paper">
+  <div style="font-weight:900;font-size:.8rem;letter-spacing:.14em;color:var(--teal);margin-bottom:6px">ДОМАШНЯ РОБОТА · ГЕОМЕТРІЯ 3</div>
+  <h2 style="margin:0 0 18px;font-size:1.7rem">Коло — закріплення</h2>
+
+  <div class="task-section ts-teal">
+    <h4>1. Хорди і дотичні</h4>
+    <div class="task-grid">
+      <div class="task-item"><b>а)</b> Дві рівні хорди кола по 10 см. Чому рівні відстані від центра до них?</div>
+      <div class="task-item"><b>б)</b> Хорда 24 см, радіус 13 см. Знайдіть відстань від центра до хорди.</div>
+      <div class="task-item"><b>в)</b> З точки, що знаходиться на відстані 17 від центра кола r = 8, проведено дотичну. Знайдіть її довжину.</div>
+      <div class="task-item"><b>г)</b> Два відрізки дотичних з однієї зовнішньої точки дорівнюють. Чому це так?</div>
+    </div>
+  </div>
+
+  <div class="task-section ts-blue">
+    <h4>2. Вписані кути</h4>
+    <div class="task-grid">
+      <div class="task-item"><b>а)</b> Чотирикутник ABCD вписаний у коло. ∠A = 80°. Знайдіть ∠C.</div>
+      <div class="task-item"><b>б)</b> ∠A = 65°, ∠B = 75° у вписаному чотирикутнику. Знайдіть ∠C і ∠D.</div>
+      <div class="task-item"><b>в)</b> Вписаний кут ADB = 40°. Знайдіть центральний ∠AOB.</div>
+      <div class="task-item"><b>г)</b> Вписані кути ACB і ADB спираються на ту саму дугу AB. Що можна сказати про них?</div>
+    </div>
+  </div>
+
+  <div class="task-section ts-orange">
+    <h4>3. Радіуси вписаного та описаного кола</h4>
+    <div class="task-grid">
+      <div class="task-item"><b>а)</b> Рівнобедрений прямокутний △ з катетом a. Знайдіть R описаного кола.</div>
+      <div class="task-item"><b>б)</b> Рівносторонній △ зі стороною 12. Знайдіть R і r.</div>
+      <div class="task-item"><b>в)</b> У прямокутний △ вписано коло r = 3. Гіпотенуза = 10. Знайдіть периметр △.</div>
+      <div class="task-item"><b>г)</b> Площа △ = 84, периметр = 56. Знайдіть r вписаного кола.</div>
+    </div>
+  </div>
+
+  <div class="word-task">
+    <h4>🧠 Задача для майстрів</h4>
+    <p>У коло вписано прямокутник зі сторонами 6 і 8. Знайдіть радіус кола та площу кола поза прямокутником.</p>
+    <p><em>Підказка: діагональ прямокутника = діаметр кола.</em></p>
+    <p>Відповідь: _______________________________________________________</p>
+  </div>
+
+  <div class="score-line">Результат: ____ / 18 &nbsp;&nbsp; ⭕ Навчаюсь &nbsp; 📏 Добре &nbsp; 🔵 Відмінно!</div>
+</div>
+</section>
+
+<!-- ══════════════════ ТРЕНАЖЕР ══════════════════ -->
+<section id="game" class="panel">
+<div class="trainer" id="trainer">
+  <div class="prog-bar"><span id="bar" style="width:9%"></span></div>
+  <div class="meta"><span id="qnum">Питання 1 з 11</span><strong id="pts">Бали: 0</strong></div>
+  <div class="scene"><div class="icon" id="icon">⭕</div><p id="ctx"></p></div>
+  <h2 id="question"></h2>
+  <div class="ans-row">
+    <input id="answer" inputmode="decimal" placeholder="Введи число або вираз">
+    <span id="unit"></span>
+  </div>
+  <div class="actions">
+    <button class="hint-btn" id="hintBtn">💡 Підказка</button>
+    <button class="primary" id="checkBtn">Перевірити</button>
+  </div>
+  <div id="hint" class="fb hint"></div>
+  <div id="feedback" class="fb"></div>
+</div>
+</section>
+
+</main>
+
+<footer style="text-align:center;padding:28px;background:var(--navy);color:#8090cc">
+  НМТ Математика · Геометрія Тема 3 · Коло та вписані кути &nbsp;⭕
+</footer>
+
+<script>
+  const starsEl=document.getElementById('stars');
+  for(let i=0;i<60;i++){
+    const s=document.createElement('div');s.className='star';
+    const sz=Math.random()*3+1;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:${Math.random()*.6+.2};animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*4}s`;
+    starsEl.appendChild(s);
+  }
+
+  const tabs=[...document.querySelectorAll('.tabs button')];
+  tabs.forEach(btn=>btn.addEventListener('click',()=>{
+    tabs.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    const isGame=btn.dataset.tab==='game';
+    document.getElementById('printBtn').style.display=isGame?'none':'block';
+    document.getElementById('info').textContent=isGame?'Вводь числа. Можна з крапкою або комою.':'Матеріал підготовлено для друку А4.';
+    window.scrollTo({top:340,behavior:'smooth'});
+  }));
+  document.getElementById('printBtn').addEventListener('click',()=>window.print());
+
+  function toggle(hd){
+    hd.classList.toggle('open');
+    hd.nextElementSibling.classList.toggle('open');
+  }
+
+  const quiz=[
+    {icon:'⭕',ctx:'Хорда кола.',q:'Радіус кола 10 см. Найбільша хорда = ?',a:'20',u:'см',h:'Найбільша хорда — це діаметр: d = 2r.',e:'d = 2 × 10 = 20 см.'},
+    {icon:'📐',ctx:'Хорда і відстань від центра.',q:'Хорда 24 см, r = 13 см. Відстань від центра до хорди = ?',a:'5',u:'см',h:'Перпендикуляр з центра ділить хорду навпіл. За теоремою Піфагора: √(13²−12²).',e:'√(169−144) = √25 = 5 см.'},
+    {icon:'⭕',ctx:'Вписаний кут.',q:'Центральний кут = 84°. Вписаний кут на тій самій дузі = ?',a:'42',u:'°',h:'Вписаний кут = ½ центрального кута.',e:'84° ÷ 2 = 42°.'},
+    {icon:'🔵',ctx:'Теорема Фалеса.',q:'Вписаний кут спирається на діаметр. Цей кут = ?',a:'90',u:'°',h:'Теорема Фалеса: вписаний кут на діаметрі = 90°.',e:'Вписаний кут на діаметрі завжди 90°.'},
+    {icon:'⭕',ctx:'Вписаний чотирикутник.',q:'У вписаному чотирикутнику ∠A = 80°. Протилежний ∠C = ?',a:'100',u:'°',h:'У вписаному чотирикутнику протилежні кути в сумі дають 180°.',e:'∠C = 180° − 80° = 100°.'},
+    {icon:'📏',ctx:'Дотичні з зовнішньої точки.',q:'З точки M до кола проведено дві дотичні MA і MB. MA = 8 см. MB = ?',a:'8',u:'см',h:'Два відрізки дотичних з однієї зовнішньої точки рівні.',e:'MB = MA = 8 см.'},
+    {icon:'⭕',ctx:'Взаємне розташування кіл.',q:'R = 9, r = 6. Зовнішній дотик. Відстань між центрами = ?',a:'15',u:'см',h:'При зовнішньому дотику: d = R + r.',e:'d = 9 + 6 = 15 см.'},
+    {icon:'🔵',ctx:'Взаємне розташування кіл.',q:'R = 15, r = 8. Внутрішній дотик. Відстань між центрами = ?',a:'7',u:'см',h:'При внутрішньому дотику: d = R − r.',e:'d = 15 − 8 = 7 см.'},
+    {icon:'📐',ctx:'Описане коло прямокутного трикутника.',q:'Прямокутний △, катети 6 і 8. Радіус описаного кола = ?',a:'5',u:'см',h:'R описаного кола прямокутного △ = ½ гіпотенузи. Гіпотенуза = √(36+64).',e:'Гіпотенуза = √100 = 10. R = 10/2 = 5 см.'},
+    {icon:'⭕',ctx:'Вписане коло прямокутного трикутника.',q:'Прямокутний △, катети 6 і 8. Радіус вписаного кола = ?',a:'2',u:'см',h:'r = (a + b − c) / 2 для прямокутного △.',e:'r = (6 + 8 − 10) / 2 = 4/2 = 2 см.'},
+    {icon:'🔵',ctx:'Рівносторонній трикутник.',q:'Рівносторонній △ зі стороною 6. Радіус описаного кола = ?',a:'2√3',u:'',h:'R = a√3/3 = 6√3/3.',e:'R = 6√3/3 = 2√3 ≈ 3.46.'},
+  ];
+
+  let qi=0,score=0,done=new Array(quiz.length).fill(false);
+  const el=id=>document.getElementById(id);
+  const norm=x=>x.trim().replace(',','.').replace(/\s/g,'').toLowerCase();
+
+  function render(){
+    const x=quiz[qi];
+    el('qnum').textContent='Питання '+(qi+1)+' з '+quiz.length;
+    el('pts').textContent='Бали: '+score;
+    el('bar').style.width=((qi+1)/quiz.length*100)+'%';
+    el('icon').textContent=x.icon;
+    el('ctx').textContent=x.ctx;
+    el('question').textContent=x.q;
+    el('unit').textContent=x.u;
+    el('answer').value='';
+    el('hint').className='fb hint';
+    el('feedback').className='fb';
+    el('answer').focus();
+  }
+
+  el('hintBtn').onclick=()=>{el('hint').textContent=quiz[qi].h;el('hint').className='fb hint show'};
+  el('checkBtn').onclick=check;
+  el('answer').addEventListener('keydown',e=>{if(e.key==='Enter')check()});
+
+  function check(){
+    if(!el('answer').value.trim())return;
+    const ok=norm(el('answer').value)===norm(quiz[qi].a);
+    if(ok&&!done[qi]){score++;done[qi]=true}
+    el('pts').textContent='Бали: '+score;
+    el('feedback').className='fb '+(ok?'good':'bad')+' show';
+    el('feedback').innerHTML='<b>'+(ok?'✅ Правильно!':'❌ Не зовсім.')+'</b><p>'+quiz[qi].e+'</p>'
+      +(ok?'<button class="primary" id="next" style="margin-top:10px">Наступне →</button>':'');
+    if(ok)el('next').onclick=()=>{qi++;qi<quiz.length?render():finish()};
+  }
+
+  function finish(){
+    el('trainer').innerHTML=`<div class="finish">
+      <div class="big">${score>=9?'🏆':score>=6?'⭕':'💡'}</div>
+      <h2>Тренування завершено!</h2>
+      <p class="result">${score} / ${quiz.length}</p>
+      <p>${score>=9?'Блискуча робота! Ти готовий до НМТ!':score>=6?'Дуже добре — ще трохи практики і результат буде ідеальним.':'Повтори теорію і спробуй ще раз — ти точно впораєшся!'}</p>
+      <button class="primary" onclick="location.reload()">🔄 Спробувати знову</button>
+    </div>`;
+  }
+
+  render();
+</script>
+</body>
+</html>

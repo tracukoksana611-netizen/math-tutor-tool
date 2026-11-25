@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="450" viewBox="0 0 400 450" role="img" aria-label="Ромб ABCD зі стороною 8 і кутом B 60 градусів. O — центр вписаного кола.">
+  <rect width="400" height="450" rx="16" fill="#fff"/>
+  <path d="M104 230 L200 63.723 L296 230 L200 396.277 Z" fill="#eff6ff" stroke="#2563eb" stroke-width="3"/>
+  <circle cx="200" cy="230" r="83.138" fill="#fff" stroke="#475569" stroke-width="2.5"/>
+  <path d="M104 230 H296 M200 63.723 V396.277" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <path d="M179 100.096 A42 42 0 0 0 221 100.096" fill="none" stroke="#9333ea" stroke-width="2.5"/>
+  <g font-family="Arial,sans-serif" font-size="22" font-weight="600" fill="#0f172a" text-anchor="middle">
+    <text x="83" y="237">A</text><text x="200" y="43">B</text><text x="318" y="237">C</text><text x="200" y="427">D</text>
+    <text x="217" y="254" font-size="19">O</text><text x="200" y="129" font-size="19" fill="#7e22ce">60°</text>
+    <text x="127" y="141" font-size="20">8</text>
+  </g>
+  <g fill="#0f172a"><circle cx="104" cy="230" r="4"/><circle cx="200" cy="63.723" r="4"/><circle cx="296" cy="230" r="4"/><circle cx="200" cy="396.277" r="4"/><circle cx="200" cy="230" r="4"/></g>
+</svg>

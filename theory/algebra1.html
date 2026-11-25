@@ -1,0 +1,2010 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Тема 1. Дійсні числа — інтерактивний модуль</title>
+
+<style>
+:root{
+  --ink:#24304a;
+  --muted:#66708a;
+  --blue:#4277df;
+  --purple:#7d5bd6;
+  --pink:#ff7fab;
+  --gold:#ffcb57;
+  --mint:#71d7b5;
+  --red:#ed5f71;
+  --green:#269a70;
+  --card:#fff;
+  --shadow:0 14px 34px rgba(50,64,110,.13);
+}
+
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  color:var(--ink);
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  background:
+    radial-gradient(circle at 12% 6%,#fff2b8 0 5%,transparent 18%),
+    radial-gradient(circle at 92% 12%,#e7d7ff 0 4%,transparent 19%),
+    linear-gradient(180deg,#eaf8ff,#fffaf4 38%,#f3efff);
+  line-height:1.55;
+}
+
+/* HERO */
+
+.hero{
+  min-height:410px;
+  padding:46px max(5vw,24px);
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  align-items:center;
+  gap:36px;
+}
+
+.eyebrow{
+  display:inline-flex;
+  padding:8px 14px;
+  border-radius:999px;
+  background:#fff;
+  box-shadow:var(--shadow);
+  font-weight:800;
+  color:#5d52b8;
+}
+
+.hero h1{
+  font-size:clamp(2.3rem,5.4vw,5.4rem);
+  line-height:1;
+  margin:18px 0;
+  background:linear-gradient(95deg,#3e70da,#805bd5 55%,#ed6d9a);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.hero p{
+  font-size:1.18rem;
+  max-width:720px;
+  color:#4f5d78;
+}
+
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.chip{
+  padding:8px 12px;
+  border-radius:15px;
+  background:#f0efff;
+  font-weight:800;
+}
+
+/* HERO ART */
+
+.hero-art{
+  display:grid;
+  place-items:center;
+  min-height:300px;
+}
+
+.orbit{
+  position:relative;
+  width:250px;
+  height:250px;
+  border:4px dashed #8b6ee0;
+  border-radius:50%;
+  animation:spin 22s linear infinite;
+}
+
+.orbit span{
+  position:absolute;
+  width:70px;
+  height:70px;
+  display:grid;
+  place-items:center;
+  border-radius:23px;
+  color:white;
+  font-size:1.7rem;
+  font-weight:900;
+  box-shadow:0 8px 18px #6c64a735;
+}
+
+.orbit span:nth-child(1){
+  background:#4e81e8;
+  left:88px;
+  top:-34px;
+}
+
+.orbit span:nth-child(2){
+  background:#ff879f;
+  right:-34px;
+  top:88px;
+}
+
+.orbit span:nth-child(3){
+  background:#43ba91;
+  left:88px;
+  bottom:-34px;
+}
+
+.orbit span:nth-child(4){
+  background:#f3b83f;
+  left:-34px;
+  top:88px;
+}
+
+.core{
+  position:absolute;
+  inset:70px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:linear-gradient(145deg,#7d5bd6,#4b7ee7);
+  color:#fff;
+  font-size:3rem;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+/* NAV */
+
+.wrap{
+  width:min(1180px,92vw);
+  margin:auto;
+}
+
+.nav{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(255,255,255,.9);
+  backdrop-filter:blur(16px);
+  box-shadow:0 8px 28px #42517a1a;
+}
+
+.tabs{
+  display:flex;
+  gap:8px;
+  overflow:auto;
+  padding:12px;
+}
+
+.tab{
+  border:0;
+  border-radius:999px;
+  padding:11px 18px;
+  background:#f2f4fb;
+  color:#3f4c68;
+  font-weight:900;
+  white-space:nowrap;
+  cursor:pointer;
+}
+
+.tab.active{
+  color:white;
+  background:linear-gradient(100deg,#4c80e7,#8060d7);
+}
+
+/* CONTENT */
+
+.panel{
+  display:none;
+  padding:34px 0 70px;
+}
+
+.panel.active{
+  display:block;
+}
+
+.section-title{
+  font-size:clamp(1.8rem,4vw,3.1rem);
+  margin:8px 0;
+}
+
+.lead{
+  color:var(--muted);
+  font-size:1.08rem;
+  margin-bottom:28px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:22px;
+}
+
+.card{
+  background:rgba(255,255,255,.96);
+  border:2px solid #fff;
+  border-radius:28px;
+  padding:24px;
+  box-shadow:var(--shadow);
+}
+
+.card h3{
+  margin-top:0;
+  color:#4a59a5;
+}
+
+.full{grid-column:1/-1}
+
+.formula{
+  margin:13px 0;
+  padding:15px;
+  border-radius:17px;
+  background:#f4f5ff;
+  text-align:center;
+  overflow-x:auto;
+  font-size:1.08rem;
+}
+
+.note{
+  border-left:6px solid var(--gold);
+  background:#fff8dc;
+  padding:13px 16px;
+  border-radius:10px;
+  margin:14px 0;
+}
+
+.tip{
+  border-left:6px solid var(--mint);
+  background:#eafff7;
+  padding:13px 16px;
+  border-radius:10px;
+}
+
+.warn{
+  border-left:6px solid var(--red);
+  background:#fff0f2;
+  padding:13px 16px;
+  border-radius:10px;
+}
+
+/* SET DIAGRAM */
+
+.set-map{
+  position:relative;
+  height:360px;
+  margin:auto;
+  max-width:620px;
+}
+
+.set-map svg{
+  width:100%;
+  height:100%;
+}
+
+/* BUTTONS */
+
+.btn{
+  border:0;
+  border-radius:16px;
+  padding:12px 17px;
+  background:linear-gradient(100deg,#4e81e8,#7f5dd7);
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 8px 16px #5c64c33d;
+  margin:5px 3px;
+}
+
+.btn:hover{transform:translateY(-2px)}
+
+.btn.green{
+  background:linear-gradient(100deg,#239b75,#67ca9f);
+}
+
+.btn.light{
+  background:#eef1fb;
+  color:#405073;
+  box-shadow:none;
+}
+
+/* EXERCISES */
+
+.stack{
+  display:grid;
+  gap:16px;
+}
+
+.exercise{
+  background:white;
+  border:2px solid #e9e9f6;
+  border-radius:22px;
+  padding:20px;
+}
+
+.choices{
+  display:grid;
+  gap:9px;
+}
+
+.choices label{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  padding:10px 12px;
+  border:2px solid #edf0f8;
+  border-radius:14px;
+  cursor:pointer;
+}
+
+.choices label:has(input:checked){
+  border-color:#7663d4;
+  background:#f2efff;
+}
+
+.answer{
+  width:min(320px,100%);
+  border:2px solid #dce0ed;
+  border-radius:14px;
+  padding:12px;
+  font-size:1rem;
+}
+
+.feedback{
+  margin-top:11px;
+  padding:11px 13px;
+  border-radius:13px;
+  background:#eff4ff;
+  color:#43506c;
+}
+
+.feedback.ok{
+  background:#e6fff4;
+  color:#13734f;
+}
+
+.feedback.bad{
+  background:#fff0f2;
+  color:#a53148;
+}
+
+/* GAMES */
+
+.game-board{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.bucket{
+  min-height:130px;
+  border:3px dashed #b8b8d8;
+  border-radius:20px;
+  padding:14px;
+  background:#fafaff;
+}
+
+.number-token{
+  display:inline-flex;
+  padding:9px 12px;
+  margin:4px;
+  border-radius:13px;
+  background:#fff;
+  box-shadow:0 4px 10px #41507522;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.number-token.selected{
+  background:#ffdf7c;
+}
+
+.scorebox{
+  font-size:1.15rem;
+  font-weight:900;
+  padding:12px 16px;
+  background:#fff5cf;
+  border-radius:16px;
+  margin:15px 0;
+}
+
+/* TEST */
+
+.progress{
+  height:14px;
+  background:#e8eaf2;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:15px;
+}
+
+.progress span{
+  display:block;
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#68d6b0,#4e82e8,#8261d8);
+  transition:.3s;
+}
+
+.test-card{
+  position:relative;
+  padding-top:55px;
+}
+
+.badge{
+  position:absolute;
+  left:18px;
+  top:14px;
+  padding:7px 12px;
+  border-radius:999px;
+  background:#eef0ff;
+  color:#594cb7;
+  font-weight:900;
+}
+
+/* HOMEWORK */
+
+.homework{
+  counter-reset:hw;
+}
+
+.hw{
+  display:grid;
+  grid-template-columns:40px 1fr;
+  gap:12px;
+  padding:14px 0;
+  border-bottom:1px dashed #ced3e2;
+}
+
+.hw:before{
+  counter-increment:hw;
+  content:counter(hw);
+  width:36px;
+  height:36px;
+  background:#755ed2;
+  color:#fff;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+}
+
+.footer{
+  text-align:center;
+  padding:28px;
+  background:#2c3454;
+  color:#eef2ff;
+}
+
+mjx-container{
+  font-size:108%!important;
+}
+
+@media(max-width:820px){
+  .hero{
+    grid-template-columns:1fr;
+  }
+
+  .hero-art{
+    min-height:290px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .full{
+    grid-column:auto;
+  }
+
+  .game-board{
+    grid-template-columns:1fr;
+  }
+
+  .card{
+    padding:19px;
+  }
+}
+
+@media print{
+  .nav,.hero-art,.btn{
+    display:none!important;
+  }
+
+  .hero{
+    min-height:auto;
+    padding:20px;
+  }
+
+  .panel{
+    display:block!important;
+    padding:15px 0;
+  }
+
+  .card{
+    box-shadow:none;
+    break-inside:avoid;
+  }
+}
+</style>
+
+<!-- MathJax -->
+<script>
+window.MathJax={
+  tex:{
+    inlineMath:[['\\(','\\)']],
+    displayMath:[['\\[','\\]']]
+  },
+  svg:{fontCache:'global'}
+};
+</script>
+
+<script defer
+src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+</script>
+</head>
+
+<body>
+
+<header class="hero">
+  <div>
+    <span class="eyebrow">✨ Інтерактивна математика</span>
+
+    <h1>Дійсні числа</h1>
+
+    <p>
+      Від натуральних чисел до стандартного вигляду числа —
+      досліджуй закономірності та тренуй математичні навички.
+    </p>
+
+    <div class="chips">
+      <span class="chip">📘 Теорія</span>
+      <span class="chip">🎯 Тренажер</span>
+      <span class="chip">🎮 Ігри</span>
+      <span class="chip">🏆 Тест</span>
+    </div>
+  </div>
+
+  <div class="hero-art">
+    <div class="orbit">
+      <span>ℕ</span>
+      <span>ℤ</span>
+      <span>ℚ</span>
+      <span>𝕀</span>
+      <b class="core">ℝ</b>
+    </div>
+  </div>
+</header>
+
+<nav class="nav">
+<div class="tabs wrap">
+
+<button class="tab active" data-tab="theory">📖 Теорія</button>
+<button class="tab" data-tab="trainer">🎯 Тренажер</button>
+<button class="tab" data-tab="games">🎮 Ігри</button>
+<button class="tab" data-tab="test">🏆 Тест</button>
+<button class="tab" data-tab="homework">📝 Домашня робота</button>
+
+</div>
+</nav>
+
+<main class="wrap">
+
+<!-- ================= THEORY ================= -->
+
+<section id="theory" class="panel active">
+
+<h2 class="section-title">Карта знань</h2>
+
+<p class="lead">
+Спочатку зрозумій правило, розглянь приклад, а потім переходь до тренування.
+</p>
+
+<div class="grid">
+
+<article class="card full">
+<h3>1. Множини чисел</h3>
+
+<div class="set-map">
+<svg viewBox="0 0 650 360">
+
+<ellipse cx="325" cy="180" rx="310" ry="165"
+fill="#dff2ff" stroke="#fff" stroke-width="7"/>
+
+<text x="325" y="45" text-anchor="middle"
+font-size="25" fill="#265eaa">
+ℝ — дійсні числа
+</text>
+
+<ellipse cx="235" cy="195" rx="195" ry="115"
+fill="#e9ddff" stroke="#fff" stroke-width="6"/>
+
+<text x="235" y="105" text-anchor="middle"
+font-size="22" fill="#6040ae">
+ℚ — раціональні
+</text>
+
+<ellipse cx="195" cy="205" rx="130" ry="75"
+fill="#ffe0eb" stroke="#fff" stroke-width="5"/>
+
+<text x="195" y="155" text-anchor="middle"
+font-size="21" fill="#ad3e68">
+ℤ
+</text>
+
+<ellipse cx="175" cy="215" rx="70" ry="38"
+fill="#fff0ac" stroke="#fff" stroke-width="4"/>
+
+<text x="175" y="222" text-anchor="middle"
+font-size="21" fill="#8d6712">
+ℕ
+</text>
+
+<ellipse cx="500" cy="205" rx="85" ry="70"
+fill="#d7f7e9" stroke="#fff" stroke-width="5"/>
+
+<text x="500" y="213" text-anchor="middle"
+font-size="22" fill="#187b5c">
+𝕀
+</text>
+
+</svg>
+</div>
+
+<div class="formula">
+\[
+\mathbb N\subset\mathbb Z\subset\mathbb Q\subset\mathbb R,
+\qquad
+\mathbb I\subset\mathbb R
+\]
+</div>
+
+<p><b>ℕ</b> — натуральні числа: \(1,2,3,\ldots\)</p>
+
+<p><b>ℤ</b> — цілі числа:
+\(\ldots,-3,-2,-1,0,1,2,3,\ldots\)</p>
+
+<p>
+<b>ℚ</b> — раціональні числа, які можна подати у вигляді
+\[
+\frac ab,\qquad a\in\mathbb Z,\quad b\ne0.
+\]
+</p>
+
+<p>
+Приклади:
+\[
+\frac12,\quad-\frac23,\quad0{,}8,\quad6.
+\]
+</p>
+
+<p>
+<b>𝕀</b> — ірраціональні числа:
+\[
+\sqrt2,\quad\sqrt3,\quad\pi.
+\]
+</p>
+
+<div class="note">
+У цьому модулі натуральні числа починаються з \(1\), тому \(0\notin\mathbb N\).
+</div>
+
+</article>
+
+<article class="card">
+<h3>2. Дільники і кратні</h3>
+
+<p>
+Число \(a\) є дільником числа \(b\), якщо \(b\) ділиться на \(a\) без остачі.
+</p>
+
+<div class="formula">
+\[
+84:7=12
+\]
+</div>
+
+<p>Отже, \(7\) — дільник числа \(84\).</p>
+
+<p>
+<b>НСД</b> — найбільший спільний дільник.
+</p>
+
+<div class="formula">
+\[
+\operatorname{НСД}(18;30)=6
+\]
+</div>
+
+<p>
+<b>НСК</b> — найменше спільне кратне.
+</p>
+
+<div class="formula">
+\[
+\operatorname{НСК}(12;18)=36
+\]
+</div>
+</article>
+
+<article class="card">
+<h3>3. Ознаки подільності</h3>
+
+<p><b>На 2:</b> остання цифра парна.</p>
+<p><b>На 3:</b> сума цифр ділиться на 3.</p>
+<p><b>На 5:</b> остання цифра 0 або 5.</p>
+<p><b>На 9:</b> сума цифр ділиться на 9.</p>
+<p><b>На 10:</b> остання цифра 0.</p>
+
+<div class="tip">
+Наприклад, число 315 ділиться і на 3, і на 5:
+\(3+1+5=9\), а остання цифра — 5.
+</div>
+</article>
+
+<article class="card">
+<h3>4. Звичайні дроби</h3>
+
+<p>Дріб має чисельник і знаменник:</p>
+
+<div class="formula">
+\[
+\frac25,\qquad\frac58.
+\]
+</div>
+
+<p>
+Основна властивість дробу:
+</p>
+
+<div class="formula">
+\[
+\frac ab=\frac{a\cdot k}{b\cdot k},
+\qquad k\ne0.
+\]
+</div>
+
+<p>Наприклад:</p>
+
+<div class="formula">
+\[
+\frac{18}{24}
+=
+\frac{18:6}{24:6}
+=
+\frac34.
+\]
+</div>
+</article>
+
+<article class="card">
+<h3>5. Додавання і віднімання дробів</h3>
+
+<p>Для додавання дробів їх зводять до спільного знаменника.</p>
+
+<div class="formula">
+\[
+\frac23+\frac5{12}
+=
+\frac8{12}+\frac5{12}
+=
+\frac{13}{12}.
+\]
+</div>
+
+<p>Ще один приклад:</p>
+
+<div class="formula">
+\[
+\frac56+\frac7{12}
+=
+\frac{10}{12}+\frac7{12}
+=
+\frac{17}{12}.
+\]
+</div>
+</article>
+
+<article class="card">
+<h3>6. Множення і ділення дробів</h3>
+
+<div class="formula">
+\[
+\frac7{10}\cdot\frac{15}{21}
+=
+\frac12.
+\]
+</div>
+
+<p>
+Під час ділення на дріб множимо на обернений дріб:
+</p>
+
+<div class="formula">
+\[
+\frac79:\frac{14}{27}
+=
+\frac79\cdot\frac{27}{14}
+=
+\frac32.
+\]
+</div>
+</article>
+
+<article class="card">
+<h3>7. Дії з від’ємними числами</h3>
+
+<div class="formula">
+\[
+(-18)+7=-11
+\]
+</div>
+
+<div class="formula">
+\[
+(-6)\cdot(-8)=48
+\]
+</div>
+
+<div class="formula">
+\[
+(-8)+(-7)=-15
+\]
+</div>
+
+<div class="tip">
+Добуток двох чисел з однаковими знаками — додатний,
+а з різними знаками — від’ємний.
+</div>
+</article>
+
+<article class="card">
+<h3>8. Модуль числа</h3>
+
+<p>Модуль — це відстань від числа до нуля.</p>
+
+<div class="formula">
+\[
+|-18|=18,\qquad |7|=7.
+\]
+</div>
+
+<div class="formula">
+\[
+|-12+5|=|-7|=7.
+\]
+</div>
+</article>
+
+<article class="card full">
+<h3>9. Стандартний вигляд числа</h3>
+
+<p>
+Стандартний вигляд:
+</p>
+
+<div class="formula">
+\[
+a\cdot10^n,\qquad1\le |a|<10.
+\]
+</div>
+
+<p>Наприклад:</p>
+
+<div class="formula">
+\[
+0{,}00039=3{,}9\cdot10^{-4}
+\]
+</div>
+
+<div class="formula">
+\[
+7\,300\,000=7{,}3\cdot10^6.
+\]
+</div>
+</article>
+
+</div>
+</section>
+
+<!-- ================= TRAINER ================= -->
+
+<section id="trainer" class="panel">
+
+<h2 class="section-title">🎯 Тренажер</h2>
+
+<p class="lead">
+Виконай завдання та одразу перевір відповідь.
+</p>
+
+<div id="trainerBox" class="stack"></div>
+
+</section>
+
+<!-- ================= GAMES ================= -->
+
+<section id="games" class="panel">
+
+<h2 class="section-title">🎮 Математичні ігри</h2>
+
+<div class="grid">
+
+<article class="card full">
+
+<h3>Гра 1. Визнач множину</h3>
+
+<p>
+Натисни число, а потім вибери <b>найменшу</b> множину,
+до якої воно належить.
+</p>
+
+<div id="tokens"></div>
+
+<div class="game-board">
+
+<div class="bucket">
+<h3>ℕ</h3>
+<button class="btn" onclick="putSet('N')">Натуральні</button>
+</div>
+
+<div class="bucket">
+<h3>ℤ</h3>
+<button class="btn" onclick="putSet('Z')">Цілі</button>
+</div>
+
+<div class="bucket">
+<h3>ℚ</h3>
+<button class="btn" onclick="putSet('Q')">Раціональні</button>
+</div>
+
+</div>
+
+<div style="margin-top:14px" class="bucket">
+<h3>𝕀 — ірраціональні</h3>
+<button class="btn" onclick="putSet('I')">Ірраціональні</button>
+</div>
+
+<div id="setScore" class="scorebox">
+Рахунок: 0
+</div>
+
+</article>
+
+<article class="card">
+
+<h3>Гра 2. Подільність</h3>
+
+<div id="divQuestion" class="formula"></div>
+
+<button class="btn green" onclick="answerDiv(true)">
+Так
+</button>
+
+<button class="btn" onclick="answerDiv(false)">
+Ні
+</button>
+
+<div id="divFeedback" class="feedback">
+Обери відповідь.
+</div>
+
+</article>
+
+<article class="card">
+
+<h3>Гра 3. Скороти дріб</h3>
+
+<div id="fractionQuestion" class="formula"></div>
+
+<div id="fractionChoices" class="choices"></div>
+
+<div id="fractionFeedback" class="feedback">
+Обери відповідь.
+</div>
+
+</article>
+
+</div>
+</section>
+
+<!-- ================= TEST ================= -->
+
+<section id="test" class="panel">
+
+<h2 class="section-title">🏆 Підсумковий тест</h2>
+
+<p class="lead">
+20 завдань. Наприкінці побачиш результат і розбір.
+</p>
+
+<div class="progress">
+<span id="testProgress"></span>
+</div>
+
+<p id="testProgressText">Заповнено 0 із 20</p>
+
+<div id="testBox" class="stack"></div>
+
+<button class="btn" onclick="gradeTest()">
+Завершити тест
+</button>
+
+<button class="btn light" onclick="resetTest()">
+Очистити
+</button>
+
+<button class="btn green" onclick="window.print()">
+Друкувати результат
+</button>
+
+<div id="finalResult" class="feedback">
+Результат з’явиться тут.
+</div>
+
+</section>
+
+<!-- ================= HOMEWORK ================= -->
+
+<section id="homework" class="panel homework">
+
+<h2 class="section-title">📝 Домашня робота</h2>
+
+<p class="lead">
+Завдання розташовані від базових до творчих.
+</p>
+
+<article class="card">
+
+<div class="hw">
+<div>
+Запишіть найменшу числову множину для чисел:
+\[
+12;\;-7;\;0;\;\frac59;\;\sqrt{11};\;2{,}75;\;\pi.
+\]
+</div>
+</div>
+
+<div class="hw">
+<div>
+Випишіть усі дільники чисел 36 і 48.
+Знайдіть їхній НСД.
+</div>
+</div>
+
+<div class="hw">
+<div>
+Знайдіть НСК чисел 18 і 24.
+</div>
+</div>
+
+<div class="hw">
+<div>
+Не виконуючи ділення, визначте, які з чисел
+\(1242,\;3575,\;8100,\;4698\)
+діляться на 2, 3, 5, 9 і 10.
+</div>
+</div>
+
+<div class="hw">
+<div>
+Скоротіть дроби:
+\[
+\frac{24}{36};\qquad
+\frac{45}{60};\qquad
+\frac{84}{126}.
+\]
+</div>
+</div>
+
+<div class="hw">
+<div>
+Обчисліть:
+\[
+\frac56+\frac7{12};
+\qquad
+\frac9{10}-\frac3{25}.
+\]
+</div>
+</div>
+
+<div class="hw">
+<div>
+Обчисліть:
+\[
+\frac{14}{15}\cdot\frac{25}{28};
+\qquad
+\frac79:\frac{14}{27}.
+\]
+</div>
+</div>
+
+<div class="hw">
+<div>
+Знайдіть значення:
+\[
+|-18|+|7|;
+\qquad
+|-12+5|;
+\qquad
+-|9-15|.
+\]
+</div>
+</div>
+
+<div class="hw">
+<div>
+Обчисліть зручним способом:
+\[
+25\cdot17\cdot4
+\]
+та
+\[
+38\cdot101.
+\]
+</div>
+</div>
+
+<div class="hw">
+<div>
+Запишіть у стандартному вигляді:
+\[
+7300000;\qquad
+0{,}000045;\qquad
+91200000000.
+\]
+</div>
+</div>
+
+<div class="hw">
+<div>
+Творче завдання: складіть коротку математичну історію,
+у якій зустрічаються натуральне, ціле від’ємне,
+раціональне та ірраціональне числа.
+</div>
+</div>
+
+</article>
+
+<button class="btn" onclick="window.print()">
+🖨️ Друкувати домашню роботу
+</button>
+
+</section>
+
+</main>
+
+<footer class="footer">
+Тема 1 • Дійсні числа • Вивчай, тренуйся, перемагай 🌟
+</footer>
+
+<script>
+
+/* ==========================================
+   HELPERS
+========================================== */
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+function typeset(elements){
+  if(window.MathJax && MathJax.typesetPromise){
+    MathJax.typesetPromise(elements || undefined).catch(console.error);
+  }
+}
+
+function norm(s){
+  return String(s)
+    .trim()
+    .replace(',', '.')
+    .replace('−','-')
+    .replace(/\s/g,'');
+}
+
+/* ==========================================
+   TABS
+========================================== */
+
+$$('.tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+
+    $$('.tab').forEach(x=>x.classList.remove('active'));
+    $$('.panel').forEach(x=>x.classList.remove('active'));
+
+    btn.classList.add('active');
+
+    const panel=$('#'+btn.dataset.tab);
+
+    panel.classList.add('active');
+
+    typeset([panel]);
+  });
+});
+
+/* ==========================================
+   TRAINER
+========================================== */
+
+const trainer=[
+
+{
+q:'Визнач найменшу множину, якій належить число \\(-14\\).',
+o:[
+'\\(\\mathbb N\\)',
+'\\(\\mathbb Z\\)',
+'\\(\\mathbb Q\\)',
+'\\(\\mathbb I\\)'
+],
+a:1,
+e:'−14 — ціле число. Найменша множина — \\(\\mathbb Z\\).'
+},
+
+{
+q:'Яке число є ірраціональним?',
+o:[
+'\\(0{,}75\\)',
+'\\(-8\\)',
+'\\(\\sqrt7\\)',
+'\\(\\frac{11}{4}\\)'
+],
+a:2,
+e:'\\(\\sqrt7\\) не можна подати у вигляді \\(a/b\\), де \\(a,b\\in\\mathbb Z\\), \\(b\\ne0\\).'
+},
+
+{
+q:'Яке число є дільником 84?',
+o:['5','7','9','16'],
+a:1,
+e:'\\(84:7=12\\), тому 7 — дільник 84.'
+},
+
+{
+q:'Яке число ділиться і на 3, і на 5?',
+o:['124','315','418','502'],
+a:1,
+e:'315 закінчується цифрою 5, а \\(3+1+5=9\\), тому число ділиться на 3.'
+},
+
+{
+q:'Знайди \\(\\operatorname{НСД}(18;30)\\).',
+input:'6',
+e:'Найбільший спільний дільник чисел 18 і 30 дорівнює 6.'
+},
+
+{
+q:'Знайди \\(\\operatorname{НСК}(12;18)\\).',
+input:'36',
+e:'Найменше число, яке ділиться і на 12, і на 18, — 36.'
+},
+
+{
+q:'Скороти дріб \\(\\frac{42}{56}\\).',
+o:[
+'\\(\\frac34\\)',
+'\\(\\frac23\\)',
+'\\(\\frac78\\)',
+'\\(\\frac56\\)'
+],
+a:0,
+e:'\\(\\operatorname{НСД}(42;56)=14\\), тому \\(\\frac{42}{56}=\\frac34\\).'
+},
+
+{
+q:'Обчисли \\(\\frac23+\\frac5{12}\\).',
+o:[
+'\\(\\frac7{15}\\)',
+'\\(\\frac{13}{12}\\)',
+'\\(\\frac7{12}\\)',
+'\\(\\frac{17}{12}\\)'
+],
+a:1,
+e:'\\(\\frac23=\\frac8{12}\\), тому \\(\\frac8{12}+\\frac5{12}=\\frac{13}{12}\\).'
+},
+
+{
+q:'Обчисли та подай відповідь нескоротним дробом: \\(\\frac7{10}\\cdot\\frac{15}{21}\\).',
+o:[
+'\\(\\frac12\\)',
+'\\(\\frac32\\)',
+'\\(\\frac7{20}\\)',
+'\\(\\frac5{14}\\)'
+],
+a:0,
+e:'\\(\\frac7{10}\\cdot\\frac{15}{21}=\\frac12\\).'
+},
+
+{
+q:'Обчисли \\((-18)+7\\).',
+input:'-11',
+e:'\\(18-7=11\\). Число з більшим модулем від’ємне, тому відповідь −11.'
+},
+
+{
+q:'Обчисли \\((-6)\\cdot(-8)\\).',
+input:'48',
+e:'Добуток двох від’ємних чисел додатний: \\(6\\cdot8=48\\).'
+},
+
+{
+q:'Запиши \\(0{,}00039\\) у стандартному вигляді.',
+o:[
+'\\(3{,}9\\cdot10^{-4}\\)',
+'\\(3{,}9\\cdot10^4\\)',
+'\\(39\\cdot10^{-4}\\)',
+'\\(0{,}39\\cdot10^{-4}\\)'
+],
+a:0,
+e:'Десяткову кому переносимо на 4 позиції вправо: \\(0{,}00039=3{,}9\\cdot10^{-4}\\).'
+}
+
+];
+
+function choiceBlock(x,i,prefix){
+
+  return '<div class="choices">'+
+    x.o.map((o,j)=>
+      '<label>'+
+      '<input type="radio" name="'+prefix+i+'" value="'+j+'"> '+
+      '<span>'+o+'</span>'+
+      '</label>'
+    ).join('')+
+  '</div>';
+}
+
+function buildTrainer(){
+
+  trainerBox.innerHTML=trainer.map((x,i)=>`
+
+  <article class="exercise">
+
+  <h3>${i+1}. ${x.q}</h3>
+
+  ${
+    x.o
+    ? choiceBlock(x,i,'tr')
+    : `<input class="answer"
+       id="tri${i}"
+       placeholder="Введи відповідь"
+       inputmode="decimal">`
+  }
+
+  <br>
+
+  <button class="btn"
+  onclick="checkTrainer(${i})">
+  Перевірити
+  </button>
+
+  <div id="trf${i}" class="feedback">
+  Відповідь ще не перевірено.
+  </div>
+
+  </article>
+
+  `).join('');
+
+  typeset([trainerBox]);
+}
+
+function checkTrainer(i){
+
+  const x=trainer[i];
+  const f=$('#trf'+i);
+
+  let ok=false;
+
+  if(x.o){
+
+    const c=$(`input[name=tr${i}]:checked`);
+
+    ok=!!c && +c.value===x.a;
+
+  }else{
+
+    ok=norm($('#tri'+i).value)===norm(x.input);
+
+  }
+
+  f.className='feedback '+(ok?'ok':'bad');
+
+  f.innerHTML=
+    (ok?'Правильно! 🌟 ':'Спробуй ще раз. ')+x.e;
+
+  typeset([f]);
+}
+
+/* ==========================================
+   GAME 1 — SETS
+========================================== */
+
+const sortItems=[
+  ['7','N'],
+  ['−4','Z'],
+  ['0','Z'],
+  ['2,5','Q'],
+  ['−3/8','Q'],
+  ['√2','I'],
+  ['π','I'],
+  ['15','N']
+];
+
+let selectedToken=null;
+let setScore=0;
+
+function buildSetGame(){
+
+  tokens.innerHTML=sortItems.map((x,i)=>
+    `<span class="number-token"
+    id="tok${i}"
+    onclick="selectToken(${i})">
+    ${x[0]}
+    </span>`
+  ).join('');
+
+}
+
+function selectToken(i){
+
+  $$('.number-token').forEach(x=>
+    x.classList.remove('selected')
+  );
+
+  selectedToken=i;
+
+  $('#tok'+i).classList.add('selected');
+}
+
+function putSet(set){
+
+  if(selectedToken===null) return;
+
+  const item=sortItems[selectedToken];
+
+  if(item[1]===set){
+
+    setScore++;
+
+    $('#tok'+selectedToken).style.display='none';
+
+  }else{
+
+    setScore=Math.max(0,setScore-1);
+
+    $('#tok'+selectedToken).classList.remove('selected');
+  }
+
+  setScoreBox.textContent='Рахунок: '+setScore;
+
+  selectedToken=null;
+}
+
+/* ==========================================
+   GAME 2 — DIVISIBILITY
+========================================== */
+
+const divGame=[
+
+{n:735,k:5,a:true},
+{n:1248,k:9,a:false},
+{n:5412,k:3,a:true},
+{n:8070,k:10,a:true},
+{n:1111,k:2,a:false}
+
+];
+
+let divIndex=0;
+
+function renderDiv(){
+
+  const x=divGame[divIndex];
+
+  divQuestion.innerHTML=
+  `Чи ділиться число \\(${x.n}\\) на \\(${x.k}\\)?`;
+
+  divFeedback.className='feedback';
+  divFeedback.textContent='Обери відповідь.';
+
+  typeset([divQuestion]);
+}
+
+function answerDiv(answer){
+
+  const x=divGame[divIndex];
+
+  const ok=answer===x.a;
+
+  divFeedback.className='feedback '+(ok?'ok':'bad');
+
+  divFeedback.textContent=
+    ok?'Правильно! 🌟':'Неправильно. Перевір ознаку подільності.';
+
+  setTimeout(()=>{
+
+    divIndex=(divIndex+1)%divGame.length;
+
+    renderDiv();
+
+  },900);
+}
+
+/* ==========================================
+   GAME 3 — FRACTIONS
+========================================== */
+
+const fractionGame=[
+
+{
+q:'\\(\\frac{12}{18}\\)',
+o:[
+'\\(\\frac23\\)',
+'\\(\\frac34\\)',
+'\\(\\frac12\\)'
+],
+a:0
+},
+
+{
+q:'\\(\\frac{20}{30}\\)',
+o:[
+'\\(\\frac25\\)',
+'\\(\\frac23\\)',
+'\\(\\frac34\\)'
+],
+a:1
+},
+
+{
+q:'\\(\\frac{35}{49}\\)',
+o:[
+'\\(\\frac57\\)',
+'\\(\\frac35\\)',
+'\\(\\frac79\\)'
+],
+a:0
+},
+
+{
+q:'\\(\\frac{18}{24}\\)',
+o:[
+'\\(\\frac23\\)',
+'\\(\\frac34\\)',
+'\\(\\frac45\\)'
+],
+a:1
+}
+
+];
+
+let fractionIndex=0;
+
+function renderFractionGame(){
+
+  const x=fractionGame[fractionIndex];
+
+  fractionQuestion.innerHTML=
+  `Скороти дріб ${x.q}`;
+
+  fractionChoices.innerHTML=x.o.map((o,i)=>
+    `<label>
+    <input type="radio"
+    name="fractionAnswer"
+    value="${i}">
+    <span>${o}</span>
+    </label>`
+  ).join('');
+
+  fractionFeedback.className='feedback';
+
+  fractionFeedback.textContent='Обери відповідь.';
+
+  $$('input[name=fractionAnswer]').forEach(el=>{
+
+    el.addEventListener('change',()=>{
+
+      const answer=+el.value;
+
+      const ok=answer===x.a;
+
+      fractionFeedback.className=
+        'feedback '+(ok?'ok':'bad');
+
+      fractionFeedback.textContent=
+        ok?'Правильно! 🌟':'Спробуй скоротити чисельник і знаменник на їхній НСД.';
+
+      if(ok){
+
+        setTimeout(()=>{
+
+          fractionIndex=
+            (fractionIndex+1)%fractionGame.length;
+
+          renderFractionGame();
+
+        },900);
+
+      }
+
+    });
+
+  });
+
+  typeset([fractionQuestion,fractionChoices]);
+}
+
+/* ==========================================
+   TEST
+========================================== */
+
+const test=[
+
+{
+q:'Яке число є натуральним?',
+o:['−3','0','7','\\(\\sqrt2\\)'],
+a:2,
+e:'У цьому курсі натуральні числа починаються з 1.'
+},
+
+{
+q:'Найменша множина для числа \\(0\\):',
+o:[
+'\\(\\mathbb N\\)',
+'\\(\\mathbb Z\\)',
+'\\(\\mathbb Q\\)',
+'\\(\\mathbb I\\)'
+],
+a:1,
+e:'0 — ціле число.'
+},
+
+{
+q:'Яке число раціональне?',
+o:[
+'\\(\\pi\\)',
+'\\(\\sqrt5\\)',
+'\\(0{,}125\\)',
+'\\(\\sqrt{11}\\)'
+],
+a:2,
+e:'\\(0{,}125=\\frac18\\).'
+},
+
+{
+q:'Найбільший дільник числа 27:',
+o:['1','3','9','27'],
+a:3,
+e:'Найбільший натуральний дільник числа — саме це число.'
+},
+
+{
+q:'Знайди \\(\\operatorname{НСД}(24;36)\\).',
+input:'12',
+e:'\\(\\operatorname{НСД}(24;36)=12\\).'
+},
+
+{
+q:'Знайди \\(\\operatorname{НСК}(8;12)\\).',
+input:'24',
+e:'Найменше спільне кратне 8 і 12 дорівнює 24.'
+},
+
+{
+q:'Яке число ділиться на 9?',
+o:['124','315','728','1001'],
+a:1,
+e:'\\(3+1+5=9\\), тому 315 ділиться на 9.'
+},
+
+{
+q:'Скороти \\(\\frac{24}{36}\\).',
+o:[
+'\\(\\frac23\\)',
+'\\(\\frac34\\)',
+'\\(\\frac12\\)',
+'\\(\\frac45\\)'
+],
+a:0,
+e:'Ділимо чисельник і знаменник на 12.'
+},
+
+{
+q:'Обчисли \\(\\frac12+\\frac14\\).',
+o:[
+'\\(\\frac34\\)',
+'\\(\\frac24\\)',
+'\\(\\frac13\\)',
+'\\(1\\)'
+],
+a:0,
+e:'\\(\\frac12=\\frac24\\), тому \\(\\frac24+\\frac14=\\frac34\\).'
+},
+
+{
+q:'Обчисли \\(\\frac56-\\frac13\\).',
+o:[
+'\\(\\frac12\\)',
+'\\(\\frac23\\)',
+'\\(\\frac49\\)',
+'\\(\\frac16\\)'
+],
+a:0,
+e:'\\(\\frac13=\\frac26\\), тому \\(\\frac56-\\frac26=\\frac36=\\frac12\\).'
+},
+
+{
+q:'Обчисли \\(\\frac23\\cdot\\frac34\\).',
+o:[
+'\\(\\frac12\\)',
+'\\(\\frac56\\)',
+'\\(\\frac89\\)',
+'\\(\\frac23\\)'
+],
+a:0,
+e:'\\(\\frac23\\cdot\\frac34=\\frac6{12}=\\frac12\\).'
+},
+
+{
+q:'Обчисли \\(\\frac35:\\frac9{10}\\).',
+o:[
+'\\(\\frac23\\)',
+'\\(\\frac32\\)',
+'\\(\\frac6{50}\\)',
+'\\(\\frac35\\)'
+],
+a:0,
+e:'\\(\\frac35\\cdot\\frac{10}{9}=\\frac23\\).'
+},
+
+{
+q:'Обчисли \\((-12)+5\\).',
+input:'-7',
+e:'\\((-12)+5=-7\\).'
+},
+
+{
+q:'Обчисли \\((-7)\\cdot6\\).',
+input:'-42',
+e:'Добуток чисел з різними знаками від’ємний.'
+},
+
+{
+q:'Обчисли \\((-8)\\cdot(-5)\\).',
+input:'40',
+e:'Добуток двох від’ємних чисел додатний.'
+},
+
+{
+q:'Знайди \\(|-17|\\).',
+input:'17',
+e:'Модуль числа −17 дорівнює 17.'
+},
+
+{
+q:'Знайди \\(|-12+5|\\).',
+input:'7',
+e:'\\(-12+5=-7\\), а \\(|-7|=7\\).'
+},
+
+{
+q:'Запиши \\(4500000\\) у стандартному вигляді.',
+o:[
+'\\(4{,}5\\cdot10^6\\)',
+'\\(45\\cdot10^5\\)',
+'\\(4{,}5\\cdot10^{-6}\\)',
+'\\(0{,}45\\cdot10^6\\)'
+],
+a:0,
+e:'У стандартному вигляді коефіцієнт має задовольняти умову \\(1\\le|a|<10\\).'
+},
+
+{
+q:'Запиши \\(0{,}000072\\) у стандартному вигляді.',
+o:[
+'\\(7{,}2\\cdot10^{-5}\\)',
+'\\(7{,}2\\cdot10^5\\)',
+'\\(72\\cdot10^{-6}\\)',
+'\\(0{,}72\\cdot10^{-4}\\)'
+],
+a:0,
+e:'\\(0{,}000072=7{,}2\\cdot10^{-5}\\).'
+},
+
+{
+q:'Обчисли \\(25\\cdot17\\cdot4\\).',
+input:'1700',
+e:'Зручно спочатку обчислити \\(25\\cdot4=100\\), а потім \\(100\\cdot17=1700\\).'
+}
+
+];
+
+function buildTest(){
+
+  testBox.innerHTML=test.map((x,i)=>`
+
+  <article class="exercise test-card">
+
+  <span class="badge">
+  Завдання ${i+1}
+  </span>
+
+  <h3>${x.q}</h3>
+
+  ${
+    x.o
+    ? choiceBlock(x,i,'te')
+    : `<input class="answer"
+       id="tei${i}"
+       placeholder="Числова відповідь"
+       inputmode="decimal">`
+  }
+
+  </article>
+
+  `).join('');
+
+  testBox.addEventListener('change',updateProgress);
+  testBox.addEventListener('input',updateProgress);
+
+  typeset([testBox]);
+}
+
+function isAnswered(x,i){
+
+  if(x.o){
+    return !!$(`input[name=te${i}]:checked`);
+  }
+
+  return !!$('#tei'+i).value.trim();
+}
+
+function isCorrect(x,i){
+
+  if(x.o){
+
+    const c=$(`input[name=te${i}]:checked`);
+
+    return !!c && +c.value===x.a;
+  }
+
+  return norm($('#tei'+i).value)===norm(x.input);
+}
+
+function studentAnswer(x,i){
+
+  if(x.o){
+
+    const c=$(`input[name=te${i}]:checked`);
+
+    return c ? x.o[+c.value] : '—';
+  }
+
+  return $('#tei'+i).value || '—';
+}
+
+function correctAnswer(x){
+  return x.o ? x.o[x.a] : x.input;
+}
+
+function updateProgress(){
+
+  const n=test.filter(
+    (x,i)=>isAnswered(x,i)
+  ).length;
+
+  testProgressText.textContent=
+    `Заповнено ${n} із ${test.length}`;
+
+  testProgress.style.width=
+    (n/test.length*100)+'%';
+}
+
+function gradeTest(){
+
+  const missing=[];
+
+  test.forEach((x,i)=>{
+
+    if(!isAnswered(x,i)){
+      missing.push(i+1);
+    }
+
+  });
+
+  if(missing.length){
+
+    finalResult.className='feedback bad';
+
+    finalResult.textContent=
+      'Заповни всі відповіді. Пропущено: '+
+      missing.join(', ');
+
+    return;
+  }
+
+  let score=0;
+
+  const rows=test.map((x,i)=>{
+
+    const ok=isCorrect(x,i);
+
+    if(ok) score++;
+
+    return `
+    <article style="
+      padding:14px;
+      margin:10px 0;
+      border-radius:15px;
+      background:${ok?'#eafff5':'#fff1f3'}
+    ">
+
+    <h3>
+    ${i+1}. ${ok?'Правильно ✓':'Помилка ✗'}
+    </h3>
+
+    <p>
+    <b>Твоя відповідь:</b>
+    ${studentAnswer(x,i)}
+    </p>
+
+    <p>
+    <b>Правильна відповідь:</b>
+    ${correctAnswer(x)}
+    </p>
+
+    <p>${x.e}</p>
+
+    </article>
+    `;
+
+  }).join('');
+
+  let level;
+
+  if(score>=18){
+    level='Відмінний результат!';
+  }else if(score>=14){
+    level='Добре! Повтори окремі правила.';
+  }else if(score>=10){
+    level='Базу засвоєно, але потрібне додаткове тренування.';
+  }else{
+    level='Повернися до теорії та пройди тренажер ще раз.';
+  }
+
+  finalResult.className=
+    'feedback '+(score>=14?'ok':'bad');
+
+  finalResult.innerHTML=`
+  <h2>Результат: ${score} / ${test.length}</h2>
+  <p><b>${level}</b></p>
+  ${rows}
+  `;
+
+  typeset([finalResult]);
+
+  finalResult.scrollIntoView({
+    behavior:'smooth'
+  });
+}
+
+function resetTest(){
+
+  buildTest();
+
+  finalResult.className='feedback';
+
+  finalResult.textContent='Результат з’явиться тут.';
+
+  updateProgress();
+}
+
+/* ==========================================
+   START
+========================================== */
+
+buildTrainer();
+buildSetGame();
+renderDiv();
+renderFractionGame();
+buildTest();
+
+</script>
+
+</body>
+</html>

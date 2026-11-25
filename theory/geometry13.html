@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Коло і круг: довжина, площа, дуга, сектор, сегмент</title>
+<style>
+:root{--bg:#f6f1e7;--card:#fffdf8;--ink:#23303a;--mute:#5d6b73;--line:#d9cfba;--teal:#0f7c78;--tealb:#d5ece8;--coral:#d4553a;--coralb:#f9dcd3;--gold:#c8962b;--goldb:#f6e8c4;--ok:#1d7a3e;--bad:#b3261e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 Georgia,"Times New Roman",serif}
+header{padding:28px clamp(14px,4vw,56px);background:var(--teal);color:#fdf8ec}
+header h1{margin:0 0 6px;font-size:clamp(26px,5vw,44px);line-height:1.15}
+header p{margin:0;max-width:70ch;opacity:.92}
+main{padding:20px clamp(12px,4vw,56px) 60px;width:100%}
+section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:clamp(14px,3vw,28px);margin:0 0 22px}
+h2{margin:0 0 10px;font-size:clamp(21px,3vw,28px);color:var(--teal)}
+h3{margin:18px 0 6px}
+.f{font-family:"Courier New",monospace;background:var(--goldb);padding:2px 8px;border-radius:6px;white-space:nowrap;display:inline-block;margin:2px 0}
+.grid{display:grid;grid-template-columns:minmax(300px,1.1fr) minmax(280px,1fr);gap:22px;align-items:start}
+@media(max-width:820px){.grid{grid-template-columns:1fr}}
+svg{width:100%;height:auto;max-height:560px;background:#fbf7ec;border:1px solid var(--line);border-radius:12px;display:block}
+label{display:block;font-weight:bold;margin:12px 0 4px}
+input[type=number],input[type=text]{font:inherit;padding:9px 11px;border:2px solid var(--line);border-radius:8px;width:100%;max-width:240px;background:#fff;color:var(--ink)}
+input[type=range]{width:100%;accent-color:var(--teal)}
+input:focus,button:focus-visible,select:focus{outline:3px solid var(--gold);outline-offset:2px}
+button{font:inherit;cursor:pointer;border:2px solid var(--teal);background:var(--teal);color:#fff;border-radius:8px;padding:8px 16px;margin:4px 6px 4px 0}
+button.alt{background:transparent;color:var(--teal)}
+.modes{border:0;padding:0;margin:12px 0}
+.modes legend{font-weight:bold;margin-bottom:4px}
+.modes label{display:inline-block;font-weight:normal;margin:3px 6px 3px 0}
+.modes input{position:absolute;opacity:0}
+.modes span{display:inline-block;padding:7px 14px;border:2px solid var(--teal);border-radius:20px;cursor:pointer}
+.modes input:checked+span{background:var(--teal);color:#fff}
+.modes input:focus-visible+span{outline:3px solid var(--gold);outline-offset:2px}
+.msg{min-height:1.5em;margin:6px 0;font-weight:bold}
+.err{color:var(--bad)}.good{color:var(--ok)}
+table{border-collapse:collapse;width:100%}
+td,th{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left}
+td.v{font-family:"Courier New",monospace;white-space:nowrap}
+.note{border-left:5px solid var(--coral);background:var(--coralb);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0}
+.ex{border-left:5px solid var(--teal);background:var(--tealb);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0}
+.task{border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}
+.sol{display:none;background:var(--goldb);padding:10px 14px;border-radius:8px;margin-top:8px}
+.sol.open{display:block}
+.tasks{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:14px}
+@media(max-width:600px){table{font-size:14px}td,th{padding:6px 3px}td.v{white-space:normal;overflow-wrap:anywhere}.f{white-space:normal;overflow-wrap:anywhere}}
+</style>
+</head>
+<body>
+<header>
+<h1>Коло і круг: формули з руху кута</h1>
+<p>Не вчіть малюнки напам'ять. Змінюйте радіус і кут та дивіться, як кожна формула є частиною цілого: дуга — частина кола, сектор і сегмент — частини круга. Довжини в см, площі в см².</p>
+</header>
+<main>
+
+<section aria-labelledby="t1">
+<h2 id="t1">1. Теорія</h2>
+<p><b>Коло</b> — лінія, усі точки якої на відстані r від центра O. <b>Круг</b> — частина площини всередині кола разом із колом. Кут α задаємо в градусах, а в формулах користуємося радіанною мірою:</p>
+<p><span class="f">θ = α·π/180</span> (повний оберт 360° = 2π).</p>
+<table>
+<tr><th>Величина</th><th>Формула</th><th>Звідки береться</th></tr>
+<tr><td>Довжина кола</td><td class="v">C = 2πr</td><td>відношення C до діаметра однакове для всіх кіл і дорівнює π</td></tr>
+<tr><td>Площа круга</td><td class="v">S = πr²</td><td>розріжте круг на тонкі сектори і складіть «гребінкою» — вийде майже прямокутник зі сторонами πr і r</td></tr>
+<tr><td>Довжина дуги</td><td class="v">l = rθ</td><td>частка θ/(2π) від кола: (θ/2π)·2πr</td></tr>
+<tr><td>Площа сектора</td><td class="v">S<sub>сек</sub> = r²θ/2</td><td>та сама частка від πr²; те саме, що lr/2</td></tr>
+<tr><td>Площа сегмента</td><td class="v">S<sub>сег</sub> = r²(θ − sin θ)/2</td><td>сектор мінус (або плюс) трикутник AOB зі знаковою площею r²·sin θ/2</td></tr>
+</table>
+<div class="note"><b>Великий сегмент (α &gt; 180°).</b> Тоді sin θ &lt; 0, і формула дає сектор <i>плюс</i> трикутник AOB: центр O лежить усередині сегмента, тому трикутник не віднімається, а додається. Приклад: α = 240° — сегмент більший за півкруга. При α = 180° сегмент — півкруг (sin θ = 0), при α = 360° сегмент — весь круг, при α = 0° — порожній.</div>
+<p>Через градуси: <span class="f">l = πrα/180</span>, <span class="f">S<sub>сек</sub> = πr²α/360</span>.</p>
+</section>
+
+<section aria-labelledby="t2">
+<h2 id="t2">2. Інтерактивна ілюстрація</h2>
+<div class="grid">
+<div>
+<svg id="fig" viewBox="0 0 400 400" role="img" aria-labelledby="figtitle figdesc">
+<title id="figtitle">Коло з центральним кутом</title>
+<desc id="figdesc">Ілюстрація кола, дуги, сектора та сегмента для вибраних радіуса і кута.</desc>
+<path id="p-disk" d="" fill="none"/>
+<path id="p-segment" d="" fill="none"/>
+<path id="p-sector" d="" fill="none"/>
+<circle id="p-circle" cx="200" cy="200" r="150" fill="none" stroke="#8a9aa0" stroke-width="2"/>
+<path id="p-arc" d="" fill="none"/>
+<line id="p-oa" x1="200" y1="200" x2="350" y2="200" stroke="#23303a" stroke-width="2"/>
+<line id="p-ob" x1="200" y1="200" x2="350" y2="200" stroke="#23303a" stroke-width="2"/>
+<line id="p-chord" x1="350" y1="200" x2="350" y2="200" stroke="#23303a" stroke-width="1.5" stroke-dasharray="5 4"/>
+<circle cx="200" cy="200" r="4" fill="#23303a"/>
+<text x="188" y="218" font-size="15" fill="#23303a">O</text>
+<text id="p-ta" x="356" y="196" font-size="15" fill="#23303a">A</text>
+<text id="p-tb" x="356" y="196" font-size="15" fill="#23303a">B</text>
+</svg>
+</div>
+<div>
+<form id="ctl" onsubmit="return false" novalidate>
+<label for="in-r">Радіус r, см (додатне число)</label>
+<input id="in-r" type="text" inputmode="decimal" value="5" autocomplete="off" aria-describedby="live-msg">
+<label for="in-a">Кут α, градуси (від 0 до 360)</label>
+<input id="in-a" type="text" inputmode="decimal" value="120" autocomplete="off" aria-describedby="live-msg">
+<input id="rng-a" type="range" min="0" max="360" step="1" value="120" aria-label="Повзунок кута α від 0 до 360 градусів">
+<fieldset class="modes"><legend>Що підсвітити</legend>
+<label><input type="radio" name="mode" value="circle" checked><span>Коло</span></label>
+<label><input type="radio" name="mode" value="disk"><span>Круг</span></label>
+<label><input type="radio" name="mode" value="arc"><span>Дуга</span></label>
+<label><input type="radio" name="mode" value="sector"><span>Сектор</span></label>
+<label><input type="radio" name="mode" value="segment"><span>Сегмент</span></label>
+</fieldset>
+<div>
+<button type="button" class="alt" data-a="0">0°</button><button type="button" class="alt" data-a="90">90°</button><button type="button" class="alt" data-a="180">180°</button><button type="button" class="alt" data-a="270">270°</button><button type="button" class="alt" data-a="360">360°</button>
+</div>
+</form>
+<div id="live-msg" class="msg" role="status" aria-live="polite"></div>
+<table id="out" aria-label="Обчислені величини">
+<tr><td>θ, рад</td><td class="v" id="o-theta"></td></tr>
+<tr><td>Довжина кола C</td><td class="v" id="o-c"></td></tr>
+<tr><td>Площа круга S</td><td class="v" id="o-s"></td></tr>
+<tr><td>Довжина дуги l</td><td class="v" id="o-l"></td></tr>
+<tr><td>Площа сектора</td><td class="v" id="o-sec"></td></tr>
+<tr><td>Площа сегмента</td><td class="v" id="o-seg"></td></tr>
+</table>
+<p id="seg-note" class="note" role="note"></p>
+</div>
+</div>
+<p>Зі збільшенням r малюнок збільшується; масштаб адаптується, щоб коло залишалося у вікні. Точний радіус указано в сантиметрах. Кут відкладається проти годинникової стрілки від радіуса OA.</p>
+</section>
+
+<section aria-labelledby="t3">
+<h2 id="t3">3. Розібрані приклади</h2>
+<div id="examples"></div>
+</section>
+
+<section aria-labelledby="t4">
+<h2 id="t4">4. Практика</h2>
+<p>Відповідь вводьте числом, десятковий роздільник — кома або крапка. Округлені відповіді приймаються з абсолютною похибкою 0,02 (π беріть точно, з калькулятора). Нуль і від'ємні значення не підходять для довжин та площ у цих задачах.</p>
+<div id="tasks" class="tasks"></div>
+</section>
+</main>
+
+<script>
+(function(){
+"use strict";
+var TOL=0.02;
+function toRad(a){return a*Math.PI/180}
+function circumference(r){return 2*Math.PI*r}
+function diskArea(r){return Math.PI*r*r}
+function arcLength(r,th){return r*th}
+function sectorArea(r,th){return r*r*th/2}
+function segmentArea(r,th){return r*r*(th-Math.sin(th))/2}
+function parseNumber(s){
+  if(typeof s==="number")return isFinite(s)?s:NaN;
+  if(typeof s!=="string")return NaN;
+  var t=s.trim().replace(",",".");
+  if(!/^[+-]?(\d+\.?\d*|\.\d+)$/.test(t))return NaN;
+  var v=Number(t);return isFinite(v)?v:NaN;
+}
+function validateRadius(x){
+  var v=parseNumber(x);
+  if(typeof x==="string"&&x.trim()==="")return{ok:false,message:"Радіус не введено."};
+  if(!isFinite(v))return{ok:false,message:"Радіус має бути скінченним числом."};
+  if(v<=0)return{ok:false,message:v===0?"Радіус не може дорівнювати нулю: коло вироджується в точку.":"Радіус має бути додатним."};
+  if(!isFinite(Math.PI*v*v))return{ok:false,message:"Радіус завеликий для обчислення площі. Введіть менше число."};
+  return{ok:true,value:v};
+}
+function validateAngle(x){
+  var v=parseNumber(x);
+  if(typeof x==="string"&&x.trim()==="")return{ok:false,message:"Кут не введено."};
+  if(!isFinite(v))return{ok:false,message:"Кут має бути скінченним числом."};
+  if(v<0||v>360)return{ok:false,message:"Кут має бути від 0° до 360° включно."};
+  return{ok:true,value:v};
+}
+function computeAll(r,alpha){
+  var vr=validateRadius(r),va=validateAngle(alpha);
+  if(!vr.ok)return{ok:false,message:vr.message};
+  if(!va.ok)return{ok:false,message:va.message};
+  var th=toRad(va.value);
+  return{ok:true,r:vr.value,alpha:va.value,theta:th,
+    circumference:circumference(vr.value),disk:diskArea(vr.value),
+    arc:arcLength(vr.value,th),sector:sectorArea(vr.value,th),
+    segment:segmentArea(vr.value,th),major:va.value>180,
+    triangleSigned:vr.value*vr.value*Math.sin(th)/2};
+}
+function f(x,n){return (Math.round(x*Math.pow(10,n))/Math.pow(10,n)).toFixed(n).replace(".",",")}
+function checkAnswer(input,expected,tol){
+  tol=(tol===undefined)?TOL:tol;
+  if(typeof input==="string"&&input.trim()==="")return{ok:false,status:"empty",message:"Введіть відповідь."};
+  var v=parseNumber(input);
+  if(!isFinite(v))return{ok:false,status:"invalid",message:"Це не число. Приклад: 12,57."};
+  if(!isFinite(expected))return{ok:false,status:"error",message:"Помилка умови."};
+  if(v>=0&&Math.abs(v-expected)<=tol+1e-12)return{ok:true,status:"correct",value:v,message:"Правильно. Допуск: абсолютна похибка "+f(tol,2)+"."};
+  return{ok:false,status:"wrong",value:v,message:"Неправильно (різниця більша за "+f(tol,2)+"). Перевірте формулу та одиниці."};
+}
+/* geometry paths */
+var CX=200,CY=200,R=150;
+function pt(th){return[CX+R*Math.cos(th),CY-R*Math.sin(th)]}
+function n2(x){return x.toFixed(3)}
+function fullDisk(){return"M"+(CX+R)+" "+CY+"A"+R+" "+R+" 0 1 0 "+(CX-R)+" "+CY+"A"+R+" "+R+" 0 1 0 "+(CX+R)+" "+CY+"Z"}
+function arcPath(alpha){
+  if(alpha<=0)return"";
+  if(alpha>=360)return"M"+(CX+R)+" "+CY+"A"+R+" "+R+" 0 1 0 "+(CX-R)+" "+CY+"A"+R+" "+R+" 0 1 0 "+(CX+R)+" "+CY;
+  var b=pt(toRad(alpha));
+  return"M"+(CX+R)+" "+CY+"A"+R+" "+R+" 0 "+(alpha>180?1:0)+" 0 "+n2(b[0])+" "+n2(b[1]);
+}
+function sectorPath(alpha){
+  if(alpha<=0)return"";
+  if(alpha>=360)return fullDisk();
+  return"M"+CX+" "+CY+"L"+(CX+R)+" "+CY+arcPath(alpha).replace(/^M[^A]*/,"")+"Z";
+}
+function segmentPath(alpha){
+  if(alpha<=0)return"";
+  if(alpha>=360)return fullDisk();
+  return arcPath(alpha)+"Z";
+}
+window.circleLesson={TOL:TOL,toRad:toRad,circumference:circumference,diskArea:diskArea,arcLength:arcLength,sectorArea:sectorArea,segmentArea:segmentArea,parseNumber:parseNumber,validateRadius:validateRadius,validateAngle:validateAngle,computeAll:computeAll,checkAnswer:checkAnswer,formatNumber:f,arcPath:arcPath,sectorPath:sectorPath,segmentPath:segmentPath};
+
+/* UI */
+function $(id){return document.getElementById(id)}
+var inR=$("in-r"),inA=$("in-a"),rng=$("rng-a"),live=$("live-msg");
+function styleP(id,fill,stroke,sw,op){
+  var e=$(id);e.setAttribute("fill",fill);e.setAttribute("stroke",stroke);e.setAttribute("stroke-width",sw);e.setAttribute("fill-opacity",op);
+}
+function mode(){return document.querySelector('input[name="mode"]:checked').value}
+function render(){
+  var res=computeAll(inR.value,inA.value);
+  var ids=["o-theta","o-c","o-s","o-l","o-sec","o-seg"];
+  if(!res.ok){
+    live.className="msg err";live.textContent=res.message;
+    inR.setAttribute("aria-invalid",String(!validateRadius(inR.value).ok));
+    inA.setAttribute("aria-invalid",String(!validateAngle(inA.value).ok));
+    ids.forEach(function(i){$(i).textContent="—"});
+    $("seg-note").textContent="Виправте введені значення, щоб побачити результат.";
+    return;
+  }
+  inR.setAttribute("aria-invalid","false");inA.setAttribute("aria-invalid","false");
+  var a=res.alpha,m=mode();
+  R=175*(res.r/(res.r+5));
+  $("p-circle").setAttribute("r",R);
+  $("p-oa").setAttribute("x2",CX+R);
+  $("p-chord").setAttribute("x1",CX+R);
+  $("p-ta").setAttribute("x",CX+R+6);
+  $("o-theta").textContent=f(res.theta,4);
+  $("o-c").textContent=f(res.circumference,2)+" см";
+  $("o-s").textContent=f(res.disk,2)+" см²";
+  $("o-l").textContent=f(res.arc,2)+" см";
+  $("o-sec").textContent=f(res.sector,2)+" см²";
+  $("o-seg").textContent=f(res.segment,2)+" см²";
+  $("p-disk").setAttribute("d",m==="disk"?fullDisk():"");
+  $("p-sector").setAttribute("d",m==="sector"?sectorPath(a):"");
+  $("p-segment").setAttribute("d",m==="segment"?segmentPath(a):"");
+  $("p-arc").setAttribute("d",m==="arc"?arcPath(a):"");
+  styleP("p-disk","#0f7c78","#0f7c78",2,0.25);
+  styleP("p-sector","#d4553a","#d4553a",2,0.35);
+  styleP("p-segment","#c8962b","#c8962b",2,0.45);
+  styleP("p-arc","none","#d4553a",7,1);
+  $("p-circle").setAttribute("stroke",m==="circle"?"#0f7c78":"#8a9aa0");
+  $("p-circle").setAttribute("stroke-width",m==="circle"?6:2);
+  var b=pt(res.theta);
+  var ob=$("p-ob");ob.setAttribute("x2",n2(b[0]));ob.setAttribute("y2",n2(b[1]));
+  var ch=$("p-chord");ch.setAttribute("x2",n2(b[0]));ch.setAttribute("y2",n2(b[1]));
+  $("p-tb").setAttribute("x",n2(CX+(R+14)*Math.cos(res.theta)-5));
+  $("p-tb").setAttribute("y",n2(CY-(R+14)*Math.sin(res.theta)+5));
+  var msg;
+  if(a===0){msg="α = 0°: дуга, сектор і сегмент вироджуються в точку, площі та довжина дуги дорівнюють 0.";}
+  else if(a===360){msg="α = 360°: дуга — все коло (l = C), сектор і сегмент — весь круг, sin θ = 0, тому площа сегмента дорівнює πr².";}
+  else if(a===180){msg="α = 180°: хорда — діаметр, сегмент — півкруг, трикутник AOB вироджений.";}
+  else if(a>180){msg="Великий сегмент (α > 180°). sin θ = "+f(Math.sin(res.theta),4)+" < 0, тому "+f(res.segment,2)+" = "+f(res.sector,2)+" + "+f(-res.triangleSigned,2)+": сектор плюс трикутник AOB, бо центр O лежить усередині сегмента.";}
+  else{msg="Малий сегмент (α < 180°): "+f(res.segment,2)+" = "+f(res.sector,2)+" − "+f(res.triangleSigned,2)+" (сектор мінус трикутник AOB).";}
+  $("seg-note").textContent=msg;
+  var names={circle:"коло: C = "+f(res.circumference,2)+" см",disk:"круг: S = "+f(res.disk,2)+" см²",arc:"дуга: l = "+f(res.arc,2)+" см",sector:"сектор: "+f(res.sector,2)+" см²",segment:"сегмент: "+f(res.segment,2)+" см²"};
+  live.className="msg good";live.textContent="Підсвічено "+names[m]+".";
+  $("figdesc").textContent="Вибрано "+names[m]+", r = "+f(res.r,2)+" см, α = "+f(a,2)+" градусів.";
+}
+inR.addEventListener("input",render);
+inA.addEventListener("input",function(){var v=parseNumber(inA.value);if(isFinite(v)&&v>=0&&v<=360)rng.value=v;render()});
+rng.addEventListener("input",function(){inA.value=rng.value;render()});
+Array.prototype.forEach.call(document.querySelectorAll("input[name=mode]"),function(e){e.addEventListener("change",render)});
+Array.prototype.forEach.call(document.querySelectorAll("button[data-a]"),function(b){b.addEventListener("click",function(){inA.value=b.getAttribute("data-a");rng.value=inA.value;render()})});
+render();
+
+/* examples */
+var EX=[
+ {t:"Довжина кола, r = 7 см",c:function(){var v=circumference(7);return"C = 2πr = 2·π·7 = 14π ≈ "+f(v,2)+" см."}},
+ {t:"Площа круга, r = 4,5 см",c:function(){var v=diskArea(4.5);return"S = πr² = π·4,5² = 20,25π ≈ "+f(v,2)+" см²."}},
+ {t:"Довжина дуги, r = 6 см, α = 50°",c:function(){var th=toRad(50);return"θ = 50π/180 = 5π/18 ≈ "+f(th,4)+". l = rθ = 6·5π/18 = 5π/3 ≈ "+f(arcLength(6,th),2)+" см."}},
+ {t:"Площа сектора, r = 5 см, α = 72°",c:function(){var th=toRad(72);return"θ = 2π/5. S = r²θ/2 = 25·(2π/5)/2 = 5π ≈ "+f(sectorArea(5,th),2)+" см². Перевірка: це 72/360 = 1/5 круга, а πr²/5 = 5π."}},
+ {t:"Малий сегмент, r = 8 см, α = 90°",c:function(){var th=toRad(90);return"S = r²(θ − sin θ)/2 = 64·(π/2 − 1)/2 = 32(π/2 − 1) ≈ "+f(segmentArea(8,th),2)+" см². Це сектор 16π ≈ "+f(sectorArea(8,th),2)+" мінус трикутник 32."}},
+ {t:"Великий сегмент, r = 6 см, α = 240°",c:function(){var th=toRad(240);return"θ = 4π/3, sin θ = −√3/2. S = 36·(4π/3 + √3/2)/2 = 24π + 9√3 ≈ "+f(segmentArea(6,th),2)+" см². Це сектор "+f(sectorArea(6,th),2)+" плюс трикутник AOB (його площа "+f(9*Math.sqrt(3),2)+"), бо центр лежить всередині сегмента."}}
+];
+$("examples").innerHTML=EX.map(function(e,i){return'<div class="ex"><b>Приклад '+(i+1)+'. '+e.t+'</b><br>'+e.c()+'</div>'}).join("");
+
+/* practice */
+var TASKS=[
+ {q:"Знайдіть довжину кола радіуса r = 3,5 см (см).",r:3.5,e:function(){return circumference(3.5)},s:"C = 2πr = 2·π·3,5 = 7π"},
+ {q:"Знайдіть площу круга діаметра 10 см (см²).",r:5,e:function(){return diskArea(5)},s:"r = 10/2 = 5; S = πr² = 25π"},
+ {q:"Знайдіть довжину дуги радіуса 9 см з центральним кутом 40° (см).",e:function(){return arcLength(9,toRad(40))},s:"θ = 40π/180 = 2π/9; l = rθ = 9·2π/9 = 2π"},
+ {q:"Знайдіть площу сектора радіуса 6 см з кутом 150° (см²).",e:function(){return sectorArea(6,toRad(150))},s:"θ = 5π/6; S = 36·(5π/6)/2 = 15π"},
+ {q:"Знайдіть площу малого сегмента радіуса 10 см з кутом 60° (см²).",e:function(){return segmentArea(10,toRad(60))},s:"S = 100·(π/3 − √3/2)/2 = 50(π/3 − √3/2)"},
+ {q:"Знайдіть площу великого сегмента радіуса 4 см з кутом 300° (см²).",e:function(){return segmentArea(4,toRad(300))},s:"θ = 5π/3, sin θ = −√3/2 < 0; S = 16·(5π/3 + √3/2)/2 = 8·(5π/3 + √3/2). Сектор плюс трикутник AOB."}
+];
+var wrap=$("tasks");
+TASKS.forEach(function(t,i){
+  var d=document.createElement("div");d.className="task";
+  d.innerHTML='<p><b>Задача '+(i+1)+'.</b> '+t.q+'</p>'+
+  '<label for="ans-'+i+'">Відповідь</label>'+
+  '<input id="ans-'+i+'" type="text" inputmode="decimal" autocomplete="off" aria-describedby="fb-'+i+'">'+
+  '<div><button type="button" id="chk-'+i+'">Перевірити</button><button type="button" class="alt" id="show-'+i+'" aria-expanded="false" aria-controls="sol-'+i+'">Показати розв\'язання</button></div>'+
+  '<div class="msg" id="fb-'+i+'" role="status" aria-live="polite"></div>'+
+  '<div class="sol" id="sol-'+i+'"></div>';
+  wrap.appendChild(d);
+  var inp=$("ans-"+i),fb=$("fb-"+i),sol=$("sol-"+i),sh=$("show-"+i);
+  function clear(){fb.textContent="";fb.className="msg";inp.removeAttribute("aria-invalid")}
+  inp.addEventListener("input",clear);
+  inp.addEventListener("keydown",function(ev){if(ev.key==="Enter")$("chk-"+i).click()});
+  $("chk-"+i).addEventListener("click",function(){
+    var r=checkAnswer(inp.value,t.e());
+    fb.textContent=r.message;fb.className="msg "+(r.ok?"good":"err");
+    inp.setAttribute("aria-invalid",String(!r.ok));
+  });
+  sh.addEventListener("click",function(){
+    var open=!sol.classList.contains("open");
+    sol.classList.toggle("open",open);sh.setAttribute("aria-expanded",String(open));
+    sol.textContent=t.s+" ≈ "+f(t.e(),2)+(i<2||i===2?(i===2?" см.":(i===0?" см.":" см².")):" см².");
+    sh.textContent=open?"Сховати розв'язання":"Показати розв'язання";
+    if(open)clear();
+  });
+});
+})();
+</script>
+</body>
+</html>

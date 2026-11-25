@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Тема 3. Цілі вирази — інтерактивний модуль</title>
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+:root{--ink:#17233b;--muted:#5c6b82;--line:#dbe6f4;--bg:#f5f8fd;--card:#fff;--blue:#1769e0;--green:#159a61;--orange:#f59e0b;--violet:#7c3aed;--red:#dc3545}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.58 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+header{background:linear-gradient(135deg,#0f4fbf,#6d28d9);color:white;padding:48px 20px 38px}
+.wrap{max-width:1120px;margin:auto}.eyebrow{font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+h1{font-size:clamp(34px,5vw,58px);line-height:1.04;margin:8px 0 12px} h2{font-size:30px;margin:0 0 14px} h3{font-size:21px;margin:0 0 10px}
+nav{position:sticky;top:0;z-index:5;background:#ffffffee;backdrop-filter:blur(10px);border-bottom:1px solid var(--line);overflow:auto;white-space:nowrap;padding:10px calc((100% - 1080px)/2)}
+nav a{display:inline-block;padding:8px 12px;color:var(--ink);text-decoration:none;font-weight:700}
+main{max-width:1120px;margin:24px auto;padding:0 16px 60px}.s{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px;margin:18px 0;box-shadow:0 8px 30px #15345b0c}
+.tag{display:inline-block;color:var(--blue);font-size:13px;font-weight:900;letter-spacing:.08em;margin-bottom:8px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.card{border:1px solid var(--line);border-radius:18px;padding:18px;background:#fbfdff}.formula{background:#f0f6ff;border-left:5px solid var(--blue);padding:14px 16px;border-radius:12px;margin:10px 0}
+.good{background:#ecfdf5;border-color:#a7f3d0}.warn{background:#fff8e8;border-color:#fde1a2}.violet{background:#f6f1ff;border-color:#ddd0ff}
+.badge{display:inline-grid;place-items:center;min-width:34px;height:34px;border-radius:10px;background:#e8f1ff;color:var(--blue);font-weight:900;margin-right:7px}
+button{border:0;border-radius:12px;background:var(--blue);color:#fff;padding:11px 16px;font-weight:800;font-size:16px;cursor:pointer}button.alt{background:#eef4ff;color:var(--blue)}button:hover{filter:brightness(.97)}
+input,select{font:inherit;border:1px solid #b8c8dc;border-radius:10px;padding:9px 11px;max-width:150px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.result{margin-top:10px;font-weight:800;min-height:28px}.ok{color:var(--green)}.no{color:var(--red)}
+.q{border:1px solid var(--line);border-radius:17px;padding:17px;margin:13px 0}.q label{display:block;padding:7px 0}.q input{max-width:none}
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:18px 0}.flow span{padding:12px 15px;border-radius:12px;background:#edf4ff;font-weight:800}.arrow{color:var(--blue);font-size:24px}
+svg{max-width:100%;height:auto}.mini{color:var(--muted);font-size:14px}.score{font-size:22px;padding:16px;border-radius:14px;background:#edf8f2}
+table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left}
+
+mjx-container{font-size:108%!important;color:var(--ink)}
+mjx-container[display="true"]{margin:.7em 0!important;overflow-x:auto;overflow-y:hidden}
+.formula mjx-container{font-size:116%!important}
+
+/* Блок розкладання на множники: формули не виходять за межі колонок */
+.factor-columns{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:18px;
+  margin-top:22px;
+}
+.factor-card{
+  min-width:0;
+  overflow:hidden;
+
+  min-height:180px;
+}
+.factor-title{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  margin-bottom:14px;
+}
+.factor-math{
+  width:100%;
+  min-width:0;
+  overflow-x:auto;
+  overflow-y:hidden;
+  padding:4px 0 8px;
+}
+.factor-math mjx-container[display="true"]{
+  text-align:left!important;
+  margin:.7em 0!important;
+  font-size:145%!important;
+  white-space:nowrap!important;
+  overflow:visible!important;
+}
+
+  .factor-card{padding:14px;}
+  .factor-math mjx-container[display="true"]{font-size:108%!important;}
+}
+@media(max-width:640px){
+  .factor-columns{grid-template-columns:1fr;}
+  .factor-math mjx-container[display="true"]{font-size:130%!important;}
+}
+
+@media(max-width:760px){.grid,.grid3{grid-template-columns:1fr}.s{padding:20px}nav{padding-left:8px}}
+</style>
+
+<style id="formula-size-and-section6-fix">
+/* ЗБІЛЬШЕННЯ ФОРМУЛ У ВСЬОМУ МОДУЛІ */
+mjx-container {
+  font-size: 128% !important;
+}
+mjx-container[display="true"] {
+  font-size: 142% !important;
+  margin: .65em 0 !important;
+}
+
+/* Блок 05 */
+.factor-math mjx-container,
+.factor-math mjx-container[display="true"] {
+  font-size: 150% !important;
+}
+
+/* Блок 06 — квадратний тричлен: вертикальне компонування */
+#s6 .two,
+#s6 .two-col,
+#s6 .grid-2,
+#s6 .cols,
+#s6 .columns,
+section[data-section="6"] .two,
+section[data-section="6"] .two-col,
+section[data-section="6"] .grid-2,
+section[data-section="6"] .cols,
+section[data-section="6"] .columns {
+  display:grid !important;
+  grid-template-columns:1fr !important;
+  gap:22px !important;
+}
+
+/* Формульні картки — на всю ширину */
+#s6 .formula,
+#s6 .formula-box,
+#s6 .math-box,
+#s6 .example,
+section[data-section="6"] .formula,
+section[data-section="6"] .formula-box,
+section[data-section="6"] .math-box,
+section[data-section="6"] .example {
+  width:100% !important;
+  max-width:none !important;
+  overflow:visible !important;
+}
+
+/* Не створювати внутрішню горизонтальну прокрутку для формул */
+#s6 mjx-container,
+section[data-section="6"] mjx-container {
+  max-width:100% !important;
+  overflow:visible !important;
+}
+</style>
+
+
+<style id="section6-force-column">
+#s6 .two,
+#s6 .two-col,
+#s6 .grid,
+#s6 .grid-2,
+#s6 .cols,
+#s6 .columns,
+#s6 [class*="two"],
+#s6 [class*="grid"],
+#s6 [class*="col"] {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 22px !important;
+}
+#s6 .two > *,
+#s6 .two-col > *,
+#s6 .grid > *,
+#s6 .grid-2 > *,
+#s6 .cols > *,
+#s6 .columns > * {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 auto !important;
+}
+#s6 mjx-container {
+    font-size: 140% !important;
+}
+#s6 mjx-container[display="true"] {
+    font-size: 150% !important;
+}
+</style>
+
+
+<style id="FORCE_REAL_SECTION6_COLUMN">
+/* Саме блок 06: усі картки одна під одною */
+.force-section6-column .two,
+.force-section6-column .two-col,
+.force-section6-column .grid,
+.force-section6-column .grid-2,
+.force-section6-column .cards,
+.force-section6-column .cols,
+.force-section6-column .columns,
+.force-section6-column > div:has(> .formula-box),
+.force-section6-column > div:has(> .example) {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    grid-template-columns: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 24px !important;
+}
+.force-section6-column .two > *,
+.force-section6-column .two-col > *,
+.force-section6-column .grid > *,
+.force-section6-column .grid-2 > *,
+.force-section6-column .cards > *,
+.force-section6-column .cols > *,
+.force-section6-column .columns > * {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex-basis: auto !important;
+    box-sizing: border-box !important;
+}
+/* Великий LaTeX без горизонтальної смуги */
+.force-section6-column mjx-container {
+    font-size: 145% !important;
+    overflow: visible !important;
+    max-width: 100% !important;
+}
+.force-section6-column mjx-container[display="true"] {
+    font-size: 155% !important;
+}
+.force-section6-column .formula,
+.force-section6-column .formula-box,
+.force-section6-column .math-box,
+.force-section6-column .example {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+}
+</style>
+
+</head>
+<body>
+<header><div class="wrap"><div class="eyebrow">Алгебра · інтерактивний конспект</div><h1>Тема 3. Цілі вирази</h1><p>Степені → одночлени → многочлени → формули скороченого множення → розкладання на множники → квадратний тричлен.</p></div></header>
+<nav>
+<a href="#pow">Степені</a><a href="#mono">Одночлени</a><a href="#poly">Многочлени</a><a href="#formulas">Формули</a><a href="#factor">Множники</a><a href="#quad">Квадратний тричлен</a><a href="#train">Тренажери</a><a href="#test">Тест</a>
+</nav>
+<main>
+
+<section class="s" id="pow"><span class="tag">01 · СТЕПІНЬ</span><h2>Степінь з натуральним показником</h2>
+<div class="grid"><div>
+<p><b>Степінь \(a^n\)</b> — це добуток \(n\) однакових множників \(a\):</p>
+<div class="formula">\[a^n=\underbrace{a\cdot a\cdot\ldots\cdot a}_{n\text{ множників}}\]</div>
+<p>Наприклад: \(\;2^5=2\cdot2\cdot2\cdot2\cdot2=32.\)</p>
+<div class="card good"><b>Запам’ятай:</b> основа показує, <i>що</i> множимо, а показник — <i>скільки разів</i> цей множник повторюється.</div>
+</div>
+<div class="card">
+<svg viewBox="0 0 500 260" aria-label="Схема степеня">
+<rect x="30" y="45" width="440" height="160" rx="24" fill="#eef5ff" stroke="#b9d2f5"/>
+<text x="250" y="115" text-anchor="middle" font-size="58" font-weight="700" fill="#1769e0">aⁿ</text>
+<path d="M205 130 Q160 175 105 178" fill="none" stroke="#159a61" stroke-width="3"/>
+<path d="M290 130 Q345 175 400 178" fill="none" stroke="#7c3aed" stroke-width="3"/>
+<text x="100" y="202" text-anchor="middle" font-size="20">основа</text><text x="400" y="202" text-anchor="middle" font-size="20">показник</text>
+</svg></div></div>
+<h3 style="margin-top:22px">Властивості степенів</h3>
+<div class="grid3">
+<div class="card">\(\;a^m\cdot a^n=a^{m+n}\)</div><div class="card">\(\displaystyle \frac{a^m}{a^n}=a^{m-n},\quad a\ne0\)</div><div class="card">\(\;(a^m)^n=a^{mn}\)</div>
+<div class="card">\(\;(ab)^m=a^mb^m\)</div><div class="card">\(\;\left(\frac ab\right)^m=\frac{a^m}{b^m}\)</div><div class="card">\(\;a^0=1,\;a\ne0\)</div>
+<div class="card">\(\;a^1=a\)</div><div class="card">\(\displaystyle a^{-n}=\frac{1}{a^n},\quad a\ne0\)</div><div class="card warn">При діленні \(a^m:a^n\) потрібно \(a\ne0\).</div>
+</div></section>
+
+<section class="s" id="mono"><span class="tag">02 · ОДНОЧЛЕНИ</span><h2>Одночлен і стандартний вигляд</h2>
+<div class="grid"><div class="card"><p><b>Одночлени</b> — числа, змінні, їх степені та добутки таких виразів.</p><p>Приклади: \(5,\;x,\;a^7,\;-3m^4n,\;\frac25x^2y\).</p></div>
+<div class="card good"><p><b>Стандартний вигляд:</b> спочатку записуємо один числовий множник — <b>коефіцієнт</b>, потім степені різних змінних.</p><p>\(2x\cdot(-3x^2)y=-6x^3y\)</p></div></div>
+<div class="flow"><span>\(2x\)</span><b class="arrow">×</b><span>\(-3x^2y\)</span><b class="arrow">→</b><span>\(-6x^3y\)</span></div>
+</section>
+
+<section class="s" id="poly"><span class="tag">03 · МНОГОЧЛЕНИ</span><h2>Многочлени та подібні доданки</h2>
+<p><b>Многочлен</b> — сума кількох одночленів. Подібні доданки мають однакову буквену частину й відрізняються лише коефіцієнтами.</p>
+<div class="grid"><div class="card violet"><h3>Знайди подібні</h3><p>\(3x^2-9x^5\cdot2y^2z-x^2\)</p><p>Подібні: \(3x^2\) і \(-x^2\).</p></div>
+<div class="card good"><h3>Зведи їх</h3><p>\(3x^2-x^2=2x^2\)</p><p>Отже: \(2x^2-18x^5y^2z\).</p></div></div>
+</section>
+
+<section class="s" id="formulas"><span class="tag">04 · ФОРМУЛИ СКОРОЧЕНОГО МНОЖЕННЯ</span><h2>Формули, які економлять час</h2>
+<table><tr><th>Назва</th><th>Формула</th></tr>
+<tr><td>Різниця квадратів</td><td>\((a-b)(a+b)=a^2-b^2\)</td></tr>
+<tr><td>Квадрат суми / різниці</td><td>\((a\pm b)^2=a^2\pm2ab+b^2\)</td></tr>
+<tr><td>Куб суми / різниці</td><td>\((a\pm b)^3=a^3\pm3a^2b+3ab^2\pm b^3\)</td></tr>
+<tr><td>Сума / різниця кубів</td><td>\(\displaystyle (a\pm b)(a^2\mp ab+b^2)=a^3\pm b^3\)</td></tr></table>
+<div class="grid" style="margin-top:18px">
+<div class="card"><b>Приклад 1</b><p>\((a-3)(a+3)=a^2-9\)</p></div>
+<div class="card"><b>Приклад 2</b><p>\((2a-5)^2=4a^2-20a+25\)</p><p class="mini">Середній член: \(2\cdot2a\cdot5=20a\).</p></div>
+<div class="card"><b>Приклад 3</b><p>\((5+2x)^3=125+150x+60x^2+8x^3\)</p></div>
+<div class="card"><b>Приклад 4</b><p>\((2-x)(4+2x+x^2)=8-x^3\)</p></div>
+</div></section>
+
+<section class="s" id="factor"><span class="tag">05 · РОЗКЛАДАННЯ НА МНОЖНИКИ</span><h2>Три основні способи</h2>
+<div class="factor-columns">
+<div class="card factor-card"><div class="factor-title"><span class="badge">1</span><b>Спільний множник</b></div>
+<div class="factor-math">\[ab+ac+ak=a(b+c+k)\]</div></div>
+
+<div class="card factor-card"><div class="factor-title"><span class="badge">2</span><b>Формули</b></div>
+<div class="factor-math">\[100x^2-y^8=(10x-y^4)(10x+y^4)\]</div></div>
+
+<div class="card factor-card"><div class="factor-title"><span class="badge">3</span><b>Групування</b></div>
+<div class="factor-math">\[6x^2y^2+3x^2y+8y+4=(2y+1)(3x^2y+4)\]</div></div>
+</div></section>
+
+<section class="force-section6-column s" id="quad"><span class="tag">06 · КВАДРАТНИЙ ТРИЧЛЕН</span><h2>\(ax^2+bx+c\), де \(a\ne0\)</h2>
+<div class="grid"><div>
+<div class="formula">\[D=b^2-4ac,\qquad x_{1,2}=\frac{-b\pm\sqrt{D}}{2a}\]</div>
+<p>Якщо \(x_1,x_2\) — корені, то</p><div class="formula">\[ax^2+bx+c=a(x-x_1)(x-x_2)\]</div>
+</div><div class="card good"><h3>Приклад</h3><p>\(2x^2+x-3\)</p><p>\(D=1+24=25\)</p><p>\(x_1=1,\quad x_2=-\frac32\)</p><p>\(2x^2+x-3=(x-1)(2x+3)\)</p></div></div>
+</section>
+
+<section class="s" id="train"><span class="tag">07 · ІНТЕРАКТИВНІ ТРЕНАЖЕРИ</span><h2>Тренуйся крок за кроком</h2>
+<div class="grid">
+<div class="card"><h3>⚡ Степені</h3><p>Спрости: \(a^4\cdot a^7=a^{\,?}\)</p><div class="row"><input id="p1" type="number" placeholder="показник"><button onclick="check('p1','11','r1')">Перевірити</button></div><div id="r1" class="result"></div></div>
+<div class="card"><h3>🧩 Подібні доданки</h3><p>\(7x^2-3x^2=\ ?x^2\)</p><div class="row"><input id="p2" type="number"><button onclick="check('p2','4','r2')">Перевірити</button></div><div id="r2" class="result"></div></div>
+<div class="card"><h3>🔓 Розкрий квадрат</h3><p>\((x+5)^2=x^2+\ ?x+25\)</p><div class="row"><input id="p3" type="number"><button onclick="check('p3','10','r3')">Перевірити</button></div><div id="r3" class="result"></div></div>
+<div class="card"><h3>🧱 Різниця квадратів</h3><p>\(x^2-49=(x-7)(x+\ ?)\)</p><div class="row"><input id="p4" type="number"><button onclick="check('p4','7','r4')">Перевірити</button></div><div id="r4" class="result"></div></div>
+<div class="card"><h3>🎯 Дискримінант</h3><p>Для \(x^2-5x+6\) знайди \(D\).</p><div class="row"><input id="p5" type="number"><button onclick="check('p5','1','r5')">Перевірити</button></div><div id="r5" class="result"></div></div>
+<div class="card"><h3>🏁 Корені</h3><p>Менший корінь \(x^2-5x+6=0\):</p><div class="row"><input id="p6" type="number"><button onclick="check('p6','2','r6')">Перевірити</button></div><div id="r6" class="result"></div></div>
+</div>
+<div class="card warn" style="margin-top:18px"><b>Міні-виклик:</b> натисни кнопку — отримаєш випадковий приклад на множення степенів.<div class="row" style="margin-top:10px"><button onclick="newPower()">Новий приклад</button><span id="randTask"></span><input id="randAns" type="number"><button class="alt" onclick="checkRand()">Перевірити</button></div><div id="randRes" class="result"></div></div>
+</section>
+
+<section class="s" id="test"><span class="tag">08 · ФІНАЛЬНИЙ ТЕСТ</span><h2>Перевір себе</h2><p class="mini">У кожному завданні одна правильна відповідь.</p>
+<form id="testForm">
+<div class="q"><b>1. \(a^3\cdot a^5=\)</b><label><input type="radio" name="q1" value="a"> \(a^8\)</label><label><input type="radio" name="q1" value="b"> \(a^{15}\)</label><label><input type="radio" name="q1" value="c"> \(2a^8\)</label></div>
+<div class="q"><b>2. \((x^2)^4=\)</b><label><input type="radio" name="q2" value="a"> \(x^6\)</label><label><input type="radio" name="q2" value="b"> \(x^8\)</label><label><input type="radio" name="q2" value="c"> \(x^{16}\)</label></div>
+<div class="q"><b>3. Які доданки подібні?</b><label><input type="radio" name="q3" value="a"> \(3x^2\) і \(-5x^2\)</label><label><input type="radio" name="q3" value="b"> \(3x\) і \(3x^2\)</label><label><input type="radio" name="q3" value="c"> \(x^2y\) і \(xy^2\)</label></div>
+<div class="q"><b>4. \((a-b)(a+b)=\)</b><label><input type="radio" name="q4" value="a"> \(a^2+b^2\)</label><label><input type="radio" name="q4" value="b"> \(a^2-b^2\)</label><label><input type="radio" name="q4" value="c"> \(a^2-2ab+b^2\)</label></div>
+<div class="q"><b>5. \((x-3)^2=\)</b><label><input type="radio" name="q5" value="a"> \(x^2-9\)</label><label><input type="radio" name="q5" value="b"> \(x^2-6x+9\)</label><label><input type="radio" name="q5" value="c"> \(x^2+6x+9\)</label></div>
+<div class="q"><b>6. Розклади: \(9x^2-25\)</b><label><input type="radio" name="q6" value="a"> \((3x-5)(3x+5)\)</label><label><input type="radio" name="q6" value="b"> \((9x-25)(9x+25)\)</label><label><input type="radio" name="q6" value="c"> \((3x-5)^2\)</label></div>
+<div class="q"><b>7. Для \(x^2-4x+3\) дискримінант дорівнює…</b><label><input type="radio" name="q7" value="a"> 4</label><label><input type="radio" name="q7" value="b"> 16</label><label><input type="radio" name="q7" value="c"> 28</label></div>
+<div class="q"><b>8. Корені \(x^2-5x+6=0\):</b><label><input type="radio" name="q8" value="a"> 1 і 6</label><label><input type="radio" name="q8" value="b"> 2 і 3</label><label><input type="radio" name="q8" value="c"> −2 і −3</label></div>
+<button type="button" onclick="grade()">Завершити тест</button></form><div id="score" class="result"></div>
+</section>
+</main>
+<script>
+function check(id,ans,rid){let v=document.getElementById(id).value.trim(),r=document.getElementById(rid);let ok=v===ans;r.className='result '+(ok?'ok':'no');r.textContent=ok?'✓ Правильно!':'Спробуй ще раз.'}
+let randA=2,randB=3;
+function newPower(){randA=1+Math.floor(Math.random()*7);randB=1+Math.floor(Math.random()*7);document.getElementById('randTask').innerHTML=`a<sup>${randA}</sup> · a<sup>${randB}</sup> = a<sup>?</sup>`;document.getElementById('randAns').value='';document.getElementById('randRes').textContent=''}
+function checkRand(){let r=document.getElementById('randRes'),ok=Number(document.getElementById('randAns').value)===randA+randB;r.className='result '+(ok?'ok':'no');r.textContent=ok?'✓ Так! Показники додаємо.':'Ні. При множенні степенів з однаковою основою показники додаємо.'}
+function grade(){const key={q1:'a',q2:'b',q3:'a',q4:'b',q5:'b',q6:'a',q7:'a',q8:'b'};let s=0,miss=[];for(let q in key){let e=document.querySelector(`input[name="${q}"]:checked`);if(e&&e.value===key[q])s++;else miss.push(q.slice(1))}let t=s===8?'Відмінно!':s>=6?'Дуже добре!':s>=4?'Добре. Повтори складні місця.':'Повернися до теорії й тренажерів.';document.getElementById('score').innerHTML=`<div class="score">Результат: <b>${s}/8</b> · ${t}${miss.length?`<br><span class="mini">Перевір ще питання: ${miss.join(', ')}.</span>`:''}</div>`}
+newPower();
+</script>
+</body></html>
