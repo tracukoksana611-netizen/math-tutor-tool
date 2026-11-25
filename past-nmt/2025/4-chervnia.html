@@ -1,0 +1,1953 @@
+<!doctype html>
+<html lang="uk">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <title>НМТ з математики — 4 червня 2025 року</title>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["\\(", "\\)"], ["$", "$"]],
+        displayMath: [["\\[", "\\]"]]
+      }
+    };
+  </script>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    :root {
+      --navy: #172641;
+      --blue: #245da8;
+      --gold: #dda522;
+      --bg: #eef2f7;
+      --line: #cad5e3;
+      --soft: #f4f7fb;
+      --ok: #16755d;
+      --bad: #b63850;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--navy);
+      font: 16px/1.55 Arial, sans-serif;
+    }
+
+    .hero {
+      padding: 32px max(18px, calc((100% - 1080px)/2));
+      color: #fff;
+      background: linear-gradient(115deg, #142a4d, #245da8);
+      border-bottom: 5px solid var(--gold);
+    }
+
+    h1 {
+      margin: .25rem 0;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+    }
+
+    .actions,
+    .tabs {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+    }
+
+    .btn,
+    .tab {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 15px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #fff;
+      color: var(--navy);
+    }
+
+    .btn:hover,
+    .tab:hover {
+      transform: translateY(-1px);
+    }
+
+    .primary,
+    .tab.active {
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .tabs {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 10px max(12px, calc((100% - 1080px)/2));
+      background: #fffffff2;
+      box-shadow: 0 4px 18px #12203b1a;
+      flex-wrap: nowrap;
+      overflow: auto;
+    }
+
+    .shell {
+      max-width: 1080px;
+      margin: auto;
+      padding: 18px;
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #dce3ec;
+      border-radius: 11px;
+      padding: clamp(18px, 3vw, 28px);
+      margin: 16px 0;
+      box-shadow: 0 5px 18px #142a4d12;
+    }
+
+    .task {
+      border-left: 5px solid var(--blue);
+    }
+
+    .task-layout {
+      display: grid;
+      grid-template-columns: minmax(220px, 34%) 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .fig {
+      width: 100%;
+      max-width: 370px;
+      max-height: 300px;
+      display: block;
+      margin: auto;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 5px;
+      background: #e8eef8;
+      color: #234b84;
+      font-size: .78rem;
+      font-weight: 800;
+    }
+
+    .note {
+      padding: 13px;
+      background: #fff7dc;
+      border-left: 4px solid var(--gold);
+    }
+
+    .theory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+      gap: 14px;
+    }
+
+    .theory-grid .card {
+      margin: 0;
+      border-top: 4px solid var(--blue);
+    }
+
+    .formula {
+      padding: 12px;
+      background: var(--soft);
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    .choices {
+      display: grid;
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .choices label {
+      padding: 11px 12px;
+      background: var(--soft);
+      border: 1px solid transparent;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    .choices label:hover {
+      border-color: #8da8cf;
+      background: #edf3fb;
+    }
+
+    .answer {
+      width: 100%;
+      max-width: 420px;
+      padding: 11px;
+      border: 2px solid var(--line);
+      border-radius: 7px;
+      font: inherit;
+      margin: 10px 0;
+    }
+
+    .result {
+      margin-top: 12px;
+      padding: 13px;
+      border-radius: 7px;
+      background: #e5f7f1;
+      color: var(--ok);
+      font-weight: 700;
+    }
+
+    .result.bad {
+      background: #fff0f3;
+      color: var(--bad);
+    }
+
+    details {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .progress {
+      position: sticky;
+      top: 64px;
+      z-index: 8;
+      padding: 11px 14px;
+      background: #e8f0fd;
+      border: 1px solid #bed0ec;
+      border-radius: 7px;
+      font-weight: 700;
+    }
+
+    .match-grid {
+      width: min(100%, 540px);
+      border-collapse: collapse;
+      text-align: center;
+      margin-top: 13px;
+    }
+
+    .match-grid th,
+    .match-grid td {
+      border: 1px solid #9aabc1;
+      padding: 7px;
+    }
+
+    .match-grid td:first-child {
+      font-weight: 700;
+      background: var(--soft);
+    }
+
+    .pick {
+      display: inline-grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      position: relative;
+    }
+
+    .pick input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .pick span {
+      width: 26px;
+      height: 26px;
+      border: 2px solid #8ea2bd;
+      border-radius: 50%;
+    }
+
+    .pick input:checked + span {
+      border: 8px solid var(--blue);
+    }
+
+    .match-row {
+      padding: 9px 11px;
+      background: var(--soft);
+      margin: 7px 0;
+      border-radius: 5px;
+    }
+
+    .opts {
+      padding: 12px;
+      background: #fff7dc;
+      border-left: 4px solid var(--gold);
+      margin: 12px 0;
+    }
+
+    .section-title {
+      margin-top: 6px;
+      color: #244d84;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 28px;
+      color: #68758a;
+    }
+
+    .score-big {
+      font-size: 1.35rem;
+    }
+
+    @media(max-width: 720px) {
+      .task-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .progress {
+        top: 59px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .hero {
+        background: #fff;
+        color: #111;
+        border: 0;
+      }
+
+      .tabs,
+      .actions,
+      .no-print,
+      .btn,
+      details {
+        display: none !important;
+      }
+
+      .panel {
+        display: none !important;
+      }
+
+      .panel.printable {
+        display: block !important;
+      }
+
+      .card {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+
+      .progress {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="hero">
+    <span class="badge">Повний тренувальний варіант</span>
+
+    <h1>НМТ з математики</h1>
+
+    <p>
+      <b>4 червня 2025 року</b><br>
+      <span id="heroCount">22 завдання</span> • автоматична перевірка • покрокові розв’язання
+    </p>
+
+    <div class="actions">
+
+      <button class="btn primary" onclick="showPanel('theory')">
+        Коротка теорія
+      </button>
+
+      <button class="btn" onclick="showPanel('test')">
+        Відкрити тест
+      </button>
+
+      <button class="btn" onclick="printModule()">
+        Друк
+      </button>
+
+      <button class="btn" onclick="resetTest()">
+        Очистити відповіді
+      </button>
+
+    </div>
+  </header>
+
+
+  <nav class="tabs">
+
+    <button class="tab active" data-tab="theory">
+      Коротка теорія
+    </button>
+
+    <button class="tab" data-tab="test">
+      Тест
+    </button>
+
+    <button class="tab" data-tab="home">
+      Домашня робота
+    </button>
+
+  </nav>
+
+
+  <main class="shell">
+
+    <section id="theory" class="panel active printable">
+
+      <article class="card">
+
+        <h2>Коротка теорія</h2>
+
+        <p class="note">
+          Спочатку визначте тип завдання, пригадайте потрібну властивість
+          або формулу й лише потім виконуйте обчислення.
+        </p>
+
+        <div class="theory-grid">
+
+          <div class="card">
+            <h3>Степені</h3>
+
+            <div class="formula">
+              \(a^m\cdot a^n=a^{m+n}\)
+            </div>
+
+            <div class="formula">
+              \((a^m)^n=a^{mn}\)
+            </div>
+          </div>
+
+
+          <div class="card">
+            <h3>Логарифми</h3>
+
+            <div class="formula">
+              \(\log_a b+\log_a c=\log_a(bc)\)
+            </div>
+          </div>
+
+
+          <div class="card">
+            <h3>Паралелограм</h3>
+
+            <p>
+              Діагоналі паралелограма точкою перетину діляться навпіл.
+            </p>
+          </div>
+
+
+          <div class="card">
+            <h3>Первісна</h3>
+
+            <div class="formula">
+              \(\int \cos x\,dx=\sin x+C\)
+            </div>
+
+            <div class="formula">
+              \(\int x\,dx=\frac{x^2}{2}+C\)
+            </div>
+          </div>
+
+
+          <div class="card">
+            <h3>Ймовірність</h3>
+
+            <div class="formula">
+              \(P(A)=\frac{m}{n}\)
+            </div>
+
+            <p>
+              \(m\) — кількість сприятливих результатів,
+              \(n\) — загальна кількість.
+            </p>
+          </div>
+
+
+          <div class="card">
+            <h3>Піраміда</h3>
+
+            <div class="formula">
+              \(V=\frac13S_{\text{осн}}h\)
+            </div>
+          </div>
+
+        </div>
+
+      </article>
+
+    </section>
+
+
+    <section id="test" class="panel printable">
+
+      <div class="progress no-print" id="progress">
+        Заповнено: 0 із 22
+      </div>
+
+      <div id="testBox"></div>
+
+      <article class="card">
+
+        <button class="btn primary" onclick="grade()">
+          Перевірити весь тест
+        </button>
+
+        <div class="result score-big" id="finalResult">
+          Результат з’явиться тут.
+        </div>
+
+      </article>
+
+    </section>
+
+
+    <section id="home" class="panel printable">
+
+      <article class="card">
+
+        <h2>Домашня робота</h2>
+
+        <ol>
+          <li>Обчисліть \(4:0{,}2\).</li>
+
+          <li>
+            Розв’яжіть рівняння
+            \(2^{x+1}=16\).
+          </li>
+
+          <li>
+            Спростіть
+            \(a^3\cdot(a^2)^4\).
+          </li>
+
+          <li>
+            Знайдіть первісну функції
+            \(f(x)=2\cos x-x\).
+          </li>
+
+          <li>
+            У коробці 5 синіх і 7 червоних кульок.
+            Знайдіть імовірність витягнути синю.
+          </li>
+
+          <li>
+            Квадрат має сторону 12 см, висота піраміди 9 см.
+            Знайдіть її об’єм.
+          </li>
+        </ol>
+
+
+        <details>
+
+          <summary>Ключ</summary>
+
+          <p>
+            1) 20;
+            2) 3;
+            3) \(a^{11}\);
+            4) \(2\sin x-\frac{x^2}{2}+C\);
+            5) \(5/12\);
+            6) 432 см³.
+          </p>
+
+        </details>
+
+      </article>
+
+    </section>
+
+  </main>
+
+
+  <footer class="footer">
+    НМТ з математики • 4 червня 2025 року
+  </footer>
+
+
+  <script>
+
+    /* ============================================================
+       РИСУНКИ
+       ============================================================ */
+
+    const svg = {
+
+      quad: `
+<img
+  class="fig"
+  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAP4AAAD2CAYAAAD2xTo8AAAMTGlDQ1BJQ0MgUHJvZmlsZQAASImVVwdYU1cbPndkQggQiICMsJcgIiOAjBBW2BtBVEISIIwYE4KKGymtYN0ighOtMhStVkCKC7UuiuLexYGKUou1uJX/hABa+o/n/57n3Pve93znPd/33XPHAYDexZdKc1FNAPIk+bLYYH/W5OQUFukZQIAm0AAmQJ8vkEs50dHhANrw+e/2+hr0hnbZQan1z/7/alpCkVwAABINcbpQLsiD+CcA8FaBVJYPAFEKefNZ+VIlXguxjgwGCHGNEmeqcKsSp6vwxUGf+FguxI8AIKvz+bJMADT6IM8qEGRCHTrMFjhJhGIJxH4Q++TlzRBCvAhiG+gD56Qr9dnpX+lk/k0zfUSTz88cwapcBo0cIJZLc/lz/s9y/G/Ly1UMz2ENm3qWLCRWmTOs26OcGWFKrA7xW0l6ZBTE2gCguFg46K/EzCxFSILKH7URyLmwZoAJ8SR5bhxviI8V8gPCIDaEOEOSGxk+5FOUIQ5S+sD6oRXifF48xHoQ14jkgXFDPsdkM2KH572WIeNyhvinfNlgDEr9z4qcBI5KH9POEvGG9DHHwqz4JIipEAcUiBMjIdaAOFKeExc25JNamMWNHPaRKWKVuVhALBNJgv1V+lh5hiwodsi/Lk8+nDt2LEvMixzCl/Kz4kNUtcIeCfiD8cNcsD6RhJMwrCOSTw4fzkUoCghU5Y6TRZKEOBWP60nz/WNVY3E7aW70kD/uL8oNVvJmEMfLC+KGxxbkw8Wp0sdLpPnR8ao48cpsfmi0Kh58HwgHXBAAWEABWzqYAbKBuKO3qRdeqXqCAB/IQCYQAYchZnhE0mCPBB7jQCH4HSIRkI+M8x/sFYECyH8axSo58QinOjqAjKE+pUoOeAxxHggDufBaMagkGYkgETyCjPgfEfFhE8AccmFT9v97fpj9wnAgEz7EKIZnZNGHPYmBxABiCDGIaIsb4D64Fx4Oj36wOeNs3GM4jy/+hMeETsIDwlVCF+HmdHGRbFSUEaAL6gcN1Sf96/rgVlDTFffHvaE6VMaZuAFwwF3gPBzcF87sClnuUNzKqrBGaf8tg6/u0JAfxYmCUsZQ/Cg2o0dq2Gm4jqgoa/11fVSxpo/UmzvSM3p+7lfVF8Jz2GhP7DvsAHYaO46dxVqxJsDCjmLNWDt2WIlHVtyjwRU3PFvsYDw5UGf0mvlyZ5WVlDvVO/U4fVT15Ytm5ysfRu4M6RyZODMrn8WBXwwRiycROI5jOTs5uwGg/P6oXm+vYga/Kwiz/Qu35DcAvI8ODAz8/IULPQrAj+7wlXDoC2fDhp8WNQDOHBIoZAUqDlceCPDNQYdPnz4wBubABubjDNyAF/ADgSAURIF4kAymweiz4DqXgVlgHlgMSkAZWAnWgUqwBWwHNWAP2A+aQCs4Dn4B58FFcBXchqunGzwHfeA1+IAgCAmhIQxEHzFBLBF7xBlhIz5IIBKOxCLJSBqSiUgQBTIPWYKUIauRSmQbUov8iBxCjiNnkU7kJnIf6UH+RN6jGKqO6qBGqBU6HmWjHDQMjUenopnoTLQQLUaXoxVoNbobbUSPo+fRq2gX+hztxwCmhjExU8wBY2NcLApLwTIwGbYAK8XKsWqsAWuB9/ky1oX1Yu9wIs7AWbgDXMEheAIuwGfiC/BleCVegzfiJ/HL+H28D/9MoBEMCfYETwKPMJmQSZhFKCGUE3YSDhJOwWepm/CaSCQyidZEd/gsJhOziXOJy4ibiHuJx4idxIfEfhKJpE+yJ3mTokh8Uj6phLSBtJt0lHSJ1E16S1Yjm5CdyUHkFLKEXEQuJ9eRj5AvkZ+QP1A0KZYUT0oURUiZQ1lB2UFpoVygdFM+ULWo1lRvajw1m7qYWkFtoJ6i3qG+UlNTM1PzUItRE6stUqtQ26d2Ru2+2jt1bXU7da56qrpCfbn6LvVj6jfVX9FoNCuaHy2Flk9bTqulnaDdo73VYGg4avA0hBoLNao0GjUuabygU+iWdA59Gr2QXk4/QL9A79WkaFppcjX5mgs0qzQPaV7X7NdiaE3QitLK01qmVad1VuupNknbSjtQW6hdrL1d+4T2QwbGMGdwGQLGEsYOxilGtw5Rx1qHp5OtU6azR6dDp09XW9dFN1F3tm6V7mHdLibGtGLymLnMFcz9zGvM92OMxnDGiMYsHdMw5tKYN3pj9fz0RHqlenv1ruq912fpB+rn6K/Sb9K/a4Ab2BnEGMwy2GxwyqB3rM5Yr7GCsaVj94+9ZYga2hnGGs413G7YbthvZGwUbCQ12mB0wqjXmGnsZ5xtvNb4iHGPCcPEx0RsstbkqMkzli6Lw8plVbBOsvpMDU1DTBWm20w7TD+YWZslmBWZ7TW7a041Z5tnmK81bzPvszCxiLCYZ1FvccuSYsm2zLJcb3na8o2VtVWS1bdWTVZPrfWsedaF1vXWd2xoNr42M22qba7YEm3Ztjm2m2wv2qF2rnZZdlV2F+xRezd7sf0m+85xhHEe4yTjqsddd1B34DgUONQ73HdkOoY7Fjk2Ob4YbzE+Zfyq8afHf3Zydcp12uF0e4L2hNAJRRNaJvzpbOcscK5yvjKRNjFo4sKJzRNfuti7iFw2u9xwZbhGuH7r2ub6yc3dTebW4NbjbuGe5r7R/Tpbhx3NXsY+40Hw8PdY6NHq8c7TzTPfc7/nH14OXjledV5PJ1lPEk3aMemht5k333ubd5cPyyfNZ6tPl6+pL9+32veBn7mf0G+n3xOOLSebs5vzwt/JX+Z/0P8N15M7n3ssAAsIDigN6AjUDkwIrAy8F2QWlBlUH9QX7Bo8N/hYCCEkLGRVyHWeEU/Aq+X1hbqHzg89GaYeFhdWGfYg3C5cFt4SgUaERqyJuBNpGSmJbIoCUbyoNVF3o62jZ0b/HEOMiY6pinkcOyF2XuzpOEbc9Li6uNfx/vEr4m8n2CQoEtoS6YmpibWJb5ICklYndU0eP3n+5PPJBsni5OYUUkpiys6U/imBU9ZN6U51TS1JvTbVeursqWenGUzLnXZ4On06f/qBNEJaUlpd2kd+FL+a35/OS9+Y3ifgCtYLngv9hGuFPSJv0WrRkwzvjNUZTzO9M9dk9mT5ZpVn9Yq54krxy+yQ7C3Zb3KicnblDOQm5e7NI+el5R2SaEtyJCdnGM+YPaNTai8tkXbN9Jy5bmafLEy2U47Ip8qb83Xgj367wkbxjeJ+gU9BVcHbWYmzDszWmi2Z3T7Hbs7SOU8Kgwp/mIvPFcxtm2c6b/G8+/M587ctQBakL2hbaL6weGH3ouBFNYupi3MW/1rkVLS66K8lSUtaio2KFxU//Cb4m/oSjRJZyfVvvb7d8h3+nfi7jqUTl25Y+rlUWHquzKmsvOzjMsGyc99P+L7i+4HlGcs7Vrit2LySuFKy8toq31U1q7VWF65+uCZiTeNa1trStX+tm77ubLlL+Zb11PWK9V0V4RXNGyw2rNzwsTKr8mqVf9XejYYbl258s0m46dJmv80NW4y2lG15v1W89ca24G2N1VbV5duJ2wu2P96RuOP0D+wfanca7Czb+WmXZFdXTWzNyVr32to6w7oV9Wi9or5nd+rui3sC9jQ3ODRs28vcW7YP7FPse/Zj2o/X9oftbzvAPtDwk+VPGw8yDpY2Io1zGvuaspq6mpObOw+FHmpr8Wo5+LPjz7taTVurDuseXnGEeqT4yMDRwqP9x6THeo9nHn/YNr3t9onJJ66cjDnZcSrs1Jlfgn45cZpz+ugZ7zOtZz3PHjrHPtd03u18Y7tr+8FfXX892OHW0XjB/ULzRY+LLZ2TOo9c8r10/HLA5V+u8K6cvxp5tfNawrUb11Ovd90Q3nh6M/fmy1sFtz7cXnSHcKf0rubd8nuG96p/s/1tb5db1+H7AffbH8Q9uP1Q8PD5I/mjj93Fj2mPy5+YPKl96vy0tSeo5+KzKc+6n0uff+gt+V3r940vbF789IffH+19k/u6X8peDvy57JX+q11/ufzV1h/df+913usPb0rf6r+tecd+d/p90vsnH2Z9JH2s+GT7qeVz2Oc7A3kDA1K+jD/4K4AB5dYmA4A/dwFASwaAAfeN1Cmq/eGgIao97SAC/wmr9pCDBv9cGuA/fUwv/Lu5DsC+HQBYQX16KgDRNADiPQA6ceJIG97LDe47lUaEe4OtgZ/S89LBvzHVnvSruEefgVLVBYw+/wsbB4MCNq3QAAAAAIplWElmTU0AKgAAAAgABAEaAAUAAAABAAAAPgEbAAUAAAABAAAARgEoAAMAAAABAAIAAIdpAAQAAAABAAAATgAAAAAAAACQAAAAAQAAAJAAAAABAAOShgAHAAAAEgAAAHigAgAEAAAAAQAAAP6gAwAEAAAAAQAAAPYAAAAAQVNDSUkAAABTY3JlZW5zaG90HSgjEQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAdZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDYuMC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6ZXhpZj0iaHR0cDovL25zLmFkb2JlLmNvbS9leGlmLzEuMC8iPgogICAgICAgICA8ZXhpZjpQaXhlbFlEaW1lbnNpb24+MjQ2PC9leGlmOlBpeGVsWURpbWVuc2lvbj4KICAgICAgICAgPGV4aWY6UGl4ZWxYRGltZW5zaW9uPjI1NDwvZXhpZjpQaXhlbFhEaW1lbnNpb24+CiAgICAgICAgIDxleGlmOlVzZXJDb21tZW50PlNjcmVlbnNob3Q8L2V4aWY6VXNlckNvbW1lbnQ+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgq+q2L5AAAAHGlET1QAAAACAAAAAAAAAHsAAAAoAAAAewAAAHsAAA1iANWfkwAADS5JREFUeAHsnQdoFM8Xx5+xl/wsEbuiWKJGDBjsxkrU2BFFiMYeWxQRe+8l9o5YURE1xIolGo2iYkzEhqghdo29gL07/3kL/jEx5W5v73b35rsg8W53yvu8+d7Ozr6ZySHkQThAAASUIpADwlfK3zAWBDQCED4aAggoSADCV9DpMBkEIHy0ARBQkACEr6DTYTIIQPhoAyCgIAEIX0Gnw2QQgPDRBkBAQQIQvoJOh8kgAOGjDYCAggQgfAWdDpNBAMJHGwABBQlA+Ao6HSaDAISPNgACChKA8BV0OkwGAQgfbQAEFCQA4SvodJgMAhA+2gAIKEgAwlfQ6TAZBCB8tAEQUJAAhK+g02EyCED4aAMgoCABCF9Bp8NkEIDw0QZAQEECEL6CTofJIADhow2AgIIEIHwFnQ6TQQDCRxsAAQUJQPgKOh0mgwCEjzYAAgoSgPAVdDpMBgEIH20ABBQkAOEr6HSYDAIQPtoACChIAMJX0OkwGQQgfLQBEFCQAISvoNNhMghA+GgDIKAgAQhfQafDZBCA8NEGQEBBAh4X/pkzZyguLs5l1D4+PuTr60v8FwcI2J1A9erVqV27dh4zw+PCnzp1Ks2ZM8cQA3PkyGFIPsgEBMwmsHLlSho+fLjHqmGK8JcvX07r1q2jcuXK6TL03bt3NGTIEFqxYgWVKlVKVx5IBAKOEhBCUHh4OE2ZMoX4zmzU8fPnT1q9ejUdP36cUlJSqHTp0kZlnX0+0iiPHhKeqFChgrh3757ucp8/fy4qVqwo7t+/rzsPJAQBZwi0bdtWxMTEOJMk22ufPXsmmjRpIrp165bttUZfQEZnmF1+EH52hHDeigSmTZsmZs2aJX7//m1Y9S5fvizy5Mkjjhw5YliejmYE4TtKCtcpTeDUqVOiV69eQj5mGsZh7NixQj46iAcPHhiWp6MZQfiOksJ1ShPgx8r27dsbJtKvX7+K8uXLi379+olPnz55nC2E73HkKNCOBD5+/Cj69OkjoqOjDan+oUOHRIECBcTGjRsNyc/ZTCB8Z4nhemUJbN++XfAg348fP1xiIEfzRffu3bVB7ps3b7qUl97EEL5eckinHIEnT56IgIAAceLECZdsv3PnjqhUqZLo2LGjyz8ieisC4eslh3RKEli4cKGoX7+++Pz5s277t27dKgoVKiR27dqlOw9XE0L4rhJEeqUIfPnyRbRs2VJs2rRJ/Pr1y2nbOb0MPhMlSpQQPG5g1gHhm0Ue5dqWAHf1Q0NDRWpqqtM2PH78WNSuXVtERkY6ndbIBBC+kTSRl+0J8Gu25ORkLbI0szs637VlXL0YOHCg0/ZyPECuXLlEQkKC02mNTGBKrP62bdvo9OnTJAc4so8pzuCKFy9eUIMGDUhCJBm6m8EV+AoEHCcgo/Hoxo0bJJ+9SYbRUv78+enhw4ckB/MoLCyMBg0aRLJrniZDGXKuxe/36NFDmzciI/DSnM/sg3xvr5W1f/9+KlOmTGaXuf97I39FHMkLIbuOUMI1niTw6NEj0aVLF7F48WLx/v17reiXL1+KiRMniqJFi4qRI0eKb9++/VOlixcvisDAQLFjxw7Br+iyO16/fp1lftmlN/I8uvpG0kRetiSwZcsW8d9//4m1a9emqT9H69WoUUMULFhQJCYmpjn358OFCxeEv7+/kD3YP19l+pcHBLkcM0fz/1TOlK7++vXrSQZDkAxZ1NWl4a4+d5nQ1deFD4nSEZg3b5425bZw4cJ09OhR7TGSL5GzQEkG2tC5c+dI/jhQ375906Uk4scE7rbzGhOyh6AtpiF/KP657vv37yRDfrVHCDk4SHKG6j/XePILU4Qv34VS3bp1tWcpPcbKwRVikHv27NH946GnXKTxTgKxsbHa87p8N09yphw1a9ZMM1Q+AlCnTp3o+vXrtHv3bpLTZzMEwPPq+SbE4m/cuDFNmDCB5J09zbVXrlwhGbBDISEhJO/85q8c9efW76m//Ixfp04dwa81eNTUlX+eqjPK8W4C/HyelJQkuNv+9xEfHy+KFSsm5CCcQ5NzZE9UC+nl9/yvXr36OyuxZs0akTdvXiF/INJ8b9YHU57xg4KCdL0DNQsSylWPwJs3b4S82wu5wpOQj6YOA2Dxjxs3TjRq1EjMnz9fcHjuhw8fRM+ePUWVKlUcGgR0uDAXLoTwXYCHpN5JgMNxuWfKd3oe8HN22iz3ILj3wG8DgoODxdChQ4VcZk7MmDHDMsAgfMu4AhWxAgFeYYenzLJQd+7c6fKKOzI+QDRt2lR7M8D/t8phyuAej5weOHCAypYtm2YABB9AwGwCPMA3c+ZMLbhs8ODBZMRKzjyaLyMCSf6Q/BMIZJq9nv4F4i4UnvE9TR3lOUqAB+XkEvBCRu45miTL6zgWgGficZ6uzuPPsiAnT6Kr7yQwXO7dBHjl26ioKMGDe0YcMkZA+Pn5CdnLNSI7w/JAV9+0vhYKtiIB7pLLV83aHJDcuXO7VEU5KEgtWrTQuvny1SAVL17cpfyMTAzhG0kTeYHAXwR4uziO/OvduzctWrTorzPm/xfCN98HqIEXEpB9cpKPDMRbxl27do1q1qxpKSshfEu5A5UxkwB383lrNn7jFBERQTIAh3LmzKmrSm/fvtXmk/C8EvlOX1cebk1k2GiBgxlhVN9BULjM4wR4Sq6cQyKk4ESHDh1cGoXnxTx4eS25R6TH7XCkQNzx3fqzisztRuD27dt08uRJbSad3tmjbLOMzdfiAc6fP08yVNdyGCB8y7kEFbI7AZ6q27BhQ22Fnc2bN5NczMNyJkH4lnMJKmR3AnIzTJK74JKMzacxY8aYPwU3A6AQfgZQ8BUIuEJg1KhRWniu3FZb+wFwJS93pYXw3UUW+SpJQK6rR3JSDvFqPjxWIPfHsyQHCN+SbkGl7EqAV/AJDw+n8ePHk5yXb1kzIHzLugYVsxsBuZoUTZ8+nRYsWEBPnz61zky8DEBC+BlAwVcgoIeAXJKbeJ19X19fOnjwoJ4sPJYGwvcYahTk7QQuXbpEcr09bTHNzBbmtAoDCN8qnkA9bE+Au/lycw3i5bOtvsMThG/75gYDrEBA7rRDtWrV0gJ35Dp9JBffsEK1Mq0DhJ8pGpwAAccJ8F2+c+fOtGTJEjJqyS7HS3f+SgjfeWZIAQL/EJDLZxPPvz98+DDJbbD/OW+1LyB8q3kE9bEdAd5xh1faqVy5srYTj9wG2/I2QPiWdxEqaHUCvHouz+NfsWJFhvvrWbH+EL4VvYI62YYA7+E4duxY2rhxI8kFOilfvny2qDuEbws3oZJWJfDkyRNtUC8wMFB7f2/VeqavF4Sfngg+g4ATBE6fPq0Jf9++fVrwjhNJTb0UwjcVPwq3OwG5Lx4lJiZqIbpy2y3bmAPh28ZVqKjVCMg1+qhq1arE4bn8/t4uz/fMEcK3WmtCfWxDgMNzhw0bRhypx+/x7XRA+HbyFupqKQKtW7cmXpzz1KlTlo/NTw8Owk9PBJ9BwAECcstrCg0N1WLzd+3aZciuug4Ua9glEL5hKJGRSgQ2bNhAI0eOpL1791Lbtm1tZzqEbzuXocJmE+DNMIcPH07Hjx+n1NRU293tmR+Eb3YrQvm2I/DgwQNq06aNNpo/d+5c29WfKwzh29JtqLSZBLh7P2DAADp27BjVq1fPzKroLhvC140OCVUl0LVrVy0uPzo6mkqWLGlLDBC+Ld2GSptFgFfP9ff3157xZ82aRblz5zarKi6VC+G7hA+JVSOwbNkymj17Nm3dupU6duxoW/MhfNu6DhX3NIGfP39q7+3fvXtHvAtu8eLFPV0Fw8qD8A1DiYy8nUBCQgLx8z3H5q9atcrW5kL4tnYfKu8pAkIIWrp0KU2aNEm72wcFBXmqaLeUA+G7BSsy9TYC3L3v378/3b17l65evWp78yB827sQBniCQEpKirbQxujRo4m3wbb7AeHb3YOov0cI8Jp6kydPpvj4eAoICPBIme4sBMJ3J13k7TUEmjRpQkWKFNFe4/n5+dneLgjf9i6EAe4mkJycTLyY5rRp02jixInk4+Pj7iLdnj+E73bEKMDuBHgkn7v6HKLbvHlzu5uj1R/C9wo3wgh3Efj48SPVrVtXC81NSkqy1bp6WTGB8LOig3PKE4iLi6OwsDAaMWKE1tX3FiAQvrd4EnYYTuDXr180Z84cWrBgAd26dct26+plBQTCz4oOzilN4NWrV/9fPZdX2/GmA8L3Jm/CFkMJXLt2jVq1akU8Iy88PNzQvM3ODMI32wMo37IE5s2bR7yo5okTJ7QtsC1bUR0Vg/B1QEMSNQhUq1aNeDLO+vXrydfX16uMhvC9yp0wxigCZ8+epZCQEFq8eDFFRkbaciXdrFhA+FnRwTllCfBimrGxsdpmmHafgpuREyH8jKjgO6UJPHv2jIKDg6lUqVJ05swZrwjRTe9QCD89EXxWnkBMTAxFRERQVFQUDRo0yCt5QPhe6VYYpZfA9+/facKECbRlyxZtQ0w7r6uXFYP/AQAA//8y1wSGAAARXElEQVTtXQfQFEUTbcyKZRYzAuacc0DFBCqImC0pLEOZEVOZMKOWCcWICRQUI4oBLTGimLOlYsQIZksxp/n79e8ed/vtfbf3cXPM3bypgt3bne3tef29ndTT085pkjqmgQMHyoMPPihjxoyRJZZYoo5v5quIQGUEpkyZIrvssosss8wyMnLkyMoPNGiOdiR+g1qOantBYMKECdKjRw8ZNWqUHb28JAChJH4ARqAK4SAwYMAAGTdunIwdO1Y6duwYjmI11oTErzGgFNe4CPzzzz/SoUMH6dOnj1x66aUy55xzNm5hKmhO4lcAiLfjQWD06NHSt29fufzyy6Vfv35NXXASv6nNy8LlReDff/+1Qb3XXnvNmvrLLbdc3kcbMh+J35Bmo9K1RuC9996TbbbZRtZcc02bcaq1/NDkkfihWYT6zBAEhg8fLocffriMGDFCevfuPUN0qOdLSfx6os13BYnAr7/+Kv3795eHHnpIJk6cKO3btw9Sz1oqReLXEk3KakgEPv30U5uzR1N/8ODBDVmGapUm8atFjPmbDgF4ku65557mUbrxxhs3XfmyCkTiZ6HCa1EhsM8++8ikSZPkrrvuksUWWyyKspP4UZiZhSyHwNSpU2WhhRaygb3zzjtPZp111nJZm+o6id9U5mRhqkXg6quvlhNPPFGuu+4689ir9vlGzU/iN6rlqPd0I/Dnn3/a3P3kyZPlySeflMUXX3y6ZTaKABK/USxFPWuOwEsvvSS9evWS7t27W41f8xcELJDED9g4VM0fAghDcdlll8kJJ5wgDz/8sGy66ab+XhagZBI/QKNQJf8I/PTTT3LggQfKW2+9Ja+++mo0g3oJsiR+ggSPUSGA6buuXbvKoYcearV+VIXXwpL4sVmc5TUEEFbryCOPlPHjx8uqq64aHSokfnQmZ4GBANxzZ5ppJrn55pttHj82VEj82CzO8gp88zt37iynnnqqIPgrPgCxJRI/NouzvHLGGWdYlJ1bbrnFav4YISHxY7R6xGXGaP5WW20lf/31l/Xv55133ijRIPGjNHu8hX788cdljz32sKm8QYMGRQsEiR+t6eMrOKLoYiHOOeecI/DaW2mlleID4b8Sk/jRmj6+gn/33XcWRffnn3+WJ554Qtq1axcfCCR+tDaPtuAIqLnBBhvIxRdfLPvtt1+0OKDgrPGjNn9chQfhL7roIhvUw954MScSP2brR1R2LMpB6GzEy7/++usl1tH8xOQkfoIEj02NwIsvviibbLKJnHvuuXLMMcc0dVnzFI7Ez4MS8zQ0AqjtjzjiCIupd/fdd8uGG27Y0OWphfIkfi1QpIygEfjyyy/NaWfBBRe0tffNvBlmXkOQ+HmRYr6GReDee++1TTBPO+002zijYQtSQ8VJ/BqC2Uii4LL6999/594KGnl/++03mWOOOXIHrUATG88goZadEfPmKOcpp5wiCKr5zjvvRBVXr7W/RxK/NXSa8B6817Aj7LBhw2SttdaS/fffv9VS/vLLL3LHHXdYExnPzjbbbIJNJxCLfp555sl8FoR/44035KabbrKVcMiEQJbYtGL99deXmWeeucVz+EA88sgj8tFHH9ke9dtuu62gaT69Cc383XffXRZeeGHr40+vvKZ5Xo1U16RfX7fOOuu4zz//vK7vjfllSl73wAMPOA0j7dZee22nseOd/gHb79Zw+eOPP5x+GNxqq63mnnrqKadbSbvnn3/erbLKKm6LLbZwn3zySYvHkUd3pnFKdKfRbdy3337rIOfss892Sy21lLv99ttbPAM53bp1c7PMMotbYIEFnH5cnAbHcK+//nqLvNVe0I+cm3322d19991X7aNNnV/qXToSv96IO/fFF1+4008/3R111FHuoIMOcssuu6zTZnerxP/999/tmUUXXdSNHj3aaW1fUPy5554zEqv3m/v+++8L13Gi3nFuo402cnvvvbfTzSgL99RN1mnEG6c71TgNbmkfEdzE9aOPPtrtuuuu7s0337T3fPzxx+7ggw922qpw6mZbkNGWEw2m6VZYYQUHmUzTECDxp2ERxZk2qY1oqF3RAiiXULN36dLFbbbZZu6rr74qyab9ffuA6A40TneYLbmnwS0cro8dO7bkOloC2pR32uR2Gv2mIFODYridd97ZvfLKKyX5tcnvevbs6T788MOS69X8QEsDrYx+/fo5tHqYpiFA4k/DIoozkOHkk0+2ZnU54uuAmDv//POdDuS5Aw44wIHo6aT9d2tC9+3bt3Dr66+/ttoVLYr333+/cD050QCX1oTXvnvhg4FrIH66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"
+  alt="Чотирикутник із двома прямими кутами, кутом 100 градусів і невідомим кутом"
+>
+`,
+
+      cube: `
+<svg class="fig" viewBox="0 0 330 290" aria-label="Куб ABCD A1B1C1D1">
+
+  <polygon
+    points="55,115 195,115 195,255 55,255"
+    fill="#d8efff"
+    fill-opacity=".7"
+    stroke="#1769dc"
+    stroke-width="3"
+  />
+
+  <polygon
+    points="55,115 115,55 255,55 195,115"
+    fill="#fff2a8"
+    fill-opacity=".8"
+    stroke="#1769dc"
+    stroke-width="3"
+  />
+
+  <polygon
+    points="195,115 255,55 255,195 195,255"
+    fill="#dff8d5"
+    fill-opacity=".8"
+    stroke="#1769dc"
+    stroke-width="3"
+  />
+
+  <path
+    d="M55 255L115 195L255 195"
+    fill="none"
+    stroke="#1769dc"
+    stroke-width="3"
+    stroke-dasharray="7 7"
+  />
+
+  <path
+    d="M115 55V195"
+    fill="none"
+    stroke="#1769dc"
+    stroke-width="3"
+    stroke-dasharray="7 7"
+  />
+
+  <g fill="red" stroke="#172641" stroke-width="2">
+    <circle cx="55" cy="255" r="6"/>
+    <circle cx="115" cy="195" r="6"/>
+    <circle cx="255" cy="195" r="6"/>
+    <circle cx="195" cy="255" r="6"/>
+    <circle cx="55" cy="115" r="6"/>
+    <circle cx="115" cy="55" r="6"/>
+    <circle cx="255" cy="55" r="6"/>
+    <circle cx="195" cy="115" r="6"/>
+  </g>
+
+  <g font-size="22" font-family="serif" font-style="italic">
+    <text x="35" y="279">A</text>
+    <text x="103" y="220">B</text>
+    <text x="263" y="204">C</text>
+    <text x="199" y="279">D</text>
+
+    <text x="28" y="108">A₁</text>
+    <text x="102" y="43">B₁</text>
+    <text x="260" y="47">C₁</text>
+    <text x="201" y="109">D₁</text>
+  </g>
+</svg>
+`,
+
+      function6: `
+<svg class="fig" viewBox="0 0 390 330" aria-label="Графік функції">
+
+  <g stroke="#ccd3dc" stroke-width="1">
+
+    ${Array.from({ length: 13 }, (_, i) => `
+      <line
+        x1="${30 + i * 27}"
+        y1="20"
+        x2="${30 + i * 27}"
+        y2="310"
+      />
+    `).join('')}
+
+    ${Array.from({ length: 11 }, (_, i) => `
+      <line
+        x1="30"
+        y1="${40 + i * 27}"
+        x2="355"
+        y2="${40 + i * 27}"
+      />
+    `).join('')}
+
+  </g>
+
+  <line
+    x1="30"
+    y1="202"
+    x2="365"
+    y2="202"
+    stroke="#111"
+    stroke-width="3"
+  />
+
+  <line
+    x1="192"
+    y1="310"
+    x2="192"
+    y2="20"
+    stroke="#111"
+    stroke-width="3"
+  />
+
+  <polygon
+    points="365,202 349,195 349,209"
+    fill="#111"
+  />
+
+  <polygon
+    points="192,20 185,36 199,36"
+    fill="#111"
+  />
+
+  <path
+    d="
+      M57 283
+      C80 210, 95 75, 138 83
+      C165 89, 177 141, 192 155
+      C210 174, 224 159, 246 145
+      C283 121, 315 79, 327 47
+    "
+    fill="none"
+    stroke="#111"
+    stroke-width="3"
+  />
+
+  <circle cx="57" cy="283" r="4" fill="#111"/>
+  <circle cx="327" cy="47" r="4" fill="#111"/>
+
+  <g font-size="17">
+    <text x="178" y="221">0</text>
+    <text x="216" y="221">1</text>
+    <text x="323" y="221">5</text>
+    <text x="45" y="221">−5</text>
+    <text x="175" y="174">1</text>
+    <text x="225" y="105">y = f(x)</text>
+  </g>
+</svg>
+`,
+
+      rhomb: `
+<svg class="fig" viewBox="0 0 360 230" aria-label="Ромб ABCD">
+
+  <polygon
+    points="45,185 120,45 300,45 225,185"
+    fill="#fff"
+    stroke="#172641"
+    stroke-width="3"
+  />
+
+  <line
+    x1="120"
+    y1="45"
+    x2="120"
+    y2="185"
+    stroke="#172641"
+    stroke-width="3"
+  />
+
+  <path
+    d="M120 168h17v17"
+    fill="none"
+    stroke="#172641"
+    stroke-width="2"
+  />
+
+  <line
+    x1="82"
+    y1="185"
+    x2="82"
+    y2="172"
+    stroke="#159447"
+    stroke-width="4"
+  />
+
+  <line
+    x1="173"
+    y1="185"
+    x2="173"
+    y2="172"
+    stroke="#159447"
+    stroke-width="4"
+  />
+
+  <g font-size="23" font-family="serif" font-style="italic">
+    <text x="29" y="207">A</text>
+    <text x="108" y="37">B</text>
+    <text x="304" y="38">C</text>
+    <text x="229" y="207">D</text>
+    <text x="111" y="208">M</text>
+  </g>
+</svg>
+`,
+
+      triangles: `
+<svg class="fig" viewBox="0 0 430 250" aria-label="Два рівнобедрені трикутники">
+
+  <path
+    d="
+      M35 210L125 35L215 210Z
+      M215 210L305 35L395 210Z
+    "
+    fill="none"
+    stroke="#172641"
+    stroke-width="3"
+  />
+
+  <g stroke="#172641" stroke-width="3">
+    <line x1="75" y1="125" x2="88" y2="132"/>
+    <line x1="163" y1="125" x2="176" y2="118"/>
+    <line x1="255" y1="125" x2="268" y2="132"/>
+    <line x1="343" y1="125" x2="356" y2="118"/>
+  </g>
+
+  <g font-size="25" font-family="serif" font-style="italic">
+    <text x="18" y="232">A</text>
+    <text x="114" y="28">B</text>
+    <text x="207" y="234">C</text>
+
+    <text x="294" y="28">M</text>
+    <text x="400" y="232">N</text>
+  </g>
+</svg>
+`,
+
+      piecewise: `
+<svg class="fig" viewBox="0 0 390 330" aria-label="Графік функції на проміжку">
+
+  <g stroke="#ccd3dc" stroke-width="1">
+
+    ${Array.from({ length: 12 }, (_, i) => `
+      <line
+        x1="${30 + i * 28}"
+        y1="25"
+        x2="${30 + i * 28}"
+        y2="305"
+      />
+    `).join('')}
+
+    ${Array.from({ length: 10 }, (_, i) => `
+      <line
+        x1="30"
+        y1="${25 + i * 28}"
+        x2="355"
+        y2="${25 + i * 28}"
+      />
+    `).join('')}
+
+  </g>
+
+  <line
+    x1="30"
+    y1="249"
+    x2="365"
+    y2="249"
+    stroke="#111"
+    stroke-width="3"
+  />
+
+  <line
+    x1="170"
+    y1="305"
+    x2="170"
+    y2="20"
+    stroke="#111"
+    stroke-width="3"
+  />
+
+  <polygon
+    points="365,249 349,242 349,256"
+    fill="#111"
+  />
+
+  <polygon
+    points="170,20 163,36 177,36"
+    fill="#111"
+  />
+
+  <path
+    d="
+      M58 193
+      C95 197, 145 212, 142 249
+      C166 249, 192 227, 205 137
+      C211 98, 218 55, 226 53
+    "
+    fill="none"
+    stroke="red"
+    stroke-width="4"
+  />
+
+  <line
+    x1="226"
+    y1="53"
+    x2="338"
+    y2="249"
+    stroke="red"
+    stroke-width="4"
+  />
+
+  <g fill="red" stroke="#172641" stroke-width="1.5">
+    <circle cx="58" cy="193" r="6"/>
+    <circle cx="142" cy="249" r="6"/>
+    <circle cx="226" cy="53" r="6"/>
+    <circle cx="338" cy="249" r="6"/>
+  </g>
+
+  <g font-size="17">
+    <text x="45" y="271">−4</text>
+    <text x="132" y="271">0</text>
+    <text x="195" y="271">1</text>
+    <text x="330" y="271">6</text>
+    <text x="146" y="219">1</text>
+    <text x="262" y="143">y=f(x)</text>
+  </g>
+</svg>
+`,
+
+      numberline: `
+<svg class="fig" viewBox="0 0 480 120" aria-label="Координатна пряма">
+
+  <line
+    x1="30"
+    y1="62"
+    x2="450"
+    y2="62"
+    stroke="#1769dc"
+    stroke-width="4"
+  />
+
+  <polygon
+    points="450,62 430,52 430,72"
+    fill="#1769dc"
+  />
+
+  <g fill="red" stroke="#111" stroke-width="2">
+    <circle cx="100" cy="62" r="8"/>
+    <circle cx="170" cy="62" r="8"/>
+    <circle cx="240" cy="62" r="8"/>
+    <circle cx="310" cy="62" r="8"/>
+    <circle cx="380" cy="62" r="8"/>
+  </g>
+
+  <g font-size="22" font-family="serif" font-style="italic">
+    <text x="90" y="30">K</text>
+    <text x="160" y="30">L</text>
+    <text x="230" y="30">M</text>
+    <text x="300" y="30">N</text>
+    <text x="370" y="30">P</text>
+  </g>
+
+  <g font-size="18">
+    <text x="88" y="92">−1</text>
+    <text x="235" y="92">0</text>
+    <text x="376" y="92">1</text>
+  </g>
+</svg>
+`,
+
+      histogram: `
+<svg class="fig" viewBox="0 0 580 350" aria-label="Діаграма часу підготовки">
+
+  <g stroke="#cfd4da" stroke-width="1">
+
+    ${[0, 1, 2, 3, 4, 5, 6].map(i => `
+      <line
+        x1="75"
+        y1="${275 - i * 36}"
+        x2="545"
+        y2="${275 - i * 36}"
+      />
+    `).join('')}
+
+  </g>
+
+  <line
+    x1="75"
+    y1="275"
+    x2="555"
+    y2="275"
+    stroke="#111"
+    stroke-width="3"
+  />
+
+  <line
+    x1="75"
+    y1="285"
+    x2="75"
+    y2="35"
+    stroke="#111"
+    stroke-width="3"
+  />
+
+  <polygon
+    points="555,275 539,267 539,283"
+    fill="#111"
+  />
+
+  <polygon
+    points="75,35 67,51 83,51"
+    fill="#111"
+  />
+
+  ${[
+    [100, 1],
+    [155, 3],
+    [210, 3],
+    [265, 4],
+    [320, 5],
+    [375, 2],
+    [430, 1],
+    [485, 1]
+  ].map(([x, v]) => `
+    <rect
+      x="${x}"
+      y="${275 - v * 36}"
+      width="34"
+      height="${v * 36}"
+      fill="#1fa9e5"
+      stroke="#0767c2"
+      stroke-width="2"
+    />
+  `).join('')}
+
+  <g font-size="16">
+
+    ${[0, 1, 2, 3, 4, 5, 6].map(i => `
+      <text
+        x="55"
+        y="${281 - i * 36}"
+      >
+        ${i}
+      </text>
+    `).join('')}
+
+    <text x="96" y="300">0,5</text>
+    <text x="160" y="300">1</text>
+    <text x="203" y="300">1,5</text>
+    <text x="274" y="300">2</text>
+    <text x="313" y="300">2,5</text>
+    <text x="382" y="300">3</text>
+    <text x="423" y="300">3,5</text>
+    <text x="493" y="300">4</text>
+
+    <text x="160" y="330">
+      Час, витрачений на підготовку, години
+    </text>
+
+  </g>
+</svg>
+`
+
+    };
+
+
+    /* ============================================================
+       ЗАВДАННЯ
+       ============================================================ */
+
+    const tasks = [
+
+      {
+        q: "Обчисліть \\(3:0{,}3\\).",
+
+        o: [
+          "2,7",
+          "0,1",
+          "\\(\\frac19\\)",
+          "10",
+          "0,9"
+        ],
+
+        a: 3,
+
+        e: "\\(3:0{,}3=3/0{,}3=10\\). Правильна відповідь — Г."
+      },
+
+
+      {
+        q: "У кав’ярні пропонують 12 видів кави і 10 видів десерту. Скільки всього є варіантів вибору однієї кави або одного десерту?",
+
+        o: [
+          "45",
+          "66",
+          "120",
+          "231",
+          "22"
+        ],
+
+        a: 4,
+
+        e: "За правилом суми: \\(12+10=22\\). Правильна відповідь — Д."
+      },
+
+
+      {
+        q: "На рисунку зображено чотирикутник, у якому два кути — прямі, третій кут дорівнює \\(100^\\circ\\). Визначте градусну міру четвертого кута.",
+
+        o: [
+          "\\(100^\\circ\\)",
+          "\\(90^\\circ\\)",
+          "\\(80^\\circ\\)",
+          "\\(20^\\circ\\)",
+          "\\(70^\\circ\\)"
+        ],
+
+        a: 2,
+
+        fig: "quad",
+
+        e: "Сума кутів чотирикутника дорівнює \\(360^\\circ\\). Тому \\(x=360^\\circ-90^\\circ-90^\\circ-100^\\circ=80^\\circ\\)."
+      },
+
+
+      {
+        q: "Розв’яжіть рівняння \\(3^{x+1}=81\\).",
+
+        o: [
+          "5",
+          "3",
+          "2",
+          "−3",
+          "4"
+        ],
+
+        a: 1,
+
+        e: "\\(81=3^4\\), отже \\(x+1=4\\), тому \\(x=3\\)."
+      },
+
+
+      {
+        q: "На рисунку зображено куб \\(ABCDA_1B_1C_1D_1\\). Скільки всього є прямих, паралельних прямій \\(AB\\), що містять ребра куба?",
+
+        o: [
+          "жодної",
+          "лише одна",
+          "лише дві",
+          "лише три",
+          "більше як три"
+        ],
+
+        a: 4,
+
+        fig: "cube",
+
+        e: "До одного напряму належать чотири ребра куба: \\(AB\\), \\(DC\\), \\(A_1B_1\\), \\(D_1C_1\\). Отже, таких прямих більше ніж три."
+      },
+
+
+      {
+        q: "На рисунку зображено графік функції \\(y=f(x)\\), визначеної на проміжку \\([-5;5]\\). Укажіть ординату точки перетину графіка функції з віссю \\(y\\).",
+
+        o: [
+          "1",
+          "6",
+          "3",
+          "−4",
+          "0"
+        ],
+
+        a: 2,
+
+        fig: "function6",
+
+        e: "Вісь \\(y\\) відповідає \\(x=0\\). За графіком \\(f(0)=3\\). Правильна відповідь — В."
+      },
+
+
+      {
+        q: "У ромбі \\(ABCD\\) з вершини тупого кута проведено висоту \\(BM\\), яка ділить сторону \\(AD\\) навпіл. Які твердження правильні?<br><br>I. \\(BM\\perp BC\\).<br>II. Трикутник \\(ABD\\) є рівностороннім.<br>III. \\(\\angle BAD\\) удвічі менший від \\(\\angle ADC\\).",
+
+        o: [
+          "лише I",
+          "лише I та II",
+          "лише I та III",
+          "лише II та III",
+          "I, II та III"
+        ],
+
+        a: 4,
+
+        fig: "rhomb",
+
+        e: "Оскільки \\(BC\\parallel AD\\), то \\(BM\\perp BC\\). Якщо висота з вершини B потрапляє в середину AD, то в прямокутному трикутнику \\(ABM\\) маємо конфігурацію, за якої \\(\\angle A=60^\\circ\\). Звідси трикутник \\(ABD\\) рівносторонній, а \\(\\angle ADC=120^\\circ\\). Усі три твердження правильні."
+      },
+
+
+      {
+        q: "Спростіть вираз \\(p^2\\cdot\\left(\\sqrt[3]{p^6}\\right)^4\\).",
+
+        o: [
+          "\\(p^{16}\\)",
+          "\\(p^{14}\\)",
+          "\\(p^{10}\\)",
+          "\\(p^8\\)",
+          "\\(p^{12}\\)"
+        ],
+
+        a: 2,
+
+        e: "\\(\\sqrt[3]{p^6}=p^2\\). Тоді \\(p^2\\cdot(p^2)^4=p^2\\cdot p^8=p^{10}\\)."
+      },
+
+
+      {
+        q: "У майстерні шоколаду виготовляють крафтові цукерки. Позначте можливу кількість виготовлених цукерок, якщо всі їх розфасували без залишку в коробки по 6 штук.",
+
+        o: [
+          "102",
+          "105",
+          "112",
+          "106",
+          "99"
+        ],
+
+        a: 0,
+
+        e: "Число має ділитися на 6, тобто бути парним і ділитися на 3. \\(102:6=17\\)."
+      },
+
+
+      {
+        q: "У прямокутній системі координат у просторі задано точку \\(C(-1;3;-4)\\). Точка \\(D\\) є проєкцією точки \\(C\\) на вісь \\(x\\). Знайдіть відстань між точками \\(C\\) і \\(D\\).",
+
+        o: [
+          "\\(\\sqrt{10}\\)",
+          "\\(\\sqrt{17}\\)",
+          "1",
+          "5",
+          "4"
+        ],
+
+        a: 3,
+
+        e: "Проєкція на вісь \\(x\\): \\(D(-1;0;0)\\). Тому \\(CD=\\sqrt{3^2+(-4)^2}=5\\)."
+      },
+
+
+      {
+        q: "Укажіть проміжок, якому належить корінь рівняння \\(\\log_5x+1=\\log_5 12\\).",
+
+        o: [
+          "[0; 2)",
+          "[2; 4)",
+          "[4; 6)",
+          "[6; 8)",
+          "[8; +∞)"
+        ],
+
+        a: 1,
+
+        e: "\\(1=\\log_5 5\\), тому \\(\\log_5(5x)=\\log_5 12\\). Звідси \\(5x=12\\), \\(x=2{,}4\\), тобто \\(x\\in[2;4)\\)."
+      },
+
+
+      {
+        q: "У паралелограмі \\(ABCD\\) діагоналі перетинаються в точці \\(O\\). Знайдіть довжину сторони \\(AD\\), якщо \\(AC=8\\) см, \\(BD=6\\) см, \\(\\cos\\angle AOD=-\\frac14\\).",
+
+        o: [
+          "\\(\\sqrt{31}\\) см",
+          "\\(2\\sqrt7\\) см",
+          "\\(\\sqrt{22}\\) см",
+          "5 см",
+          "\\(\\sqrt{19}\\) см"
+        ],
+
+        a: 0,
+
+        e: "\\(AO=4\\), \\(DO=3\\). За теоремою косинусів у трикутнику \\(AOD\\): \\(AD^2=4^2+3^2-2\\cdot4\\cdot3\\cdot(-1/4)=31\\). Тому \\(AD=\\sqrt{31}\\)."
+      },
+
+
+      {
+        q: "Укажіть первісну функції \\(f(x)=3\\cos x-x\\).",
+
+        o: [
+          "\\(F(x)=-3\\sin x-\\frac{x^2}{2}\\)",
+          "\\(F(x)=3\\sin x-1\\)",
+          "\\(F(x)=3\\sin x-\\frac{x^2}{2}\\)",
+          "\\(F(x)=3\\sin x\\)",
+          "\\(F(x)=-3\\sin x-x\\)"
+        ],
+
+        a: 2,
+
+        e: "\\(\\int 3\\cos x\\,dx=3\\sin x\\), а \\(\\int(-x)dx=-x^2/2\\). Отже, \\(F(x)=3\\sin x-x^2/2+C\\)."
+      },
+
+
+      {
+        q: "Спростіть \\(\\left(\\frac25x+\\frac13\\right)\\left(\\frac13-\\frac25x\\right)\\).",
+
+        o: [
+          "\\(\\frac4{25}x^2-\\frac19\\)",
+          "\\(\\frac19-\\frac4{15}x+\\frac4{25}x^2\\)",
+          "\\(\\frac4{25}x^2+\\frac19\\)",
+          "\\(\\frac25x^2-\\frac13\\)",
+          "\\(\\frac19-\\frac4{25}x^2\\)"
+        ],
+
+        a: 4,
+
+        e: "Це формула різниці квадратів: \\((a+b)(b-a)=b^2-a^2\\). Маємо \\(1/9-4x^2/25\\)."
+      },
+
+
+      {
+        q: "Розв’яжіть систему нерівностей \\(\\begin{cases}3x-2\\ge5x-6,\\\\7x+1\\le4x-5.\\end{cases}\\)",
+
+        o: [
+          "\\(({-}\\infty;2]\\)",
+          "\\([2;+\\infty)\\)",
+          "\\([-2;2]\\)",
+          "\\(({-}\\infty;-2]\\)",
+          "\\([-2;+\\infty)\\)"
+        ],
+
+        a: 3,
+
+        e: "Перша нерівність дає \\(x\\le2\\). Друга: \\(3x\\le-6\\), тобто \\(x\\le-2\\). Перетин: \\(({-}\\infty;-2]\\)."
+      },
+
+
+      {
+        q: "На рисунку зображено два рівні рівнобедрені трикутники \\(ABC\\) та \\(CMN\\), що лежать в одній площині. \\(AN=8\\) см, \\(AB=2\\sqrt{17}\\) см. Узгодьте відрізок або відстань (1–3) з його довжиною.",
+
+        type: "match",
+
+        rows: [
+          "Відстань від \\(B\\) до сторони \\(AC\\)",
+          "\\(BM\\)",
+          "Відстань між серединами сторін \\(AB\\) і \\(MN\\)"
+        ],
+
+        opts: [
+          ["А", "4 см"],
+          ["Б", "6 см"],
+          ["В", "7 см"],
+          ["Г", "8 см"],
+          ["Д", "10 см"]
+        ],
+
+        a: ["Г", "А", "Б"],
+
+        fig: "triangles",
+
+        e: "Оскільки трикутники рівні, \\(AC=CN=4\\). Половина основи першого трикутника дорівнює 2, тому його висота \\(h=\\sqrt{(2\\sqrt{17})^2-2^2}=8\\). Отже, 1 — Г. Вершини B і M розташовані над серединами основ, тому \\(BM=4\\): 2 — А. Середини AB і MN мають однакову висоту, а горизонтальна відстань між ними дорівнює 6: 3 — Б."
+      },
+
+
+      {
+        q: "На рисунку зображено графік функції \\(y=f(x)\\), визначеної на проміжку \\([-4;6]\\). Узгодьте проміжок (1–3) з функцією (А–Д), що описує графік на цьому проміжку.",
+
+        type: "match",
+
+        rows: [
+          "\\([-4;0]\\)",
+          "\\((0;2]\\)",
+          "\\((2;6]\\)"
+        ],
+
+        opts: [
+          ["А", "\\(y=x^3\\)"],
+          ["Б", "\\(y=12-2x\\)"],
+          ["В", "\\(y=\\sqrt{x}\\)"],
+          ["Г", "\\(y=2^x\\)"],
+          ["Д", "\\(y=\\sqrt{-x}\\)"]
+        ],
+
+        a: ["Д", "А", "Б"],
+
+        fig: "piecewise",
+
+        e: "На \\([-4;0]\\) графік відповідає \\(y=\\sqrt{-x}\\). На \\((0;2]\\) — \\(y=x^3\\). На \\((2;6]\\) маємо відрізок прямої через точки \\((2;8)\\) і \\((6;0)\\), тобто \\(y=12-2x\\)."
+      },
+
+
+      {
+        q: "Узгодьте вираз (1–3) й точку (А–Д) на координатній прямій, координатою якої є значення виразу, де \\(e\\approx2{,}7\\).",
+
+        type: "match",
+
+        rows: [
+          "\\(e\\cdot\\frac1{2e}\\)",
+          "\\(\\ln 2e-\\ln2\\)",
+          "\\(|1-e|-e\\)"
+        ],
+
+        opts: [
+          ["А", "K"],
+          ["Б", "L"],
+          ["В", "M"],
+          ["Г", "N"],
+          ["Д", "P"]
+        ],
+
+        a: ["Г", "Д", "А"],
+
+        fig: "numberline",
+
+        e: "1) \\(e/(2e)=1/2\\) — точка N. 2) \\(\\ln(2e)-\\ln2=\\ln e=1\\) — точка P. 3) \\(|1-e|-e=e-1-e=-1\\) — точка K."
+      },
+
+
+      {
+        q: "Знайдіть усі значення \\(a\\), за кожного з яких рівняння \\(\\dfrac{x^2-4x+3}{3x-a}=\\dfrac{42+3x-x^2}{3x-a}\\) має один корінь. Якщо таке значення \\(a\\) одне, запишіть його. Якщо кілька — запишіть їхню суму.",
+
+        input: "10.5",
+
+        e: "За умови \\(3x-a\\ne0\\) прирівнюємо чисельники: \\(x^2-4x+3=42+3x-x^2\\). Маємо \\(2x^2-7x-39=0\\), звідки \\(x=-3\\) або \\(x=6{,}5\\). Щоб залишився лише один корінь, знаменник має занулитися в одному з цих значень: \\(a=-9\\) або \\(a=19{,}5\\). Їхня сума: \\(10{,}5\\)."
+      },
+
+
+      {
+        q: "Графіком функції \\(y=f(x)\\) є парабола з вершиною в початку координат. Обчисліть \\(f(2{,}5)\\), якщо \\(f'(1)=-4\\).",
+
+        input: "-12.5",
+
+        e: "Парабола з вершиною в початку координат має вигляд \\(f(x)=ax^2\\). Тоді \\(f'(x)=2ax\\). З умови \\(f'(1)=-4\\) маємо \\(2a=-4\\), звідси \\(a=-2\\). Отже, \\(f(x)=-2x^2\\). Тому \\(f(2{,}5)=-2\\cdot(2{,}5)^2=-2\\cdot6{,}25=-12{,}5\\)."
+      },
+
+
+      {
+        q: "На діаграмі відображено результати опитування учнів щодо тривалості підготовки до контрольної роботи. Обчисліть імовірність того, що випадково обраний учень готувався до контрольної роботи <b>не менш як 2 години</b>.",
+
+        input: "0.65",
+
+        fig: "histogram",
+
+        e: "Загалом опитано \\(1+3+3+4+5+2+1+1=20\\) учнів. Не менш як 2 години готувалися \\(4+5+2+1+1=13\\) учнів. Імовірність: \\(13/20=0{,}65\\)."
+      },
+
+
+      {
+        q: "Задано сферу з площею поверхні \\(648\\pi\\text{ см}^2\\) і правильну чотирикутну піраміду. Радіус кола, описаного навколо основи піраміди, дорівнює радіусу сфери. Знайдіть об’єм піраміди, якщо її апофема нахилена до площини основи під кутом \\(45^\\circ\\).",
+
+        input: "972",
+
+        e: "З \\(4\\pi R^2=648\\pi\\) маємо \\(R=9\\sqrt2\\). Для квадрата \\(R=a/\\sqrt2\\), тому \\(a=18\\). Проєкція апофеми на основу дорівнює \\(a/2=9\\). Оскільки кут нахилу апофеми до площини основи \\(45^\\circ\\), то \\(h=9\\). Тоді \\(V=\\frac13\\cdot18^2\\cdot9=972\\text{ см}^3\\)."
+      }
+
+    ];
+
+
+    /* ============================================================
+       ЛОГІКА ТЕСТУ
+       ============================================================ */
+
+    const letters = "АБВГД";
+
+    const $ = s => document.querySelector(s);
+
+    const $$ = s => [...document.querySelectorAll(s)];
+
+
+    function answerHTML(t, i) {
+
+      if (t.type === "match") {
+
+        return `
+          <div>
+
+            ${t.rows.map((r, j) => `
+              <div class="match-row">
+                <b>${j + 1}.</b> ${r}
+              </div>
+            `).join("")}
+
+            <div class="opts">
+
+              ${t.opts.map(x => `
+                <div>
+                  <b>${x[0]} —</b> ${x[1]}
+                </div>
+              `).join("")}
+
+            </div>
+
+            <table class="match-grid">
+
+              <tr>
+                <th>№</th>
+
+                ${t.opts.map(x => `
+                  <th>${x[0]}</th>
+                `).join("")}
+
+              </tr>
+
+              ${t.rows.map((_, j) => `
+                <tr>
+
+                  <td>${j + 1}</td>
+
+                  ${t.opts.map(x => `
+                    <td>
+
+                      <label class="pick">
+
+                        <input
+                          type="radio"
+                          name="m${i}_${j}"
+                          value="${x[0]}"
+                        >
+
+                        <span></span>
+
+                      </label>
+
+                    </td>
+                  `).join("")}
+
+                </tr>
+              `).join("")}
+
+            </table>
+
+          </div>
+        `;
+      }
+
+
+      if (t.o) {
+
+        return `
+          <div class="choices">
+
+            ${t.o.map((x, j) => `
+              <label>
+
+                <input
+                  type="radio"
+                  name="q${i}"
+                  value="${j}"
+                >
+
+                <b>${letters[j]}.</b>
+                ${x}
+
+              </label>
+            `).join("")}
+
+          </div>
+        `;
+      }
+
+
+      return `
+        <input
+          class="answer"
+          id="in${i}"
+          inputmode="decimal"
+          placeholder="Введіть числову відповідь"
+        >
+      `;
+    }
+
+
+
+    function build() {
+
+      const testBox = document.getElementById("testBox");
+
+      testBox.innerHTML = tasks.map((t, i) => `
+
+        <article
+          class="card task"
+          id="task${i + 1}"
+        >
+
+          <span class="badge">
+            Завдання ${i + 1}
+          </span>
+
+          <div class="${t.fig ? "task-layout" : ""}">
+
+            ${t.fig ? svg[t.fig] : ""}
+
+            <div>
+
+              <p>${t.q}</p>
+
+              ${answerHTML(t, i)}
+
+              <button
+                class="btn no-print"
+                onclick="check(${i})"
+              >
+                Перевірити завдання
+              </button>
+
+              <details>
+
+                <summary>
+                  Покрокове розв’язання
+                </summary>
+
+                <p>${t.e}</p>
+
+              </details>
+
+              <div
+                class="result no-print"
+                id="r${i}"
+              >
+                Виконайте завдання.
+              </div>
+
+            </div>
+
+          </div>
+
+        </article>
+
+      `).join("");
+
+
+      testBox.addEventListener("change", update);
+      testBox.addEventListener("input", update);
+
+
+      document.getElementById("heroCount").textContent =
+        `${tasks.length} завдання`;
+
+
+      document.querySelector('[data-tab="test"]').textContent =
+        `Тест: ${tasks.length} завдання`;
+
+
+      update();
+
+
+      if (window.MathJax?.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+
+
+    function norm(v) {
+
+      return String(v)
+        .trim()
+        .replace(/[−–—]/g, "-")
+        .replace(",", ".")
+        .replace(/\s/g, "");
+    }
+
+
+
+    function answered(t, i) {
+
+      if (t.type === "match") {
+
+        return t.rows.every((_, j) =>
+          $(`input[name="m${i}_${j}"]:checked`)
+        );
+      }
+
+
+      if (t.o) {
+
+        return !!$(`input[name="q${i}"]:checked`);
+      }
+
+
+      const input = $(`#in${i}`);
+
+      return !!input && !!input.value.trim();
+    }
+
+
+
+    function correct(t, i) {
+
+      if (t.type === "match") {
+
+        return t.a.every((x, j) =>
+          $(`input[name="m${i}_${j}"]:checked`)?.value === x
+        );
+      }
+
+
+      if (t.o) {
+
+        return Number(
+          $(`input[name="q${i}"]:checked`)?.value
+        ) === t.a;
+      }
+
+
+      return norm($(`#in${i}`).value) === norm(t.input);
+    }
+
+
+
+    function check(i) {
+
+      const t = tasks[i];
+
+      const r = $(`#r${i}`);
+
+
+      if (!answered(t, i)) {
+
+        r.className = "result bad";
+
+        r.textContent =
+          "Спочатку введіть або виберіть відповідь.";
+
+        return;
+      }
+
+
+      const ok = correct(t, i);
+
+
+      r.className =
+        "result" + (ok ? "" : " bad");
+
+
+      r.innerHTML =
+        (
+          ok
+            ? "Правильно. ✓ "
+            : "Поки що неправильно. "
+        )
+        + t.e;
+
+
+      if (window.MathJax?.typesetPromise) {
+        MathJax.typesetPromise([r]);
+      }
+    }
+
+
+
+    function update() {
+
+      const answeredCount =
+        tasks.filter((t, i) => answered(t, i)).length;
+
+
+      document.getElementById("progress").textContent =
+        `Заповнено: ${answeredCount} із ${tasks.length}`;
+    }
+
+
+
+    function grade() {
+
+      const miss = [];
+
+
+      tasks.forEach((t, i) => {
+
+        if (!answered(t, i)) {
+          miss.push(i + 1);
+        }
+
+      });
+
+
+      const finalResult =
+        document.getElementById("finalResult");
+
+
+      if (miss.length) {
+
+        finalResult.className =
+          "result bad score-big";
+
+
+        finalResult.textContent =
+          `Не виконано: ${miss.join(", ")}.`;
+
+        return;
+      }
+
+
+      const n =
+        tasks.filter((t, i) => correct(t, i)).length;
+
+
+      finalResult.className =
+        "result score-big";
+
+
+      finalResult.innerHTML =
+        `Результат: <b>${n}/${tasks.length}</b> (${Math.round(n / tasks.length * 100)}%).`;
+    }
+
+
+
+    function showPanel(id) {
+
+      $$(".panel").forEach(x =>
+        x.classList.toggle(
+          "active",
+          x.id === id
+        )
+      );
+
+
+      $$(".tab").forEach(x =>
+        x.classList.toggle(
+          "active",
+          x.dataset.tab === id
+        )
+      );
+
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+
+
+    $$(".tab").forEach(b => {
+
+      b.onclick = () =>
+        showPanel(b.dataset.tab);
+
+    });
+
+
+
+    function resetTest() {
+
+      if (!confirm("Очистити всі відповіді?")) {
+        return;
+      }
+
+
+      $$("input").forEach(x => {
+
+        if (x.type === "radio") {
+
+          x.checked = false;
+
+        } else {
+
+          x.value = "";
+
+        }
+
+      });
+
+
+      $$("[id^=r]").forEach(x => {
+
+        x.className =
+          "result no-print";
+
+
+        x.textContent =
+          "Виконайте завдання.";
+
+      });
+
+
+      const finalResult =
+        document.getElementById("finalResult");
+
+
+      finalResult.className =
+        "result score-big";
+
+
+      finalResult.textContent =
+        "Результат з’явиться тут.";
+
+
+      update();
+    }
+
+
+
+    function printModule() {
+
+      const w =
+        window.open("", "_blank");
+
+
+      if (!w) {
+
+        alert(
+          "Дозвольте спливні вікна для друку."
+        );
+
+        return;
+      }
+
+
+      const c =
+        document.documentElement.cloneNode(true);
+
+
+      c.querySelectorAll("script").forEach(x =>
+        x.remove()
+      );
+
+
+      c.querySelectorAll(".panel").forEach(x =>
+        x.classList.add(
+          "active",
+          "printable"
+        )
+      );
+
+
+      c.querySelectorAll(".no-print").forEach(x =>
+        x.remove()
+      );
+
+
+      w.document.open();
+
+
+      w.document.write(
+        "<!doctype html>" +
+        c.outerHTML
+      );
+
+
+      w.document.close();
+
+
+      setTimeout(() => {
+
+        w.focus();
+
+        w.print();
+
+      }, 900);
+    }
+
+
+
+    build();
+
+  </script>
+
+</body>
+</html>
